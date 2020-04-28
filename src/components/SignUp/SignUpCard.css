@@ -1,0 +1,257 @@
+:root {
+    --primary: #E94057;
+    --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.padding_1 {
+    height: 5vh;
+
+}
+
+.imageSlider{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top right;
+}
+
+.slider_container .slider a.previousButton {
+    display:none !important;
+}
+
+.slider_container .slider a.nextButton {
+    display:none !important;
+}
+
+.MuiOutlinedInput-adornedEnd {
+    padding-right: 0px !important;
+}
+
+.columns_container{
+    margin-top: 1.25vh;
+    margin-bottom: 1vh;
+}
+
+.paper {
+    width: 100%;
+    padding: 0%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+.internal_paper {
+    margin-top: 5vh;
+    margin-bottom: 2vh;
+}
+
+.form {
+    width: 100%;
+    margin-top: -2vh;
+}
+
+.social_media_btn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+
+}
+
+.social_icons {
+    width: 100%;
+}
+
+.login_link {
+    width: 100%;
+    text-align: center;
+    margin-top: 0.5vh;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 1.1em;
+}
+
+.login_link a {
+    transition-property: text-decoration-color;
+    transition-duration: 0.2s;
+    color: var(--primary);
+    text-decoration-line: underline;
+    text-decoration-color: white;
+    font-weight: 400;
+}
+
+.login_link a:hover {
+    text-decoration-color: var(--primary);
+}
+
+.title {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.title h1 {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 1.4rem !important;
+}
+
+#or {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    margin-top: -1.2vh;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+#or::before,
+#or::after {
+    position: absolute;
+    width: 45%;
+    height: 1px;
+    top: 24px;
+    background-color: rgba(0, 0, 0, 0.3);
+    content: '';
+}
+
+#or::before {
+    left: 0;
+}
+
+#or::after {
+    right: 0;
+}
+
+.react-icons {
+    vertical-align: middle;
+}
+
+.slider_container{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: stretch;
+    flex-flow: row wrap;
+    position: relative;
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+    height: 100% !important;
+    overflow: hidden;
+    border-radius: 0.5vw !important;
+    box-shadow: var(--shadow) !important;
+    z-index: 0;
+}
+
+.Slide-media-446 {
+    border-radius: 0.5vh !important;
+}
+
+.Slide-mediaBackground-449 {
+    border-radius: 0.5vh !important;
+}
+.Logoimg{
+    max-width: 50%;
+   min-width: 50%;
+   margin: 0vh 6vh 4vh 0vh;
+    
+}
+
+
+
+.slider_overlay{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 1));
+    border-radius: 0.5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    z-index: 10;
+}
+
+.error_msg{
+    width: 100%;
+    height: auto;
+    padding: 4px 12px 4px 12px;
+    background-color: #B71C1C;
+    border-radius: 0.5vw;
+    color: white;
+    margin-bottom: 2.3vh;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    justify-content: center;
+}
+
+.error_msg span{
+    color: white;
+    font-size: 1.05em;
+    margin: 0% !important;
+}
+
+.error_msg .help{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.error_msg .help_icon{
+    cursor: pointer;
+}
+
+.dialog_title {
+    font-family: 'Product Sans';
+}
+
+.dialog_content{
+    width: inherit;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    font-family: 'Product Sans';
+    font-size: 1.1em;
+}
+
+.dialog_content a{
+    color: var(--primary);
+    text-decoration-line: underline;
+    text-decoration-color: white;
+}
+
+.dialog_content a:hover {
+    text-decoration-color: var(--primary);
+}
+
+.MuiDialogActions-root .MuiButton-label {
+    color: var(--primary);
+}
+
+.MuiFormLabel-root {
+    color: rgba(0, 0, 0, 0.54);
+    padding: 0;
+    font-size: 0.9rem!important;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.00938em;
+}
+
+.MuiOutlinedInput-input {
+    padding: 14.5px 14px!important;
+}

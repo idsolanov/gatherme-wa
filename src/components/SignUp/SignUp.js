@@ -1,25 +1,27 @@
 import React, { Component } from "react";
 
-
+import SingUpCard from './SignUpCard';
 import './SignUp.css';
 class SignUp extends Component {
 
-    constructor(props) {
+  constructor(props) {
 
-        super(props);
-        this.state={
-          test: "Hola"
-          
-          }
+    super(props);
+    this.state = {
+      test: "Hola"
+
     }
-    
-      render(){
-          return(
-            <div>
-                <p>Sign Up</p>
-                <p>{this.state.test}</p>
-            </div>
-            );
-      }
+  }
+
+  render() {
+    return (
+      <div className="sign_up" >
+        <div className="card">
+          <SingUpCard />
+        </div>
+      </div>
+
+    );
+  }
 }
 export default SignUp;  

@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 
 
-import './SignIn.css';
-class SignIn extends Component {
+import './Register.css';
+class Register extends Component {
 
     constructor(props) {
 
         super(props);
         this.state={
+          user: this.props.location.state.user,  
           test: "Hola"
           
           }
@@ -17,9 +18,10 @@ class SignIn extends Component {
           console.log(this.state.user);
           return(
             <div>
-                <p>Aca va el Sign In</p>
+                <p>Register</p>
+                <p>{this.state.user.username}</p>
             </div>
             );
       }
 }
-export default SignIn; 
+export default Register; 
