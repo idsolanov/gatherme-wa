@@ -9,7 +9,7 @@ import Box from '@material-ui/core/Box';
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
-import ImageUploader from 'react-images-upload';
+import Search from './Search'
 
 import './Register.css';
 class Register extends Component {
@@ -25,7 +25,7 @@ class Register extends Component {
           biografia: "",
           edad: ""
           }
-
+          this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
           this.onDrop = this.onDrop.bind(this);
           this.handleChange = this.handleChange.bind(this);
 
@@ -53,6 +53,31 @@ class Register extends Component {
                 },
             },
         })(TextField);
+        this.StyledButton = withStyles({
+          root: {
+            backgroundImage: this.gradient,
+            fontFamily: 'Product Sans !important',
+            borderRadius: 3,
+            border: 0,
+            color: 'white',
+            height: 48,
+            padding: '0 30px',
+            boxShadow: '0 3px 5px 2px rgba(255, 255, 255, .3)',
+            margin: '1vh 0vw 1vh 0vh',
+            fontSize: '1.05rem',
+            transitionProperty: 'opacity',
+            transitionDuration: '0.1s',
+            '&:hover': {
+              opacity: 0.9,
+            },
+            '&:active': {
+              boxShadow: '0 3px 5px 2px rgba(255, 255, 255, .3)',
+            },
+          },
+          label: {
+            textTransform: 'capitalize',
+          },
+        })(Button);
     }
     onDrop(picture) {
       this.setState({
@@ -174,7 +199,25 @@ handleChange(event) {
                           </Grid>
 
                           </Grid>
-                          <button onClick={() => reactSwipeEl.next()}>Next</button>
+                          <Grid
+                            container
+                            direction="column"
+                            justify="center"
+                            alignItems="flex-end"
+                            spacing={3}
+                          >
+                            <Grid item xs={2}>
+                              <this.StyledButton button onClick={() => reactSwipeEl.next()}
+                              fullWidth
+                              focusRipple
+                              variant="contained"
+                              size="medium"
+                              text="bold"
+                            >
+                              Next
+                            </this.StyledButton>
+                            </Grid>
+                          </Grid>
                       </div> 
                     </div>
                   </div>
@@ -183,11 +226,20 @@ handleChange(event) {
                 <div>
                   <div className="assistant_container">
                     <div className="register_card" >
-                      <div>
+                      <Grid
+                        container
+                        direction="column"
+                        justify="center"
+                        alignItems="stretch"
+                      >
+                        <Grid item sm={12}>
                         <p> En construccion</p>
+                        < Search />
+                        </Grid>
+                        
+                      </Grid>
                         <button onClick={() => reactSwipeEl.prev()}>Previous</button>
                       </div> 
-                    </div>
                   </div>
                 </div>
             </ReactSwipe>
