@@ -21,7 +21,9 @@ class Register extends Component {
           user: this.props.location.state.user,  
           test: "Hola",
           profilephoto: "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
-          bio: ""
+          nombre: "",
+          biografia: "",
+          edad: ""
           }
 
           this.onDrop = this.onDrop.bind(this);
@@ -71,8 +73,9 @@ class Register extends Component {
 }
 
 handleChange(event) {
+  var prop = String(event.target.id);
   this.setState({
-      bio: event.target.value
+    [prop]: event.target.value
   });
 }
 
@@ -80,7 +83,7 @@ handleChange(event) {
           console.log(this.state.user);
           let reactSwipeEl;
           return(
-            <Container fixed>
+            <Container component="main" >
               <CssBaseline />
               <ReactSwipe
                 className="carousel"
@@ -98,6 +101,7 @@ handleChange(event) {
                             direction="column"
                             justify="center"
                             alignContent="stretch"
+                            spacing={2}
                           >  
                           <Grid item>
                           <div className="image-upload">
@@ -109,28 +113,59 @@ handleChange(event) {
                             <input id="file-input" name="profilePhoto" type="file" onChange={this.onImageChange} />
                         </div>
                           </Grid>
-                          < this.StyledTextField
-                          variant="outlined"
-                          margin="normal"
-                          fullWidth
-                          id="city"
-                          label="Ciudad de Residencia"
-                          name="city"
-                          autoComplete="city"
-                          onChange={this.handleChange}
-                          error={this.state.cityError && this.state.city == ""}
-                          helperText={this.state.cityError && this.state.city == "" ? "Este campo es obligatorio" : ""}
-											/>
+                        </Grid>
+                        <Grid
+                            container
+                            spacing={2}
+                            direction="row"
+                            justify="flex-end"
+                            alignItems="flex-end"
+                            wrap="nowrap" 
+                          > 
+                          <Grid item xs={9}>
+                            < this.StyledTextField
+                            variant="outlined"
+                            margin="normal"
+                            fullWidth
+                            id="nombre"
+                            label="Nombre completo"
+                            name="nombre"
+                            autoComplete="nombre"
+                            onChange={this.handleChange}
+                            helperText={this.state.cityError && this.state.city == "" ? "Este campo es obligatorio" : ""}
+                        />
+                          </Grid>
+                          <Grid item xs={3}>
+                            < this.StyledTextField
+                              variant="outlined"
+                              margin="normal"
+                              fullWidth
+                              id="edad"
+                              label="Edad"
+                              name="edad"
+                              autoComplete="edad"
+                              onChange={this.handleChange}
+                              helperText={this.state.cityError && this.state.city == "" ? "Este campo es obligatorio" : ""}
+                            />
+                          </Grid>
+                          </Grid>
+                          <Grid
+                            container
+                            direction="column"
+                            justify="center"
+                            alignContent="stretch"
+                            spacing={2}
+                          > 
                           <Grid item xs={12}
                           >
                           < this.StyledTextField
                               variant="outlined"
                               margin="normal"
                               fullWidth
-                              id="bio"
+                              id="biografia"
                               label="Tu biografia"
-                              name="bio"
-                              autoComplete="Bio"
+                              name="biografia"
+                              autoComplete="Biografia"
                               multiline
                               rows="6"
                               rowsMax="10"
