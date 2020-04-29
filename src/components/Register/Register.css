@@ -79,13 +79,26 @@
     border-color: rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     align-content: center;
-    height: 4em;
-    padding-right: 2vw;
-    padding-left: 2vw;
-    padding-bottom: 2vh;  
-    padding-top: 2vh;
+    height: 3em;
+    padding-right: 1vw;
+    padding-left: 1vw;
+    padding-bottom: 1vh;  
+    padding-top: 1vh;
     font-family: Product Sans !important;
 
+}
+.sugestions{
+        border: 1px solid;
+        border-color: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        align-content: center;
+        height: 8em;
+        padding-right: 1vw;
+        padding-left: 1vw;
+        padding-bottom: 1vh;  
+        padding-top: 1vh;
+        font-family: Product Sans !important;
+    
 }
 .container_search_bar{
     height: 100%;
@@ -100,5 +113,5 @@ input:focus{
     height: 100%;
     width: 100%;
     font-family: Product Sans !important;
-    fontSize: 1.05rem;
+    font-size: 1.05rem;
 }

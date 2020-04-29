@@ -197,7 +197,7 @@ handleChange(event) {
                               onChange={this.handleChange}
                           />
                           </Grid>
-
+                          
                           </Grid>
                           <Grid
                             container
@@ -226,20 +226,30 @@ handleChange(event) {
                 <div>
                   <div className="assistant_container">
                     <div className="register_card" >
+                      <div className="content">
+                      <p> En construccion</p>
+                      <Search/>
                       <Grid
-                        container
-                        direction="column"
-                        justify="center"
-                        alignItems="stretch"
-                      >
-                        <Grid item sm={12}>
-                        <p> En construccion</p>
-                        < Search />
+                          container
+                          direction="column"
+                          justify="center"
+                          alignItems="flex-end"
+                          spacing={3}
+                        >
+                          <Grid item xs={2}>
+                            <this.StyledButton button onClick={() => reactSwipeEl.prev()}
+                            fullWidth
+                            focusRipple
+                            variant="contained"
+                            size="medium"
+                            text="bold"
+                          >
+                            Finalizar
+                          </this.StyledButton>
+                          </Grid>
                         </Grid>
-                        
-                      </Grid>
-                        <button onClick={() => reactSwipeEl.prev()}>Previous</button>
-                      </div> 
+                      </div>
+                    </div> 
                   </div>
                 </div>
             </ReactSwipe>

@@ -48,18 +48,37 @@ constructor(props){
 
   render() {
     return (
-        <div className="container_search_bar">
-            <div className="search_bar">
-                <form>
-                    <input
-                    label="Search for..."
-                    ref={input => this.search = input}
-                    onChange={this.handleInputChange}
-                    />
-                </form>
-            </div>
-            <p>{this.state.query}</p>
-        </div>
+      <Grid
+            container
+            direction="column"
+            justify="center"
+            alignContent="stretch"
+            spacing={2}
+          > 
+            <Grid item xs={12}
+                >
+                <div className="container_search_bar">
+                  <div className="search_bar">
+                      <form>
+                          <input
+                          label="Search for..."
+                          ref={input => this.search = input}
+                          onChange={this.handleInputChange}
+                          />
+                      </form>
+                  </div>
+                </div>
+            </Grid>
+
+            <Grid item xs={12}
+                >
+                <div className="sugestions">
+                  <p>{this.state.query}</p>
+                </div>
+            </Grid>
+              
+          </Grid>
+        
         
       
     )
