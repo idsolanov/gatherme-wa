@@ -8,7 +8,7 @@
     justify-content: center;
 }
 
-.card{
+.sign_up .card{
     background-color: white;
     height: auto !important;
     display: flex;
