@@ -9,7 +9,8 @@ import Box from '@material-ui/core/Box';
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
-import Search from './Search'
+import Search from './Search';
+
 
 import './Register.css';
 class Register extends Component {
@@ -28,6 +29,7 @@ class Register extends Component {
           this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
           this.onDrop = this.onDrop.bind(this);
           this.handleChange = this.handleChange.bind(this);
+          
 
 
           this.StyledTextField = withStyles({
@@ -85,6 +87,7 @@ class Register extends Component {
       });
   }
 
+
   onImageChange = (event) => {
 
     if (event.target.files && event.target.files[0]) {
@@ -116,7 +119,7 @@ handleChange(event) {
                 ref={el => (reactSwipeEl = el)}
               >
                 
-
+                
                 <div>
                   <div className="assistant_container">
                     <div className="register_card" >
@@ -197,7 +200,6 @@ handleChange(event) {
                               onChange={this.handleChange}
                           />
                           </Grid>
-                          
                           </Grid>
                           <Grid
                             container
@@ -227,7 +229,6 @@ handleChange(event) {
                   <div className="assistant_container">
                     <div className="register_card" >
                       <div className="content">
-                      <p> En construccion</p>
                       <Search/>
                       <Grid
                           container

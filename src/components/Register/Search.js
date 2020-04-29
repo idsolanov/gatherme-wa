@@ -1,15 +1,8 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import ReactDOM from 'react-dom';
-import ReactSwipe from 'react-swipe';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
+import TagsInput from 'react-tagsinput'
+import 'react-tagsinput/react-tagsinput.css'
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
-import Container from '@material-ui/core/Container';
 
 const { API_KEY } = process.env
 const API_URL = 'http://api.musicgraph.com/api/v2/artist/suggest'
@@ -20,32 +13,40 @@ constructor(props){
     super(props)
     this.state = {
         query: '',
-        results: []
+        results: [],
+        tags: []
     }
+    this.handleTagsChange = this.handleTagsChange.bind(this);
+    this.handleTagsDelete = this.handleTagsDelete.bind(this);
+
+    this.StyledTextField = withStyles({
+      root: {
+          width: '100%',
+          fontFamily: 'Product Sans',
+      },
+      span: {
+        backgroundColor: 'rgba(0, 0, 0, 0.3);'
+      }
+  })(TagsInput);
 }
 
-  getInfo = () => {
-    axios.get(`${API_URL}?api_key=${API_KEY}&prefix=${this.state.query}&limit=7`)
-      .then(({ data }) => {
-        this.setState({
-          results: data.data // MusicGraph returns an object named data, 
-                             // as does axios. So... data.data                             
-        })
-      })
-  }
-
-  handleInputChange = () => {
-    this.setState({
-      query: this.search.value
-    }, () => {
-      if (this.state.query && this.state.query.length > 1) {
-        if (this.state.query.length % 2 === 0) {
-          this.getInfo()
-        }
-      } 
-    })
-  }
-
+handleTagsChange(tags) {
+  
+  this.setState({
+    tags: this.state.tags.concat(tags)
+  })
+}
+handleTagsDelete(tag) {
+  /*console.log("tags",tag)
+  let index = this.state.tags.indexOf(tag);
+  console.log("arreglo",this.state.tags)
+  console.log("index",index)
+  let array = this.state.tags.splice(index, 1);
+  console.log(array)*/
+  this.setState({
+    tags: tag
+  })
+}
   render() {
     return (
       <Grid
@@ -59,13 +60,11 @@ constructor(props){
                 >
                 <div className="container_search_bar">
                   <div className="search_bar">
-                      <form>
-                          <input
-                          label="Search for..."
-                          ref={input => this.search = input}
-                          onChange={this.handleInputChange}
-                          />
-                      </form>
+                  <Grid itme ={12}>
+                    <TagsInput
+                     value={[]} onChange={this.handleTagsChange}                     
+                    />
+                  </Grid>
                   </div>
                 </div>
             </Grid>
@@ -73,7 +72,11 @@ constructor(props){
             <Grid item xs={12}
                 >
                 <div className="sugestions">
-                  <p>{this.state.query}</p>
+                  <TagsInput
+                  value={this.state.tags}
+                  onChange={this.handleTagsDelete}>
+
+                  </TagsInput>
                 </div>
             </Grid>
               
