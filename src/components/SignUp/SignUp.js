@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import SingUpCard from './SignUpCard';
+import RegisterAssistant from '../RegisterAssistant/RegisterAssistant'
 import './SignUp.css';
 class SignUp extends Component {
 
