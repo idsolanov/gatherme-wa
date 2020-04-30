@@ -19,11 +19,10 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import axios from 'axios';
 
 
-
 const styles = theme => ({
     root: {
 		marginTop: theme.spacing(1),
-		marginLeft: theme.spacing(5),
+		marginLeft: theme.spacing(4),
     	width: '100%'
     },
     menuButton: {
