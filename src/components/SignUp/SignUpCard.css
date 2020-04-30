@@ -32,6 +32,14 @@
     margin-bottom: 1vh;
 }
 
+.columns_container .MuiGrid-spacing-xs-2 > .MuiGrid-item{
+    padding: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    
+   
+}
+
 .paper {
     width: 100%;
     padding: 0%;
