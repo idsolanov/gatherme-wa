@@ -48,6 +48,7 @@ class SignUpCard extends Component {
 			passwordError: false,
 			cityError: false,
 			signUpError: false,
+			signUpErrorText: "",
 
 		};
 
@@ -206,6 +207,14 @@ class SignUpCard extends Component {
 			this.setState({ cityError: false });
 		}
 
+		if (this.state.gender == "") {
+			console.log("se fue vacio")
+			this.setState({
+				gender: "Undefined"
+			});
+		}
+
+
 		return flag;
 	}
 
@@ -229,7 +238,7 @@ class SignUpCard extends Component {
 									</div>
 								</IconContext.Provider>
 							</div>
-							<span>Ya existe una cuenta registrada con este correo electrónico.</span>
+							<span>{this.state.signUpErrorText}</span>
 						</div>
 
 						<Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.dialogOpen} fullWidth={true}>
@@ -264,7 +273,7 @@ class SignUpCard extends Component {
 								autoComplete="email"
 								onChange={this.handleChange}
 								error={this.state.emailError && this.state.email == ""}
-								helperText={this.state.emailError && this.state.email == "" ? this.state.emailErrorText : ""}
+								helperText={this.state.emailError || this.state.email == "" ? this.state.emailErrorText : ""}
 							/>
 
 							< this.StyledTextField
@@ -343,8 +352,8 @@ class SignUpCard extends Component {
 									<Grid container
 										spacing={2}
 										direction="row"
-										justify="flex-end"
-										alignItems="flex-end"
+										justify="center"
+										alignItems="center"
 										wrap="nowrap" >
 										< Grid item xs={7}>
 											< this.StyledTextField
@@ -389,14 +398,98 @@ class SignUpCard extends Component {
 							<div>
 								<this.StyledButton onClick={() => {
 									if (this.validateData()) {
-
 										if (this.state.gender == "") {
+											console.log("se fue vacio")
 											this.setState({
 												gender: "Undefined"
 											});
 										}
 
-										this.handleClickFinish();
+										axios({
+											url: 'http://127.0.0.1:9001/graphql',
+											method: 'post',
+											data: {
+												query: `
+											  query {
+												userByEmail(email: "${this.state.email}") {
+												  id
+												  username
+												  email
+												  activities
+												  communities
+												}
+											  }
+												`
+											}
+										}).then((result) => {
+
+											if (result.data.data == null) {
+												console.log(result.data)
+												axios({
+													url: 'http://127.0.0.1:9001/graphql',
+													method: 'post',
+													data: {
+														query: `
+													  query {
+														userByUsername(username: "${this.state.username}") {
+														  id
+														  username
+														  email
+														  activities
+														  communities
+														}
+													  }
+														`
+													}
+												}).then((result) => {
+
+													if (result.data.data == null) {
+														console.log(result.data)
+														this.handleClickFinish();
+													}
+													else {
+
+														this.setState({
+															signUpErrorText: "Ya existe una cuenta registrada con este nombre de usuario."
+														});
+
+														this.setState({
+															signUpError: true
+														});
+
+													}
+
+												}, (error) => {
+													console.log(error);
+													this.setState({
+														signUpError: true
+													});
+												});
+											}
+											else {
+
+												this.setState({
+													signUpErrorText: "Ya existe una cuenta registrada con este correo electronicó."
+												});
+
+												this.setState({
+													signUpError: true
+												});
+
+											}
+
+										}, (error) => {
+											console.log(error);
+											this.setState({
+												signUpError: true
+											});
+										});
+
+
+
+
+
+
 									}
 								}}
 									fullWidth
@@ -409,8 +502,8 @@ class SignUpCard extends Component {
 								<Link to={{
 									pathname: '/Register',
 									state: {
-										user : {
-											username : this.state.username,
+										user: {
+											username: this.state.username,
 											email: this.state.email,
 											password: this.state.password,
 											gender: this.state.gender,
