@@ -10,6 +10,8 @@ import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 import Search from './Search';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import FixedTags from './Sugestions'
 
 
 import './Register.css';
@@ -24,7 +26,15 @@ class Register extends Component {
           profilephoto: "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
           nombre: "",
           biografia: "",
-          edad: ""
+          edad: "",
+          gustosAcademico:[],
+          gustosDeporte: [], 
+          gustosJuegos: [], 
+          gustosCultural: [], 
+          gustosComidas: [], 
+          gustosFiesta: [], 
+          gustosOtros: []
+
           }
           this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
           this.onDrop = this.onDrop.bind(this);
@@ -229,26 +239,58 @@ handleChange(event) {
                   <div className="assistant_container">
                     <div className="register_card" >
                       <div className="content">
-                      <Search/>
-                      <Grid
-                          container
-                          direction="column"
-                          justify="center"
-                          alignItems="flex-end"
-                          spacing={3}
-                        >
-                          <Grid item xs={2}>
-                            <this.StyledButton button onClick={() => reactSwipeEl.prev()}
-                            fullWidth
-                            focusRipple
-                            variant="contained"
-                            size="medium"
-                            text="bold"
+                        <div className="content_center">    
+
+                        <Grid
+                            container
+                            direction="column"
+                            justify="center"
+                            alignItems="stretch"
+                            spacing={3}
                           >
-                            Finalizar
-                          </this.StyledButton>
-                          </Grid>
+                            <Grid item xs={12}>
+                              <div>
+                                <p>Añadir gustos</p>
+                              <Autocomplete
+                            id="combo-box-demo"
+                            options={categories}
+                            onChange={(event, value) => console.log(value)} 
+                            getOptionLabel={(option) => option.name}
+                            style={{ width: 300 }}
+                            renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
+                          />
+                              </div>
+                            
+                            </Grid>
+                            <Grid item xs={12}>
+                            <div className="sugestions">
+
+                            </div>
+                            </Grid>
                         </Grid>
+
+                          <div>
+                          <Grid
+                            container
+                            direction="column"
+                            justify="center"
+                            alignItems="flex-end"
+                            spacing={3}
+                          >
+                            <Grid item xs={2}>
+                              <this.StyledButton button onClick={() => reactSwipeEl.prev()}
+                              fullWidth
+                              focusRipple
+                              variant="contained"
+                              size="medium"
+                              text="bold"
+                            > 
+                              Finalizar
+                              </this.StyledButton>
+                            </Grid>
+                          </Grid>
+                          </div>
+                        </div>
                       </div>
                     </div> 
                   </div>
@@ -259,4 +301,14 @@ handleChange(event) {
             );
       }
 }
+
+const categories =[
+  { name: "académico"},
+  {name: "deporte"},
+  {name:"juegos"}, 
+  {name:"cultural"}, 
+  {name:"comidas"}, 
+  {name: "fiesta"},
+  {name:"otros"}
+]
 export default Register; 

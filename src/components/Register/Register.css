@@ -34,6 +34,7 @@
     display: inline-grid;
 }
 
+
 .image-upload > input
 {
     display: none;
@@ -95,6 +96,7 @@
         padding-left: 1vw;
         padding-bottom: 1vh;  
         padding-top: 1vh;
+        min-height: 3em;
         font-family: Product Sans !important;
     
 }
@@ -177,3 +179,7 @@
   .sugestions .react-tagsinput .react-tagsinput-tag a::before {
     content: " ×";
   }
+
+.MuiGrid-root div .MuiAutocomplete-root{
+  width: 100% !important;
+}
