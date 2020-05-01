@@ -183,3 +183,70 @@
 .MuiGrid-root div .MuiAutocomplete-root{
   width: 100% !important;
 }
+
+
+ul.ks-cboxtags-checked  {
+  list-style: none;
+  display: inline-block !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  padding-left: 5px !important;
+}
+
+ul.ks-cboxtags-checked li{
+display: inline;
+white-space:nowrap;
+}
+
+ul.ks-cboxtags-checked li label{
+  display: inline-block;
+  border: 2px solid var(--primary);
+  background: var(--primary);
+  color:white;
+  font-weight: 500;
+  border-radius: 25px;
+  white-space: nowrap;
+  margin: 3px 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all .2s;
+}
+
+ul.ks-cboxtags-checked li label {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+
+ul.ks-cboxtags-checked li input[type=checkbox]:checked + label {
+  background-color: rgba(255, 255, 255, .9);
+  border: 2px solid rgba(1, 1, 1, .3);
+  color: rgba(1, 1, 1, .5);
+
+  transition: all .2s;
+}
+
+ul.ks-cboxtags-checked li input[type="checkbox"] {
+display: absolute;
+}
+
+ul.ks-cboxtags-checked li input[type="checkbox"] {
+position: absolute;
+opacity: 0;
+}
+ul.ks-cboxtags-checked li label:hover {
+  color: white;
+  border: 2px solid var(--primary);
+  transition: all .2s;
+}
+ul.ks-cboxtags-checked li input[type=checkbox]:checked + label:hover {
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  transition: all .2s;
+}

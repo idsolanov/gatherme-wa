@@ -11,6 +11,14 @@ import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 import Search from './Search';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import IconButton from '@material-ui/core/IconButton';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import FixedTags from './Sugestions'
 
 
@@ -27,18 +35,23 @@ class Register extends Component {
           nombre: "",
           biografia: "",
           edad: "",
-          gustosAcademico:[],
-          gustosDeporte: [], 
-          gustosJuegos: [], 
-          gustosCultural: [], 
-          gustosComidas: [], 
-          gustosFiesta: [], 
-          gustosOtros: []
+          likesByCategory: {
+            Academico: ["Estudiar", "Tareas", "Investigacion"],
+            Deporte: ["Correr", "bailar","Gimnacio"],
+            Juegos: ["VideoJuegos","Parques", "Online"],
+            Cultural: ["Teatro","Cine","Concierto"],
+            Comidas: ["Cocinar", "Pizza", "Asado"],
+            Fiesta: ["Fiesta", "LaBase"],
+            Otros: ["Programar", "Dormir", "Charlar"]
+          
+          },
+          gustosSeleccionados: []
 
           }
           this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
           this.onDrop = this.onDrop.bind(this);
           this.handleChange = this.handleChange.bind(this);
+          this.handleChangeCategory = this.handleChangeCategory.bind(this);
           
 
 
@@ -117,9 +130,53 @@ handleChange(event) {
   });
 }
 
+handleChangeCategory(value) {
+  /*if (value == "Academico") {
+    this.setState({
+      gustosSeleccionados: likesByCategory[value]
+    })
+  }else if (value == "Juegos") {
+    this.setState({
+      gustosSeleccionados: likesByCategory[value]
+    })
+  }else if (value == "Cultural") {
+    
+  }else if (value == "Comidas") {
+    
+  }else if (value == "Fiesta") {
+    
+  }else if (value == "Deporte") {
+    
+  }else{
+
+  }*/
+  console.log(value)
+  console.log(this.state.likesByCategory[value.name])
+  this.setState({
+    gustosSeleccionados: this.state.likesByCategory[value.name]
+  })
+
+}
+
+
+
       render(){
+
           console.log(this.state.user);
+          console.log(this.state.gustosSeleccionados)
           let reactSwipeEl;
+          const listItems = this.state.gustosSeleccionados.map(function(like){
+            var idstr = "checkbox" + like;
+            return <ul className="ks-cboxtags-checked">
+                <li>
+                    <input type="checkbox" id={idstr}
+                        value={like}
+                    />
+                    <label htmlFor={idstr}>{like}</label>
+                </li>
+             </ul>
+          })
+
           return(
             <Container component="main" >
               <CssBaseline />
@@ -254,7 +311,7 @@ handleChange(event) {
                               <Autocomplete
                             id="combo-box-demo"
                             options={categories}
-                            onChange={(event, value) => console.log(value)} 
+                            onChange={(event, value) => this.handleChangeCategory(value)} 
                             getOptionLabel={(option) => option.name}
                             style={{ width: 300 }}
                             renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
@@ -264,11 +321,22 @@ handleChange(event) {
                             </Grid>
                             <Grid item xs={12}>
                             <div className="sugestions">
-
+                              {listItems}
                             </div>
                             </Grid>
                         </Grid>
-
+                        <Grid
+                            container
+                            direction="column"
+                            justify="center"
+                            alignItems="center"
+                          >
+                            <IconButton color="primary" aria-label="add to shopping cart" size="large" >
+                              <AddCircleOutlineIcon size="large" />
+                            </IconButton>
+                            
+                          </Grid>
+                          
                           <div>
                           <Grid
                             container
@@ -303,12 +371,12 @@ handleChange(event) {
 }
 
 const categories =[
-  { name: "académico"},
-  {name: "deporte"},
-  {name:"juegos"}, 
-  {name:"cultural"}, 
-  {name:"comidas"}, 
-  {name: "fiesta"},
-  {name:"otros"}
+  {name:"Academico"},
+  {name:"Deporte"},
+  {name:"Juegos"}, 
+  {name:"Cultural"}, 
+  {name:"Comidas"}, 
+  {name:"Fiesta"},
+  {name:"Otros"}
 ]
 export default Register; 
