@@ -22,4 +22,29 @@
     padding-top: 2vh;
     border-radius: 0.5vw;
     box-shadow: var(--shadow);
+    position: absolute;
+    z-index: 5;
+    opacity: 90%;
   }
+
+  .background_overlay_si{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) , #0b1a1b );
+    border-radius: 0.5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    z-index: 1;
+}
+
+.image_background_si{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top right;
+}

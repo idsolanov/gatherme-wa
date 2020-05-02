@@ -19,6 +19,11 @@ class SignUp extends Component {
         <div className="card">
           <SingUpCard />
         </div>
+        <div className="background_overlay_su">
+        </div>
+        <img
+          className="image_background_su"
+          src=' https://raw.githubusercontent.com/nsaavedraa/imgs/master/background.jpg' />
       </div>
 
     );

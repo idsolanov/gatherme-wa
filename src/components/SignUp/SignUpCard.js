@@ -52,8 +52,8 @@ class SignUpCard extends Component {
 
 		};
 
-		this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
-		this.primaryColor = '#E94057';
+		this.gradient = 'linear-gradient(136deg, #055B5C 0%, #40989d 50%)';
+		this.primaryColor = '#40989d';
 		this.handleChange = this.handleChange.bind(this);
 		this.handleGenderChange = this.handleGenderChange.bind(this);
 		this.handleClickFinish = this.handleClickFinish.bind(this);
@@ -388,7 +388,7 @@ class SignUpCard extends Component {
 												>
 													<MenuItem value="Men">Hombre</MenuItem>
 													<MenuItem value="Women">Mujer</MenuItem>
-													<MenuItem value="Undefined">Indefinido</MenuItem>
+													<MenuItem value="Other">Otro</MenuItem>
 												</Select>
 											</FormControl>
 										</Grid>
@@ -401,7 +401,7 @@ class SignUpCard extends Component {
 										if (this.state.gender == "") {
 											console.log("se fue vacio")
 											this.setState({
-												gender: "Undefined"
+												gender: "Other"
 											});
 										}
 

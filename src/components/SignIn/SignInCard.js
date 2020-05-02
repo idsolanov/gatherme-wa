@@ -41,8 +41,8 @@ class SignInCard extends Component {
       dialogOpen: false
     };
 
-    this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
-    this.primaryColor = '#E94057';
+    this.gradient = 'linear-gradient(136deg, #055B5C 0%, #40989d 50%)';
+    this.primaryColor = '#40989d';
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleClickShowPassword = this.handleClickShowPassword.bind(this);

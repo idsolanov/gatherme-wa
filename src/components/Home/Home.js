@@ -18,6 +18,7 @@ import SportsFootballIcon from '@material-ui/icons/SportsFootball';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
@@ -31,13 +32,13 @@ import './Home.css';
 
 const StyledTooltip = withStyles((theme) => ({
 	tooltip: {
-	  backgroundColor: theme.palette.common.white,
-	  color: 'rgba(0, 0, 0, 0.87)',
-	  boxShadow: theme.shadows[1],
-	  borderRadius:'10px',
-	  fontSize: 13,
+		backgroundColor: theme.palette.common.white,
+		color: 'rgba(0, 0, 0, 0.87)',
+		boxShadow: theme.shadows[1],
+		borderRadius: '10px',
+		fontSize: 13,
 	},
-  }))(Tooltip);
+}))(Tooltip);
 
 class SignIn extends Component {
 
@@ -45,12 +46,43 @@ class SignIn extends Component {
 		super(props);
 		this.state = {
 			test: "user1",
-			isOpen: false,
+			isOpen: true,
+			userData: "",
+			username: this.props.location.state.userData.nickName,
+			token: this.props.location.state.userData.token
 		}
 	}
 
+	componentDidMount() {
+		axios({
+			url: 'http://127.0.0.1:9001/graphql',
+			method: 'post',
+			data: {
+				query: `
+			  query {
+				userByUsername(username: "${this.state.username}") {
+				  id
+				  username
+				  email	
+				  activities
+				  communities
+				  likes
+				  gathers
+				}
+			  }
+				`
+			}
+		}).then((result) => {
+			this.setState({
+				userData: result.data.data.userByUsername
+			});
+		}, (error) => {
+			console.log(error);
+		});
+	}
+
 	render() {
-		console.log(this.state.test);
+		console.log(this.state.userData);
 		return (
 			<div className="Home">
 				<NavBar />
@@ -72,25 +104,33 @@ class SignIn extends Component {
 									isOpen={this.state.isOpen}
 								>
 									<MainButton
-										iconResting={<LocalOfferIcon style={{ fontSize: 20 }} nativeColor="white" />}
-										iconActive={<MdClose style={{ fontSize: 20 }} nativeColor="white" />}
+										iconResting={<StyledTooltip title="Categorias" placement="right"><LocalOfferIcon style={{ fontSize: 20 }} nativeColor="white" /></StyledTooltip>}
+										iconActive={<StyledTooltip title="Ocultar" placement="right"><ExpandMoreIcon style={{ fontSize: 25 }} nativeColor="white" /></StyledTooltip>}
 										backgroundColor="black"
 										onClick={() => this.setState({ isOpen: !this.state.isOpen })}
 										size={56}
 									/>
 
 									<ChildButton
-										icon={<StyledTooltip title="Academico" placement="right"><SchoolIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
+										icon={<StyledTooltip title="Academico" placement="right"><SchoolIcon style={{ fontSize: 25 }} nativeColor="white" /></StyledTooltip>}
 										backgroundColor="white"
+										background="blue"
 										size={40}
 										onClick={() => console.log('First button clicked')}
 									/>
+								
 
-									<ChildButton
+									
+									<ChildButton className = "test"
 										icon={<StyledTooltip title="Deporte" placement="right"><SportsFootballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
+
 										size={40}
+										
 									/>
+								
+								
+									
 
 									<ChildButton
 										icon={<StyledTooltip title="Juegos" placement="right"><SportsEsportsIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
@@ -131,9 +171,13 @@ class SignIn extends Component {
 						</Grid>
 						<div className=" add_container">
 							< Grid item xs={1}>
-								<Fab color="primary" aria-label="add" >
-									<MdAdd style={{ fontSize: 20 }} />
-								</Fab>
+								<StyledTooltip title="Crear Actividad" placement="left">
+									<Fab color="primary" aria-label="add" >
+										<MdAdd style={{ fontSize: 25 }} />
+									</Fab>
+
+								</StyledTooltip>
+
 							</Grid>
 						</div>
 					</Grid>
