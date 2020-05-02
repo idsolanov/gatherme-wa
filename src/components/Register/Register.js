@@ -11,6 +11,7 @@ import Container from '@material-ui/core/Container';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TagsInput from 'react-tagsinput'
 import FormDialog from './Sugestions'
+import axios from 'axios';
 
 
 import './Register.css';
@@ -41,7 +42,11 @@ class Register extends Component {
           actualLikes: [],
           newLikeCategory: "",
           newLikeContent: "",
-          likesSelected: []
+          likesSelected: [],
+          data: [],
+          newLikesList: [],
+          token:"",
+          id: ""
 
           }
           this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
@@ -51,6 +56,8 @@ class Register extends Component {
           this.callbackFunction - this.callbackFunction.bind(this);
           this.addLike = this.addLike.bind(this);  
           this.handleTagsDelete = this.handleTagsDelete.bind(this);
+          this.sendData = this.sendData.bind(this);
+          this.setLikes = this.setLikes(this);
 
 
           this.StyledTextField = withStyles({
@@ -104,6 +111,174 @@ class Register extends Component {
           },
         })(Button);
     }
+
+    componentDidMount(){
+
+      console.log("Esta weada se esta ejecutando");
+
+      let all= {
+        Academico: [],
+        Deporte: [],
+        Juegos: [],
+        Cultural: [],
+        Comidas: [],
+        Fiesta: [],
+        Otros: []
+
+      } 
+      axios({
+        url: "http://localhost:9001/graphql",
+        method: 'POST',
+        data: {
+          query: `
+          query{
+            likeByCategory(name:"Deporte"){
+              name
+            }
+          }
+          `
+        }
+      }).then((result) => {
+        console.log(result.data)
+        let likesList = []
+        let arr = result.data.likesByCategory
+        let list = result.data.data.likeByCategory.forEach(element => {
+          likesList.push(element.name)
+        });
+        console.log(likesList)
+        all["Deporte"] = likesList
+      });
+      axios({
+        url: "http://localhost:9001/graphql",
+        method: 'POST',
+        data: {
+          query: `
+          query{
+            likeByCategory(name:"Academico"){
+              name
+            }
+          }
+          `
+        }
+      }).then((result) => {
+        console.log(result.data)
+        let likesList = []
+        let list = result.data.data.likeByCategory.forEach(element => {
+          likesList.push(element.name)
+        });
+        console.log(likesList)
+        all["Academico"] = likesList
+      });
+      axios({
+        url: "http://localhost:9001/graphql",
+        method: 'POST',
+        data: {
+          query: `
+          query{
+            likeByCategory(name:"Juegos"){
+              name
+            }
+          }
+          `
+        }
+      }).then((result) => {
+        console.log(result.data)
+        let likesList = []
+        let list = result.data.data.likeByCategory.forEach(element => {
+          likesList.push(element.name)
+        });
+        console.log(likesList)
+        all["Juegos"] = likesList
+      });
+      axios({
+        url: "http://localhost:9001/graphql",
+        method: 'POST',
+        data: {
+          query: `
+          query{
+            likeByCategory(name:"Cultural"){
+              name
+            }
+          }
+          `
+        }
+      }).then((result) => {
+        console.log(result.data)
+        let likesList = []
+        let list = result.data.data.likeByCategory.forEach(element => {
+          likesList.push(element.name)
+        });
+        console.log(likesList)
+        all["Cultural"] = likesList
+      });
+      axios({
+        url: "http://localhost:9001/graphql",
+        method: 'POST',
+        data: {
+          query: `
+          query{
+            likeByCategory(name:"Comidas"){
+              name
+            }
+          }
+          `
+        }
+      }).then((result) => {
+        console.log(result.data)
+        let likesList = []
+        let list = result.data.data.likeByCategory.forEach(element => {
+          likesList.push(element.name)
+        });
+        console.log(likesList)
+        all["Comidas"] = likesList
+      });
+      axios({
+        url: "http://localhost:9001/graphql",
+        method: 'POST',
+        data: {
+          query: `
+          query{
+            likeByCategory(name:"Fiesta"){
+              name
+            }
+          }
+          `
+        }
+      }).then((result) => {
+        console.log(result.data)
+        let likesList = []
+        let list = result.data.data.likeByCategory.forEach(element => {
+          likesList.push(element.name)
+        });
+        console.log(likesList)
+        all["Fiesta"] = likesList
+      });
+      axios({
+        url: "http://localhost:9001/graphql",
+        method: 'POST',
+        data: {
+          query: `
+          query{
+            likeByCategory(name:"Otros"){
+              name
+            }
+          }
+          `
+        }
+      }).then((result) => {
+        console.log(result.data)
+        let likesList = []
+        let list = result.data.data.likeByCategory.forEach(element => {
+          likesList.push(element.name)
+        });
+        console.log(likesList)
+        all["Otros"] = likesList
+      });
+      console.log(all)
+      this.setState({
+        likesByCategory: all
+      })
+    }
     onDrop(picture) {
       this.setState({
           pictures: this.state.pictures.concat(picture),
@@ -150,26 +325,139 @@ callbackFunction = (childData) => {
   console.log( "callBak",childData)
   this.setState({
     newLikeCategory: childData[0],
-    newLikeContent: childData[1]
+    newLikeContent: childData[1],
+    newLikesList: this.state.newLikesList.concat({category: childData[0], like: childData[1]})
   })
   this.addLike( childData[1])
 }
 
 handleTagsDelete(tag) {
+  console.log(tag)
+  let k = this.state.newLikesList;
+  this.state.newLikesList.forEach(element=>{
+    let ind = tag.indexOf(element.like);
+    if( ind == -1){
+      k.splice(ind, 1);
+    }
+  })
   this.setState({
-    likesSelected: tag
+    likesSelected: tag,
+    newLikesList: k
   })
 }
 
+sendData(){
+  console.log(String(this.state.profilephoto))
+  console.log(this.state.nombre)
+  console.log(parseInt(this.state.edad))
+  console.log(String(this.state.biografia))
+  console.log(String(this.state.likesSelected))
+  console.log(String(this.state.user.username))
+  console.log(String(this.state.user.email))
+  console.log(String(this.state.user.password))
+  console.log(String(this.state.user.gender))
+  console.log(String(this.state.user.city))
+  console.log(String(this.state.likesSelected))
+  console.log(`likes: "${this.state.likesSelected}"`)
+  
+  let li = "["
+  let si = 1 
+  this.state.likesSelected.forEach(element=>{
+    if(si < this.state.likesSelected.length){
+      li += '"'+element+'",'
+    }else{
+      li += '"'+element+'"]'
+    }
+    si += 1
+  })
+  console.log(li)
+   let kk = `
+  mutation {
+    register(user: {
+      username : "${this.state.user.username}"
+      name: "${this.state.nombre}"
+      email: "${this.state.user.email}"
+      password: "${this.state.user.password}"
+      picture: "${this.state.profilephoto}"
+      description: "${this.state.biografia}"
+      gender: "${this.state.user.gender}"
+      age: ${this.state.edad}
+      city: "${this.state.user.city}"
+      likes: ${li}
+      communities: []
+      activities: []
+      gathers: []
+      
+    }){
+      id
+      username
+      email
+      token
+    }
+  }
+  `;
+
+  console.log( kk)
+  axios({
+    url: "http://localhost:9001/graphql",
+    method: 'POST',
+    data: {
+      query: `
+      mutation {
+        register(user: {
+          username : "${this.state.user.username}"
+          name: "${this.state.nombre}"
+          email: "${this.state.user.email}"
+          password: "${this.state.user.password}"
+          picture: "${this.state.profilephoto}"
+          description: "${this.state.biografia}"
+          gender: "${this.state.user.gender}"
+          age: ${this.state.edad}
+          city: "${this.state.user.city}"
+          likes: ${li}
+          communities: []
+          activities: []
+          gathers: []
+          
+        }){
+          id
+          username
+          email
+          token
+        }
+      }
+      `
+    }
+  }).then((result) => {
+    console.log(result.data)
+    /*let likesList = []
+    let list = result.data.data.likeByCategory.forEach(element => {
+      likesList.push(element.name)
+    });
+    console.log(likesList)
+    all["Fiesta"] = likesList*/
+    this.setState({
+      token: result.data.data.register.token,
+      id: result.data.data.register.id
+    })
+  });
+
+}
+
+setLikes(category){
+
+}
+
       render(){
-
-
+          
+        
+          console.log(this.state.data)
           console.log(this.state.user);
           console.log("categoria", this.state.gustoSeleccionado);
           console.log("Segunda lista", this.state.actualLikes);
           console.log("agregados",this.state.likesSelected);
-          //console.log("newCategory", this.state.newLikeCategory);
-          //console.log("newLike", this.state.newLikeContent);
+          console.log("all", this.state.likesByCategory);
+          console.log("POR agrega", this.state.newLikesList);
           let reactSwipeEl;
          
           const listItems = this.state.likesSelected.map(function(like){
@@ -220,7 +508,6 @@ handleTagsDelete(tag) {
                             direction="row"
                             justify="flex-end"
                             alignItems="flex-end"
-                            wrap="nowrap" 
                           > 
                           <Grid item xs={9}>
                             < this.StyledTextField
@@ -238,6 +525,7 @@ handleTagsDelete(tag) {
                           <Grid item xs={3}>
                             < this.StyledTextField
                               variant="outlined"
+                              type="number"
                               margin="normal"
                               fullWidth
                               id="edad"
@@ -245,7 +533,6 @@ handleTagsDelete(tag) {
                               name="edad"
                               autoComplete="edad"
                               onChange={this.handleChange}
-                              helperText={this.state.cityError && this.state.city == "" ? "Este campo es obligatorio" : ""}
                             />
                           </Grid>
                           </Grid>
@@ -381,7 +668,7 @@ handleTagsDelete(tag) {
                               spacing={3}
                             >
                               <Grid item xs={2}>
-                                <this.StyledButton button onClick={() => reactSwipeEl.prev()}
+                                <this.StyledButton button onClick={() => this.sendData()}
                                 fullWidth
                                 focusRipple
                                 variant="contained"

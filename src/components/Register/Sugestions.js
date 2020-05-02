@@ -76,8 +76,8 @@ class FormDialog extends Component {
   return (
     <div>
       <IconButton color="primary" aria-label="add to shopping cart" size="large" onClick={this.handleClickOpen}>
-                              <AddCircleOutlineIcon size="large" />
-                            </IconButton>
+        <AddCircleOutlineIcon size="large" />
+      </IconButton>
       <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Agregar nuevo gusto</DialogTitle>
         <DialogContent>
