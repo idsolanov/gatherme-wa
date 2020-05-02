@@ -35,11 +35,18 @@
 
   }
 
-  .filters .gxNCQZ {
+  .filters li {
     width: 56px;
     height: 56px;
     margin-top: 12px;
   }
+
+  .filters li:hover {
+    opacity: 65%;
+   
+  }
+
+
 
   .content_home .MuiGrid-grid-xs-2 {
     position: sticky;
@@ -48,6 +55,13 @@
   .content_home .MuiGrid-spacing-xs-5 {
       width: 100%!important;
   }
+
+  .test{
+    background-color: green;
+  }
+  /* .test  :hover{
+    background-color: blue;
+  } */
 
 
   .tool{

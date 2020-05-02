@@ -19,6 +19,12 @@ class SignIn extends Component {
         <div className="card">
           <SignInCard />
         </div>
+        <div className="background_overlay_si">
+
+        </div>
+        <img
+          className="image_background_si"
+          src=' https://raw.githubusercontent.com/nsaavedraa/imgs/master/background.jpg' />
       </div>
     );
   }
