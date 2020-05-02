@@ -23,3 +23,79 @@
     border-radius: 0.5vw;
     box-shadow: var(--shadow);
   }
+
+  .filters{
+      position: absolute;
+      padding-left: 5vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding-top: 8vh;
+
+  }
+
+  .filters .gxNCQZ {
+    width: 56px;
+    height: 56px;
+    margin-top: 12px;
+  }
+
+  .content_home .MuiGrid-grid-xs-2 {
+    position: sticky;
+    top: 7vh;
+  }
+  .content_home .MuiGrid-spacing-xs-5 {
+      width: 100%!important;
+  }
+
+
+  .tool{
+      font-size: 30;
+  }
+
+
+  .add_container .MuiFab-primary{
+    position: fixed;
+    bottom: 5vh;
+    right: 6vh;
+
+  }
+
+  .activity_container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: auto;
+  }
+
+  .content_home{
+    z-index: 1;
+  }
+
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  }
+  
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+   
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+  }
+  
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
