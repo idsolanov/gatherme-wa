@@ -7,6 +7,9 @@
     "@material-ui/icons": "^4.9.1",
     "axios": "^0.19.2",
     "react": "^16.13.1",
+    "react-autosuggest": "^10.0.1",
+    "react-dnd": "^10.0.2",
+    "react-dnd-html5-backend": "^10.0.2",
     "react-dom": "^16.13.1",
     "react-facebook-login": "^4.1.1",
     "react-floating-button-menu": "^2.0.8",
@@ -14,7 +17,14 @@
     "react-mfb": "^0.6.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "0.9.5",
-    "styled-components": "^5.1.0"
+    "styled-components": "^5.1.0",
+    "react-images-upload": "^1.2.8",
+    "react-swipe": "^6.0.4",
+    "react-tag-input": "^6.4.2",
+    "react-tagsinput": "^3.19.0",
+    "reactjs-tag-input": "^2.0.13",
+    "swipe-js-iso": "^2.1.5"
+
   },
   "devDependencies": {
     "@material-ui/core": "^4.9.12"

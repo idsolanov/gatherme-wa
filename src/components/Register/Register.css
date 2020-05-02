@@ -1,0 +1,278 @@
+.register_card{
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;  
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-right: 2vw;
+    padding-left: 2vw;
+    padding-bottom: 2vh;  
+    padding-top: 2vh;
+    border-radius: 0.5vw;
+    box-shadow: var(--shadow);
+    width: 100% !important;
+    height: 100%;
+  }
+
+.assistant_container {
+    width: 65vw;
+    height: 80vh;
+    padding-right: 2vw;
+    padding-left: 2vw;
+    padding-bottom: 2vh;  
+    padding-top: 2vh;
+    color: black;
+    margin-bottom: 6em;
+    margin-top: 6em;
+}
+
+.content{
+    width: 90%;
+    height: 90%;
+    align-items: center;
+    display: inline-grid;
+}
+
+
+.image-upload > input
+{
+    display: none;
+}
+.image-upload img
+{
+    width: 20vh;
+    cursor: pointer;
+}
+
+.profilepic{
+    width: 20vh;
+    height: 20vh;
+    border-radius: 50%;
+    max-width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+    margin-top: 4vh;
+   
+}
+
+.profilepic > .crop {
+    object-fit: cover;  
+    position:absolute;
+    left: -100%;
+    right: -100%;
+    top: -100%;
+    bottom: -100%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+    display: block;
+    max-width: none !important;
+}
+
+.profilepic:hover{
+    opacity: 0.6;
+    transform:scale(1);
+}
+  
+.search_bar{
+    border: 1px solid;
+    border-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    align-content: center;
+    height: 3em;
+    padding: 0;
+    font-family: Product Sans !important;
+
+}
+.sugestions{
+        border: 1px solid;
+        border-color: rgba(0, 0, 0, 0.3);
+        border-radius: 5px;
+        align-content: center;
+        padding-right: 1vw;
+        padding-left: 1vw;
+        padding-bottom: 1vh;  
+        padding-top: 1vh;
+        min-height: 3em;
+        font-family: Product Sans !important;
+    
+}
+.container_search_bar{
+    height: 100%;
+    width: 100%;
+}
+.input:focus{
+    outline: none;
+}
+
+.search_bar form input{
+    border: 0px;
+    height: 100%;
+    width: 100%;
+    font-family: Product Sans !important;
+    font-size: 1.05rem;
+}
+
+.open-dialog {
+  height: 3em;
+  width: 3em;
+}
+
+.react-tagsinput {
+    background-color: #fff;
+    border: 0px;
+    overflow: hidden;
+    padding-left: 0px;
+    padding-top: 0px;
+  }
+  
+  .react-tagsinput--focused {
+    border-color: transparent;
+  }
+  
+  .react-tagsinput-tag {
+    background-color: rgb(233, 64, 87);
+    border-radius: 50px;
+    border: 0px;
+    color: white;
+    display: inline-block;
+    font-family: sans-serif;
+    font-size: 1.05em;
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-right: 0;
+    padding: 10px;
+    height: 3em;
+    width: fit-content;   
+  }
+  
+  .react-tagsinput-remove {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .react-tagsinput-tag a::before {
+    content: " ×";
+  }
+  
+  .react-tagsinput-input {
+    background: transparent;
+    border: 0;
+    color: #777;
+    font-family: sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    margin-bottom: 6px;
+    margin-top: 6px;
+    margin-left: 6px;
+    outline: none;
+    padding: 5px;
+    width: 80px;
+  }
+
+ .sugestions .react-tagsinput .react-tagsinput-input{
+     width: 0px;
+     height: 0px;
+ }
+
+ .sugestions .react-tagsinput .react-tagsinput-remove {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .sugestions .react-tagsinput .react-tagsinput-tag a::before {
+    content: " ×";
+  }
+
+.MuiGrid-root div .MuiAutocomplete-root{
+  width: 100% !important;
+}
+
+
+ul.ks-cboxtags-checked  {
+  list-style: none;
+  display: inline-block !important;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  padding-left: 5px !important;
+}
+
+ul.ks-cboxtags-checked li{
+display: inline;
+white-space:nowrap;
+}
+
+ul.ks-cboxtags-checked li label{
+  display: inline-block;
+  border: 2px solid var(--primary);
+  background: var(--primary);
+  color:white;
+  font-weight: 500;
+  border-radius: 25px;
+  white-space: nowrap;
+  margin: 3px 0px;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all .2s;
+}
+
+ul.ks-cboxtags-checked li label {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.MuiGrid-justify-xs-center {
+  padding: 1em;
+}
+
+ul.ks-cboxtags-checked li input[type=checkbox]:checked + label {
+  background-color: rgba(255, 255, 255, .9);
+  border: 2px solid rgba(1, 1, 1, .3);
+  color: rgba(1, 1, 1, .5);
+
+  transition: all .2s;
+}
+
+ul.ks-cboxtags-checked li input[type="checkbox"] {
+display: absolute;
+}
+
+ul.ks-cboxtags-checked li input[type="checkbox"] {
+position: absolute;
+opacity: 0;
+}
+ul.ks-cboxtags-checked li label:hover {
+  color: white;
+  border: 2px solid var(--primary);
+  transition: all .2s;
+}
+ul.ks-cboxtags-checked li input[type=checkbox]:checked + label:hover {
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  transition: all .2s;
+}
+
+
+
+.MuiAutocomplete-endAdornment .MuiButtonBase-root.MuiIconButton-root.MuiAutocomplete-clearIndicator .MuiIconButton-label .MuiSvgIcon-root{
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.MuiAutocomplete-endAdornment .MuiButtonBase-root.MuiIconButton-root.MuiAutocomplete-clearIndicator .MuiIconButton-label {
+  width: 0 !important;
+  height: 0 !important;
+}
+.MuiAutocomplete-endAdornment .MuiButtonBase-root.MuiIconButton-root.MuiAutocomplete-clearIndicator {
+  width: 0 !important;
+  height: 0 !important;
+}
