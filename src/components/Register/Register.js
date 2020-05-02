@@ -11,15 +11,14 @@ import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
 import Search from './Search';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import FixedTags from './Sugestions'
+import IconButton from '@material-ui/core/IconButton';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import FormDialog from './Sugestions'
 
 
 import './Register.css';
@@ -45,13 +44,20 @@ class Register extends Component {
             Otros: ["Programar", "Dormir", "Charlar"]
           
           },
-          gustosSeleccionados: []
+          gustosSeleccionados: [],
+          newLikeCategory: "",
+          newLikeContent: ""
 
           }
           this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
           this.onDrop = this.onDrop.bind(this);
           this.handleChange = this.handleChange.bind(this);
           this.handleChangeCategory = this.handleChangeCategory.bind(this);
+          this.callbackFunction - this.callbackFunction.bind(this);
+          /*this.addLike = this.addLike.bind(this);
+          this.handleClickOpen = this.handleClickOpen.bind(this);
+          this.handleClose = this.handleClose.bind(this);
+*/
           
 
 
@@ -109,7 +115,7 @@ class Register extends Component {
           pictures: this.state.pictures.concat(picture),
       });
   }
-
+  
 
   onImageChange = (event) => {
 
@@ -159,12 +165,24 @@ handleChangeCategory(value) {
 }
 
 
+callbackFunction = (childData) => {
+  console.log( "callBak",childData)
+  this.setState({
+    newLikeCategory: childData[0],
+    newLikeContent: childData[1]
+  })
+}
+
 
       render(){
 
+
           console.log(this.state.user);
-          console.log(this.state.gustosSeleccionados)
+          console.log(this.state.gustosSeleccionados);
+          console.log("newCategory", this.state.newLikeCategory);
+          console.log("newLike", this.state.newLikeContent);
           let reactSwipeEl;
+         
           const listItems = this.state.gustosSeleccionados.map(function(like){
             var idstr = "checkbox" + like;
             return <ul className="ks-cboxtags-checked">
@@ -297,28 +315,44 @@ handleChangeCategory(value) {
                     <div className="register_card" >
                       <div className="content">
                         <div className="content_center">    
-
+                        <p>Añadir gustos</p>
                         <Grid
+                            container justify="center" spacing={0}
+                          >
+                            <Grid item xs={4}>
+                              <div>
+                                
+                                <Autocomplete
+                                  id="combo-box-demo"
+                                  options={categories}
+                                  onChange={(event, value) => this.handleChangeCategory(value)} 
+                                  getOptionLabel={(option) => option.name}
+                                  style={{ width: 300 }}
+                                  renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
+                                />
+                              </div>
+                            
+                            </Grid>
+                            <Grid item xs={8}>
+                              <div>
+                              <Autocomplete
+                                id="combo-box-demo-2"
+                                options={categories}
+                                onChange={(event, value) => this.handleChangeCategory(value)} 
+                                getOptionLabel={(option) => option.name}
+                                style={{ width: 300 }}
+                                renderInput={(params) => <TextField {...params} label="Segudo" variant="outlined" />}
+                              />
+                              </div>
+                            </Grid>
+                        </Grid>
+                            <Grid
                             container
                             direction="column"
                             justify="center"
                             alignItems="stretch"
                             spacing={3}
                           >
-                            <Grid item xs={12}>
-                              <div>
-                                <p>Añadir gustos</p>
-                              <Autocomplete
-                            id="combo-box-demo"
-                            options={categories}
-                            onChange={(event, value) => this.handleChangeCategory(value)} 
-                            getOptionLabel={(option) => option.name}
-                            style={{ width: 300 }}
-                            renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
-                          />
-                              </div>
-                            
-                            </Grid>
                             <Grid item xs={12}>
                             <div className="sugestions">
                               {listItems}
@@ -331,10 +365,7 @@ handleChangeCategory(value) {
                             justify="center"
                             alignItems="center"
                           >
-                            <IconButton color="primary" aria-label="add to shopping cart" size="large" >
-                              <AddCircleOutlineIcon size="large" />
-                            </IconButton>
-                            
+                            <FormDialog parentCallback = {this.callbackFunction}/>
                           </Grid>
                           
                           <div>
@@ -369,6 +400,7 @@ handleChangeCategory(value) {
             );
       }
 }
+
 
 const categories =[
   {name:"Academico"},

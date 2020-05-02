@@ -1,72 +1,129 @@
-/* eslint-disable no-use-before-define */
-import React from 'react';
-import Chip from '@material-ui/core/Chip';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import { makeStyles } from '@material-ui/core/styles';
+import React, {Component} from 'react';
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: 500,
-    '& > * + *': {
-      marginTop: theme.spacing(3),
-    },
-  },
-}));
+class FormDialog extends Component {
+  constructor(props){
+    super(props);
+    this.state= {
+      open: false,
+      categories: [
+        {name:"Academico"},
+        {name:"Deporte"},
+        {name:"Juegos"}, 
+        {name:"Cultural"}, 
+        {name:"Comidas"}, 
+        {name:"Fiesta"},
+        {name:"Otros"}
+      ],
+      category: "",
+      like:""
+    }
+    this.setOpen = this.setOpen.bind(this);
+    this.handleClickOpen = this.handleClickOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
+    this.handleChangeCategory = this.handleChangeCategory.bind(this);
+    this.sendData = this.sendData.bind(this);
+  }
+  sendData = (childData) =>{
+    console.log(childData);
+    this.props.parentCallback(childData);
+}
+  setOpen = (status) =>{
+    this.setState({
+      open: status
+    })
+    
+  }
+  handleClickOpen  (){
+    this.setOpen(true);
+  };
 
-export default function Tags() {
-  const classes = useStyles();
-  console.log()
+  handleClose () {
+    this.setOpen(false);
+  };
+  handleChangeCategory (value){
+    this.setState({
+      category: value
+    })
+    console.log(value);
+
+  }
+  handleGenderChange(event) {
+    this.setState({
+      category: event.target.value 
+    })
+    console.log(event.target.value);
+    console.log(this.state.category)
+  }
+
+  render(){
+  
+    console.log(this.state.open)
+
   return (
-    <div className={classes.root}>
-      <Autocomplete
-        multiple
-        id="tags-outlined"
-        options={top100Films}
-        getOptionLabel={(option) => option.title}
-        filterSelectedOptions
-        renderInput={(params) => (
-        
-          <TextField
-            {...params}
-            variant="outlined"
-            label="Gustos"
-            placeholder="Ingrese sus gustos"
-          />
+    <div>
+      <IconButton color="primary" aria-label="add to shopping cart" size="large" onClick={this.handleClickOpen}>
+                              <AddCircleOutlineIcon size="large" />
+                            </IconButton>
+      <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Agregar nuevo gusto</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Seleccione la categoria e ingrese el gusto
+          </DialogContentText>
           
-        )}
-      />
+          <Autocomplete
+            id="combo-box-demo"
+            options={this.state.categories}
+            onChange={(event, value) => this.handleChangeCategory(value)} 
+            getOptionLabel={(option) => option.name}
+            style={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="gusto"
+            label="Agrege el nuevo gusto"
+            fullWidth
+            onChange={ (event) =>{
+              console.log(String(event.target.id))
+              console.log(String(event.target.value))
+              this.setState({
+                like: event.target.value
+              })
+              }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleClose} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={() =>{
+            this.sendData([this.state.category.name, this.state.like])
+            this.handleClose()
+          }
+            } color="primary">
+            Agregar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
+  }
 }
 
-const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-    { title: 'The Lord of the Rings: The Return of the King', year: 2003 },
-    { title: 'The Good, the Bad and the Ugly', year: 1966 },
-    { title: 'Fight Club', year: 1999 },
-    { title: 'The Lord of the Rings: The Fellowship of the Ring', year: 2001 },
-    { title: 'Star Wars: Episode V - The Empire Strikes Back', year: 1980 },
-    { title: 'Forrest Gump', year: 1994 },
-    { title: 'Inception', year: 2010 },
-    { title: 'The Lord of the Rings: The Two Towers', year: 2002 },
-    { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-    { title: 'Goodfellas', year: 1990 },
-    { title: 'The Matrix', year: 1999 },
-    { title: 'Seven Samurai', year: 1954 },
-    { title: 'Star Wars: Episode IV - A New Hope', year: 1977 },
-    { title: 'City of God', year: 2002 },
-    { title: 'Se7en', year: 1995 },
-    { title: 'The Silence of the Lambs', year: 1991 },
-    { title: "It's a Wonderful Life", year: 1946 },
-    { title: 'Life Is Beautiful', year: 1997 },
-    { title: 'The Usual Suspects', year: 1995 },
-    { title: 'Léon: The Professional', year: 1994 },
-    { title: 'Spirited Away', year: 2001 }
-]
+export default FormDialog;

@@ -250,3 +250,4 @@ ul.ks-cboxtags-checked li input[type=checkbox]:checked + label:hover {
   border: 2px solid var(--primary);
   transition: all .2s;
 }
+
