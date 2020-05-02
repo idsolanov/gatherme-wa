@@ -116,6 +116,11 @@
     font-size: 1.05rem;
 }
 
+.open-dialog {
+  height: 3em;
+  width: 3em;
+}
+
 .react-tagsinput {
     background-color: #fff;
     border: 0px;
@@ -135,11 +140,13 @@
     color: white;
     display: inline-block;
     font-family: sans-serif;
-    font-size: 13px;
+    font-size: 1.05em;
     font-weight: 400;
-    margin-bottom: 5px;
-    margin-right: 5px;
-    padding: 5px;
+    margin-bottom: 0;
+    margin-right: 0;
+    padding: 10px;
+    height: 3em;
+    width: fit-content;   
   }
   
   .react-tagsinput-remove {
@@ -223,6 +230,9 @@ ul.ks-cboxtags-checked li label {
   transition: all .2s;
 }
 
+.MuiGrid-justify-xs-center {
+  padding: 1em;
+}
 
 ul.ks-cboxtags-checked li input[type=checkbox]:checked + label {
   background-color: rgba(255, 255, 255, .9);
@@ -251,3 +261,18 @@ ul.ks-cboxtags-checked li input[type=checkbox]:checked + label:hover {
   transition: all .2s;
 }
 
+
+
+.MuiAutocomplete-endAdornment .MuiButtonBase-root.MuiIconButton-root.MuiAutocomplete-clearIndicator .MuiIconButton-label .MuiSvgIcon-root{
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.MuiAutocomplete-endAdornment .MuiButtonBase-root.MuiIconButton-root.MuiAutocomplete-clearIndicator .MuiIconButton-label {
+  width: 0 !important;
+  height: 0 !important;
+}
+.MuiAutocomplete-endAdornment .MuiButtonBase-root.MuiIconButton-root.MuiAutocomplete-clearIndicator {
+  width: 0 !important;
+  height: 0 !important;
+}

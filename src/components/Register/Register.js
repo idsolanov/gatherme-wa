@@ -5,23 +5,16 @@ import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
-import Search from './Search';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import IconButton from '@material-ui/core/IconButton';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import TagsInput from 'react-tagsinput'
 import FormDialog from './Sugestions'
 
 
 import './Register.css';
+import { DialogContent } from "@material-ui/core";
 class Register extends Component {
 
     constructor(props) {
@@ -35,7 +28,7 @@ class Register extends Component {
           biografia: "",
           edad: "",
           likesByCategory: {
-            Academico: ["Estudiar", "Tareas", "Investigacion"],
+            Academico: ["Estudiar", "Tareas", "Investigacion", "Trabajar", "Traducir"],
             Deporte: ["Correr", "bailar","Gimnacio"],
             Juegos: ["VideoJuegos","Parques", "Online"],
             Cultural: ["Teatro","Cine","Concierto"],
@@ -44,9 +37,11 @@ class Register extends Component {
             Otros: ["Programar", "Dormir", "Charlar"]
           
           },
-          gustosSeleccionados: [],
+          gustoSeleccionado: "",
+          actualLikes: [],
           newLikeCategory: "",
-          newLikeContent: ""
+          newLikeContent: "",
+          likesSelected: []
 
           }
           this.gradient = 'linear-gradient(136deg, rgb(242, 113, 33) 0%, rgb(233, 64, 87) 50%, rgb(138, 35, 135) 100%)';
@@ -54,11 +49,8 @@ class Register extends Component {
           this.handleChange = this.handleChange.bind(this);
           this.handleChangeCategory = this.handleChangeCategory.bind(this);
           this.callbackFunction - this.callbackFunction.bind(this);
-          /*this.addLike = this.addLike.bind(this);
-          this.handleClickOpen = this.handleClickOpen.bind(this);
-          this.handleClose = this.handleClose.bind(this);
-*/
-          
+          this.addLike = this.addLike.bind(this);  
+          this.handleTagsDelete = this.handleTagsDelete.bind(this);
 
 
           this.StyledTextField = withStyles({
@@ -84,6 +76,8 @@ class Register extends Component {
                 },
             },
         })(TextField);
+
+
         this.StyledButton = withStyles({
           root: {
             backgroundImage: this.gradient,
@@ -136,34 +130,21 @@ handleChange(event) {
   });
 }
 
+
 handleChangeCategory(value) {
-  /*if (value == "Academico") {
-    this.setState({
-      gustosSeleccionados: likesByCategory[value]
-    })
-  }else if (value == "Juegos") {
-    this.setState({
-      gustosSeleccionados: likesByCategory[value]
-    })
-  }else if (value == "Cultural") {
-    
-  }else if (value == "Comidas") {
-    
-  }else if (value == "Fiesta") {
-    
-  }else if (value == "Deporte") {
-    
-  }else{
-
-  }*/
-  console.log(value)
-  console.log(this.state.likesByCategory[value.name])
+  console.log(value.name)
   this.setState({
-    gustosSeleccionados: this.state.likesByCategory[value.name]
+    gustoSeleccionado: String(value.name),
+    actualLikes: this.state.likesByCategory[value.name]
   })
-
+  
 }
 
+addLike(value) {
+  this.setState({
+    likesSelected: this.state.likesSelected.concat(value)
+  })
+}
 
 callbackFunction = (childData) => {
   console.log( "callBak",childData)
@@ -171,19 +152,27 @@ callbackFunction = (childData) => {
     newLikeCategory: childData[0],
     newLikeContent: childData[1]
   })
+  this.addLike( childData[1])
 }
 
+handleTagsDelete(tag) {
+  this.setState({
+    likesSelected: tag
+  })
+}
 
       render(){
 
 
           console.log(this.state.user);
-          console.log(this.state.gustosSeleccionados);
-          console.log("newCategory", this.state.newLikeCategory);
-          console.log("newLike", this.state.newLikeContent);
+          console.log("categoria", this.state.gustoSeleccionado);
+          console.log("Segunda lista", this.state.actualLikes);
+          console.log("agregados",this.state.likesSelected);
+          //console.log("newCategory", this.state.newLikeCategory);
+          //console.log("newLike", this.state.newLikeContent);
           let reactSwipeEl;
          
-          const listItems = this.state.gustosSeleccionados.map(function(like){
+          const listItems = this.state.likesSelected.map(function(like){
             var idstr = "checkbox" + like;
             return <ul className="ks-cboxtags-checked">
                 <li>
@@ -203,8 +192,6 @@ callbackFunction = (childData) => {
                 swipeOptions={{ continuous: false }}
                 ref={el => (reactSwipeEl = el)}
               >
-                
-                
                 <div>
                   <div className="assistant_container">
                     <div className="register_card" >
@@ -316,19 +303,24 @@ callbackFunction = (childData) => {
                       <div className="content">
                         <div className="content_center">    
                         <p>Añadir gustos</p>
+                        <div className="search-likes">
                         <Grid
                             container justify="center" spacing={0}
                           >
                             <Grid item xs={4}>
-                              <div>
+                              <div className="bar-likes">
+
                                 
                                 <Autocomplete
                                   id="combo-box-demo"
                                   options={categories}
-                                  onChange={(event, value) => this.handleChangeCategory(value)} 
+                                  onChange={(event, value) => {
+                                    this.handleChangeCategory(value)
+                                  }} 
                                   getOptionLabel={(option) => option.name}
                                   style={{ width: 300 }}
                                   renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
+                                  wrapperStyle={ {border: 0}}
                                 />
                               </div>
                             
@@ -337,15 +329,16 @@ callbackFunction = (childData) => {
                               <div>
                               <Autocomplete
                                 id="combo-box-demo-2"
-                                options={categories}
-                                onChange={(event, value) => this.handleChangeCategory(value)} 
-                                getOptionLabel={(option) => option.name}
+                                options={this.state.actualLikes}
+                                onChange={(event, value) => this.addLike(value)} 
+                                getOptionLabel={(option) => option}
                                 style={{ width: 300 }}
-                                renderInput={(params) => <TextField {...params} label="Segudo" variant="outlined" />}
+                                renderInput={(params) => <TextField {...params} label="Gustos" variant="outlined" />}
                               />
                               </div>
                             </Grid>
                         </Grid>
+                        </div>
                             <Grid
                             container
                             direction="column"
@@ -354,9 +347,17 @@ callbackFunction = (childData) => {
                             spacing={3}
                           >
                             <Grid item xs={12}>
-                            <div className="sugestions">
-                              {listItems}
-                            </div>
+                              <div className="sugestions">
+
+                              
+                            <TagsInput
+                              value={this.state.likesSelected}
+                              onChange={this.handleTagsDelete}
+                              label=""
+                              >
+
+                              </TagsInput>
+                              </div>
                             </Grid>
                         </Grid>
                         <Grid
@@ -365,29 +366,32 @@ callbackFunction = (childData) => {
                             justify="center"
                             alignItems="center"
                           >
-                            <FormDialog parentCallback = {this.callbackFunction}/>
+                            <div className="open-dialog">
+                              <FormDialog parentCallback = {this.callbackFunction}/> 
+                            </div>
+                            
                           </Grid>
                           
                           <div>
-                          <Grid
-                            container
-                            direction="column"
-                            justify="center"
-                            alignItems="flex-end"
-                            spacing={3}
-                          >
-                            <Grid item xs={2}>
-                              <this.StyledButton button onClick={() => reactSwipeEl.prev()}
-                              fullWidth
-                              focusRipple
-                              variant="contained"
-                              size="medium"
-                              text="bold"
-                            > 
-                              Finalizar
-                              </this.StyledButton>
+                            <Grid
+                              container
+                              direction="column"
+                              justify="center"
+                              alignItems="flex-end"
+                              spacing={3}
+                            >
+                              <Grid item xs={2}>
+                                <this.StyledButton button onClick={() => reactSwipeEl.prev()}
+                                fullWidth
+                                focusRipple
+                                variant="contained"
+                                size="medium"
+                                text="bold"
+                              > 
+                                  Finalizar
+                                </this.StyledButton>
+                              </Grid>
                             </Grid>
-                          </Grid>
                           </div>
                         </div>
                       </div>
