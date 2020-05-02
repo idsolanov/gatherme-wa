@@ -57,7 +57,7 @@ class Register extends Component {
           this.addLike = this.addLike.bind(this);  
           this.handleTagsDelete = this.handleTagsDelete.bind(this);
           this.sendData = this.sendData.bind(this);
-          this.setLikes = this.setLikes(this);
+          this.sendNewLike = this.sendNewLike.bind(this);
 
 
           this.StyledTextField = withStyles({
@@ -362,6 +362,9 @@ sendData(){
   
   let li = "["
   let si = 1 
+  if(this.state.likesSelected.length == 0){
+    li += "]"
+  }
   this.state.likesSelected.forEach(element=>{
     if(si < this.state.likesSelected.length){
       li += '"'+element+'",'
@@ -370,6 +373,7 @@ sendData(){
     }
     si += 1
   })
+
   console.log(li)
    let kk = `
   mutation {
@@ -430,23 +434,59 @@ sendData(){
     }
   }).then((result) => {
     console.log(result.data)
-    /*let likesList = []
-    let list = result.data.data.likeByCategory.forEach(element => {
-      likesList.push(element.name)
-    });
-    console.log(likesList)
-    all["Fiesta"] = likesList*/
+    console.log(result.data.data.register.token)
     this.setState({
       token: result.data.data.register.token,
       id: result.data.data.register.id
+    })  
+    console.log(this.state.token)
+    this.state.newLikesList.forEach(element=>{
+      this.sendNewLike(element)
     })
+  });  
+
+}
+
+
+sendNewLike(element){
+  let kk=`
+  mutation {
+    createLike(like: {
+      category : "${element["category"]}"
+      name: "${element["like"]}"
+    },username: "${this.state.user.username}",token:"${this.state.token}"){
+      id
+      name
+      category
+    }
+  }
+  `
+  console.log(this.state.token)
+  console.log(kk);
+  axios({
+    url: "http://localhost:9001/graphql",
+    method: 'POST',
+    data: {
+      query: `
+      mutation {
+        createLike(like: {
+          category : "${element["category"]}"
+          name: "${element["like"]}"
+        },username: "${this.state.user.username}",token:"${this.state.token}"){
+          id
+          name
+          category
+        }
+      }
+      `
+    }
+  }).then((result) => {
+    console.log(result.data)
+    
   });
-
 }
 
-setLikes(category){
 
-}
 
       render(){
           
