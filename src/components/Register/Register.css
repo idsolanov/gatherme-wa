@@ -187,7 +187,7 @@ max-width: 100%!important;
     transform:scale(1);
 }
   
-.search_bar{
+.search_bar_register{
     border: 1px solid;
     border-color: rgba(0, 0, 0, 0.3);
     border-radius: 5px;
@@ -211,7 +211,7 @@ max-width: 100%!important;
         font-family: Product Sans !important;
     
 }
-.container_search_bar{
+.container_search_bar_register{
     height: 100%;
     width: 100%;
 }
@@ -219,7 +219,7 @@ max-width: 100%!important;
     outline: none;
 }
 
-.search_bar form input{
+.search_bar_register form input{
     border: 0px;
     height: 100%;
     width: 100%;

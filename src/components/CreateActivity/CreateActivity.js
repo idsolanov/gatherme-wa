@@ -216,7 +216,8 @@ class CreateActivity extends Component {
     }
 
     handleSubmit(event){
-        
+        //Esto cierra el popup
+        this.props.parentCallback([true]);
     }
 
     render(){

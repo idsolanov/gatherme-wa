@@ -58,8 +58,8 @@ handleTagsDelete(tag) {
           > 
             <Grid item xs={12}
                 >
-                <div className="container_search_bar">
-                  <div className="search_bar">
+                <div className="container_search_bar_register">
+                  <div className="search_bar_register">
                   <Grid itme ={12}>
                     <TagsInput
                      value={[]} onChange={this.handleTagsChange}                     

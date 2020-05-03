@@ -50,7 +50,8 @@ class SignIn extends Component {
 			userData: "",
 			username: this.props.location.state.userData.nickName,
 			token: this.props.location.state.userData.token,
-			createActivityDialogOpen: false
+			createActivityDialogOpen: false,
+			createActivity: false
 		}
 	}
 
@@ -81,7 +82,8 @@ class SignIn extends Component {
 			console.log(error);
 		});
 		this.handleDialogOpen = this.handleDialogOpen.bind(this);
-      this.handleDialogClose = this.handleDialogClose.bind(this);
+	  this.handleDialogClose = this.handleDialogClose.bind(this);
+	  this.callbackFunction = this.callbackFunction.bind(this);
 	}
 
 	handleDialogOpen(){
@@ -90,7 +92,20 @@ class SignIn extends Component {
 
     handleDialogClose(){
         this.setState({ createActivityDialogOpen: false});
-    }
+	}
+	
+	callbackFunction(childData){
+        this.setState({
+            createActivity: childData[0],
+        });
+	}
+	componentDidUpdate(){
+        if (this.state.createActivity){
+            this.setState({createActivity: false});
+            this.handleDialogClose();
+            this.componentDidMount();
+		}
+	}
 	
 
 	render() {
@@ -205,7 +220,7 @@ class SignIn extends Component {
 					<Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.createActivityDialogOpen} fullWidth={true}>
                             <DialogContent dividers>
 								<div className ="containerPopUp">
-								<CreateActivity/>
+								<CreateActivity  parentCallback = {this.callbackFunction}/>
 								</div>
                              
                             </DialogContent>
