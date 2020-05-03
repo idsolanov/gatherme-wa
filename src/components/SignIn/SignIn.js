@@ -20,7 +20,6 @@ class SignIn extends Component {
           <SignInCard />
         </div>
         <div className="background_overlay_si">
-
         </div>
         <img
           className="image_background_si"

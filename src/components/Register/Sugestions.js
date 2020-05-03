@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,48 +13,65 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
+import MdAdd from '@material-ui/icons/Add';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+
+
+
+const StyledTooltip = withStyles((theme) => ({
+	tooltip: {
+		backgroundColor: theme.palette.common.white,
+		color: 'rgba(0, 0, 0, 0.87)',
+		boxShadow: theme.shadows[1],
+		borderRadius: '10px',
+		fontSize: 13,
+	},
+}))(Tooltip);
 
 class FormDialog extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state= {
+    this.state = {
       open: false,
       categories: [
-        {name:"Academico"},
-        {name:"Deporte"},
-        {name:"Juegos"}, 
-        {name:"Cultural"}, 
-        {name:"Comidas"}, 
-        {name:"Fiesta"},
-        {name:"Otros"}
+        { name: "Academico" },
+        { name: "Deporte" },
+        { name: "Juegos" },
+        { name: "Cultural" },
+        { name: "Comidas" },
+        { name: "Fiesta" },
+        { name: "Otros" }
       ],
       category: "",
-      like:""
+      like: ""
     }
+    this.primaryColor = '#40989d';
     this.setOpen = this.setOpen.bind(this);
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.handleChangeCategory = this.handleChangeCategory.bind(this);
     this.sendData = this.sendData.bind(this);
   }
-  sendData = (childData) =>{
+  sendData = (childData) => {
     console.log(childData);
     this.props.parentCallback(childData);
-}
-  setOpen = (status) =>{
+  }
+  setOpen = (status) => {
     this.setState({
       open: status
     })
-    
+
   }
-  handleClickOpen  (){
+  handleClickOpen() {
     this.setOpen(true);
   };
 
-  handleClose () {
+  handleClose() {
     this.setOpen(false);
   };
-  handleChangeCategory (value){
+  handleChangeCategory(value) {
     this.setState({
       category: value
     })
@@ -63,66 +80,70 @@ class FormDialog extends Component {
   }
   handleGenderChange(event) {
     this.setState({
-      category: event.target.value 
+      category: event.target.value
     })
     console.log(event.target.value);
     console.log(this.state.category)
   }
 
-  render(){
-  
+  render() {
+
     console.log(this.state.open)
 
-  return (
-    <div>
-      <IconButton color="primary" aria-label="add to shopping cart" size="large" onClick={this.handleClickOpen}>
-        <AddCircleOutlineIcon size="large" />
-      </IconButton>
-      <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Agregar nuevo gusto</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Seleccione la categoria e ingrese el gusto
+    return (
+      <div>
+        <StyledTooltip title="Crear Gusto" placement="left">
+									<Fab style={{ backgroundColor: '#40989d' }} aria-label="add" onClick={this.handleClickOpen} >
+										<MdAdd style={{ fontSize: 25,color: 'white' }} />
+									</Fab>
+
+				</StyledTooltip>
+       
+        <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Agregar nuevo gusto</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Seleccione la categoria e ingrese el gusto
           </DialogContentText>
-          
-          <Autocomplete
-            id="combo-box-demo"
-            options={this.state.categories}
-            onChange={(event, value) => this.handleChangeCategory(value)} 
-            getOptionLabel={(option) => option.name}
-            style={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="gusto"
-            label="Agrege el nuevo gusto"
-            fullWidth
-            onChange={ (event) =>{
-              console.log(String(event.target.id))
-              console.log(String(event.target.value))
-              this.setState({
-                like: event.target.value
-              })
+
+            <Autocomplete
+              id="combo-box-demo"
+              options={this.state.categories}
+              onChange={(event, value) => this.handleChangeCategory(value)}
+              getOptionLabel={(option) => option.name}
+              style={{ width: 300 }}
+              renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
+            />
+            <TextField
+              autoFocus
+              margin="dense"
+              id="gusto"
+              label="Agrege el nuevo gusto"
+              fullWidth
+              onChange={(event) => {
+                console.log(String(event.target.id))
+                console.log(String(event.target.value))
+                this.setState({
+                  like: event.target.value
+                })
               }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this.handleClose} color="primary">
-            Cancel
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Cancel
           </Button>
-          <Button onClick={() =>{
-            this.sendData([this.state.category.name, this.state.like])
-            this.handleClose()
-          }
+            <Button onClick={() => {
+              this.sendData([this.state.category.name, this.state.like])
+              this.handleClose()
+            }
             } color="primary">
-            Agregar
+              Agregar
           </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
   }
 }
 

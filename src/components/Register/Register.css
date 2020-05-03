@@ -1,3 +1,15 @@
+:root{
+  --primary: #40989d;
+  --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --transition-duration: 0.4s;
+  --gradient:linear-gradient(136deg, #055B5C 0%, #40989d 50%);
+  --step_size: 55px;
+}
+.register_main{
+  width: auto;
+  height: 100vh;
+
+}
 .register_card{
     background-color: white;
     display: flex;
@@ -13,18 +25,116 @@
     box-shadow: var(--shadow);
     width: 100% !important;
     height: 100%;
+
+    opacity: 90%;
+  }
+.swipe_container{
+  position: absolute!important;
+  z-index: 5;
+}
+  .background_overlay_reg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) , #0b1a1b );
+    border-radius: 0.5vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+    z-index: 1;
+}
+
+.image_background_reg{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top right;
+}
+.register_card .MuiGrid-item  {
+max-width: 100%!important;
+
+}
+  .container_card_register{
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   }
 
+
+
+.register_page{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.next_container_register{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.finish_container_register{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+
+}
+.finish_next_container_register{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+}
+.prev_container_register{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.new_cat_bottom{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .assistant_container {
-    width: 65vw;
+    /* width: 65vw;
     height: 80vh;
     padding-right: 2vw;
     padding-left: 2vw;
     padding-bottom: 2vh;  
     padding-top: 2vh;
     color: black;
-    margin-bottom: 6em;
-    margin-top: 6em;
+    margin-bottom: 3em;
+    margin-top: 3em; */
+
+    width: 54vw;
+    height: 88vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    margin-bottom: 3em;
+    margin-top: 3em;
+}
+
+.register_card .MuiAutocomplete-inputRoot[class*="MuiOutlinedInput-root"] {
+  padding: 0px!important;
 }
 
 .content{
@@ -88,8 +198,9 @@
 
 }
 .sugestions{
+        height: 20vh;
         border: 1px solid;
-        border-color: rgba(0, 0, 0, 0.3);
+        border-color: var(--primary);
         border-radius: 5px;
         align-content: center;
         padding-right: 1vw;
@@ -134,7 +245,7 @@
   }
   
   .react-tagsinput-tag {
-    background-color: rgb(233, 64, 87);
+    background-color:var(--primary);
     border-radius: 50px;
     border: 0px;
     color: white;
@@ -143,9 +254,9 @@
     font-size: 1.05em;
     font-weight: 400;
     margin-bottom: 0;
-    margin-right: 0;
+    margin-right: 4px;
     padding: 10px;
-    height: 3em;
+    height: 5vh;
     width: fit-content;   
   }
   
@@ -275,4 +386,113 @@ ul.ks-cboxtags-checked li input[type=checkbox]:checked + label:hover {
 .MuiAutocomplete-endAdornment .MuiButtonBase-root.MuiIconButton-root.MuiAutocomplete-clearIndicator {
   width: 0 !important;
   height: 0 !important;
+}
+
+.add_clothes_btn_container{
+  text-align: center;
+}
+.add_clothes-btn:hover {
+  width: 230px;
+}
+
+.add_clothes-btn::before,
+.add_clothes-btn::after {
+  transition: width var(--transition-duration) ease-in-out, border-radius var(--transition-duration) ease-in-out;
+  content: "";
+  position: absolute;
+  height: 6px;
+  width: 14px;
+  top: calc(50% - 2px);
+  background: white;
+}
+
+.add_clothes-btn::after {
+  right: 20px;
+  overflow: hidden;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.add_clothes-btn::before {
+  left: 20px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.add_clothes_btn-txt {
+  font-family: 'Product Sans';
+  width: 120px !important;
+  min-width: 120px;
+  max-width: 120px;
+  opacity: 0;
+  transition: opacity 0.15s;
+  color: white;
+  font-size: 1.4em;
+  letter-spacing: 0;
+}
+
+.add_clothes-btn:hover::before,
+.add_clothes-btn:hover::after {
+  width: 6px;
+  border-radius: 3px;
+}
+
+.add_clothes-btn:hover .add_clothes_btn-txt {
+  opacity: 1;
+}
+
+.add_clothes-icon::after,
+.add_clothes-icon::before {
+  transition: all var(--transition-duration) ease-in-out;
+  content: "";
+  position: absolute;
+  height: 28px;
+  width: 6px;
+  border-radius: 3px;
+  top: calc(50% - 12px);
+  background: white;
+  overflow: hidden;
+}
+
+.add_clothes-icon::before {
+  left: 32px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.add_clothes-icon::after {
+  right: 32px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.add_clothes-btn:hover .add_clothes-icon::before {
+  left: 21px;
+  height: 6px;
+  border-radius: 3px;
+  top: calc(50% - 2px);
+}
+
+.add_clothes-btn:hover .add_clothes-icon::after {
+  right: 21px;
+  height: 6px;
+  border-radius: 3px;
+  top: calc(50% - 2px);
+}
+.icon-btn {
+  width: 70px;
+  height: 70px;
+  background: var(--gradient);
+  border: none;
+  border-radius: 35px;
+  overflow: hidden;
+  position: relative;
+  transition: width var(--transition-duration) ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon-btn:focus {
+  outline: none;
 }
