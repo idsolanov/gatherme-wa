@@ -112,7 +112,7 @@ class SignIn extends Component {
 		console.log(this.state.userData);
 		return (
 			<div className="Home">
-				<NavBar />
+				<NavBar token={this.state.token} />
 				<div className="content_home">
 
 					<Grid container
