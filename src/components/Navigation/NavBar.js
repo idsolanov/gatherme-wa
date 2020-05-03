@@ -102,6 +102,7 @@ class Navbar extends Component {
 			searchType: 'Buscar por',
 			query: '',
 			token: this.props.token,
+			username: this.props.username,
 			anchorEl: null,
 			anchorOriginVertical: 'bottom',
 			anchorOriginHorizontal: 'right',
