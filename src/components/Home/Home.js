@@ -19,10 +19,10 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
-
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import CreateActivity from '../CreateActivity/CreateActivity'
 
 
 
@@ -49,7 +49,8 @@ class SignIn extends Component {
 			isOpen: true,
 			userData: "",
 			username: this.props.location.state.userData.nickName,
-			token: this.props.location.state.userData.token
+			token: this.props.location.state.userData.token,
+			createActivityDialogOpen: false
 		}
 	}
 
@@ -79,7 +80,18 @@ class SignIn extends Component {
 		}, (error) => {
 			console.log(error);
 		});
+		this.handleDialogOpen = this.handleDialogOpen.bind(this);
+      this.handleDialogClose = this.handleDialogClose.bind(this);
 	}
+
+	handleDialogOpen(){
+        this.setState({ createActivityDialogOpen: true});
+    }
+
+    handleDialogClose(){
+        this.setState({ createActivityDialogOpen: false});
+    }
+	
 
 	render() {
 		console.log(this.state.userData);
@@ -118,19 +130,19 @@ class SignIn extends Component {
 										size={40}
 										onClick={() => console.log('First button clicked')}
 									/>
-								
 
-									
-									<ChildButton className = "test"
+
+
+									<ChildButton className="test"
 										icon={<StyledTooltip title="Deporte" placement="right"><SportsFootballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
 
 										size={40}
-										
+
 									/>
-								
-								
-									
+
+
+
 
 									<ChildButton
 										icon={<StyledTooltip title="Juegos" placement="right"><SportsEsportsIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
@@ -171,16 +183,33 @@ class SignIn extends Component {
 						</Grid>
 						<div className=" add_container">
 							< Grid item xs={1}>
-								<StyledTooltip title="Crear Actividad" placement="left">
-									<Fab color="primary" aria-label="add" >
-										<MdAdd style={{ fontSize: 25 }} />
-									</Fab>
+							<StyledTooltip title="Crear Actividad" placement="left" >
+                    <Fab color="primary" aria-label="add" onClick={this.handleDialogOpen} >
+                        <MdAdd style={{ fontSize: 25 }}  />
+                    </Fab>
+                </StyledTooltip>
+								
 
-								</StyledTooltip>
+									{/* <div className="new_cat_bottom">
+										<div className="open-dialog">
+											<ActivityAssistant parentCallback={this.callbackFunction} />
+										</div>
+
+									</div> */}
+
+								
 
 							</Grid>
 						</div>
 					</Grid>
+					<Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.createActivityDialogOpen} fullWidth={true}>
+                            <DialogContent dividers>
+								<div className ="containerPopUp">
+								<CreateActivity/>
+								</div>
+                             
+                            </DialogContent>
+                    </Dialog>
 				</div>
 			</div>
 		);

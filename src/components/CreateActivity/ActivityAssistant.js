@@ -1,0 +1,559 @@
+import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Fab from '@material-ui/core/Fab';
+import Tooltip from '@material-ui/core/Tooltip';
+import MdAdd from '@material-ui/icons/Add';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import ReactSwipe from 'react-swipe';
+import { IconContext } from "react-icons";
+import { FaAngleLeft } from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa";
+import Dots from 'react-carousel-dots';
+import { createMuiTheme } from '@material-ui/core/styles';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+
+
+const StyledTooltip = withStyles((theme) => ({
+    tooltip: {
+        backgroundColor: theme.palette.common.white,
+        color: 'rgba(0, 0, 0, 0.87)',
+        boxShadow: theme.shadows[1],
+        borderRadius: '10px',
+        fontSize: 13,
+    },
+}))(Tooltip);
+
+class ActivityAssistant extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            open: false,
+            step: 0,
+            token: this.props.token,
+            userData: this.props.userData,
+            nombre: "",
+            descripcion: "",
+            lugar: "",
+            fecha: "",
+            hora: "",
+            notas: "",
+            recurrent: false,
+            banner: "",
+            checked1: false,
+            checked2: false,
+            checked3: false,
+            checked4: false,
+            checked5: false,
+            checked6: false,
+            checked7: false,
+            categories: ["Academico", "Deporte", "Juegos", "Cultural", "Comidas", "Fiesta", "Otros"],
+            selectedCategories: [],
+            tags: []
+
+
+
+        }
+        this.primaryColor = '#40989d';
+        this.setOpen = this.setOpen.bind(this);
+        this.handleClickOpen = this.handleClickOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.handleNext = this.handleNext.bind(this);
+        this.handleBack = this.handleBack.bind(this);
+        this.handleTextInputChange = this.handleTextInputChange.bind(this);
+        this.handleCategorySelected = this.handleCategorySelected.bind(this);
+        this.onTagsChanged = this.onTagsChanged.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        let assistantSwipe;
+        this.StyledTextField = withStyles({
+            root: {
+                width: '60% !important',
+                marginTop: '48px',
+                fontFamily: 'Product Sans !important',
+                '& label.Mui-focused': {
+                    color: 'white',
+                },
+                '& .MuiInput-underline:after': {
+                    borderBottomColor: 'white',
+                },
+                '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                        borderColor: 'rgba(255, 255, 255, 0.75);',
+                    },
+                    '&:hover fieldset': {
+                        borderColor: 'rgba(255, 255, 255, 0.75);',
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: 'white',
+                    },
+                },
+            },
+        })(TextField);
+
+        this.theme = createMuiTheme({
+            palette: {
+                primary: {
+                    main: "#FFF",
+                    contrastText: '#FFF',
+                },
+                secondary: {
+                    main: "#FFF",
+                },
+                tr: {
+                    background: "#f1f1f1",
+                    '&:hover': {
+                        background: "#FFF",
+                    },
+                },
+            },
+        });
+
+    }
+    handleNext() {
+        this.assistantSwipe.next();
+        if (this.state.step != 3) {
+            this.setState({
+                step: this.state.step + 1
+            });
+        }
+
+        if (this.state.step == 2) {
+
+            if (this.state.checked1) { this.state.selectedCategories.push(this.state.categories[0]); }
+            if (this.state.checked2) { this.state.selectedCategories.push(this.state.categories[1]); }
+            if (this.state.checked3) { this.state.selectedCategories.push(this.state.categories[2]); }
+            if (this.state.checked4) { this.state.selectedCategories.push(this.state.categories[3]); }
+            if (this.state.checked5) { this.state.selectedCategories.push(this.state.categories[4]); }
+            if (this.state.checked6) { this.state.selectedCategories.push(this.state.categories[5]); }
+            if (this.state.checked7) { this.state.selectedCategories.push(this.state.categories[6]); }
+        }
+    }
+
+    handleBack() {
+        this.assistantSwipe.prev();
+        if (this.state.step != 0) {
+            this.setState({
+                step: this.state.step - 1
+            });
+        }
+    }
+
+    handleTextInputChange(event) {
+        var prop = String(event.target.id);
+        this.setState({
+            [prop]: event.target.value
+        });
+    }
+
+    handleRecChange(event) {
+        this.setState({
+            recurrent: !this.state.recurrent
+        });
+    };
+
+    handleCategorySelected(event) {
+        let categoriesIds = ["checked1", "checked2", "checked3", "checked4", "checked5", "checked6", "checked7"];
+        var prop = "checked" + event.currentTarget.id.toString();
+        let index = categoriesIds.indexOf(prop);
+
+        this.setState({
+            [prop]: !this.state[prop]
+        });
+
+    }
+
+
+    onImageChange1 = (event) => {
+
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.setState({ clothe_img_1: e.target.result });
+                this.setState({ flag_img_1: true });
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+    }
+    onImageChange2 = (event) => {
+
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.setState({ clothe_img_2: e.target.result });
+                this.setState({ flag_img_2: true });
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+    }
+    onImageChange3 = (event) => {
+
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.setState({ clothe_img_3: e.target.result });
+                this.setState({ flag_img_3: true });
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+    }
+    onImageChange4 = (event) => {
+
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.setState({ clothe_img_4: e.target.result });
+                this.setState({ flag_img_4: true });
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+    }
+    onImageChange5 = (event) => {
+
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                this.setState({ clothe_img_5: e.target.result });
+                this.setState({ flag_img_5: true });
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+    }
+
+    onTagsChanged(tags) {
+        this.setState({
+            tags
+        })
+    }
+
+    handleSubmit(event) {
+
+    }
+
+    setOpen = (status) => {
+        this.setState({
+            open: status
+        })
+
+    }
+    handleClickOpen() {
+        this.setOpen(true);
+    };
+
+    handleClose() {
+        this.setOpen(false);
+    };
+
+
+
+    render() {
+
+        return (
+            <div className="container_activity">
+
+
+                <StyledTooltip title="Crear Actividad" placement="left">
+                    <Fab color="primary" aria-label="add" onClick={this.handleClickOpen}>
+                        <MdAdd style={{ fontSize: 25 }} />
+                    </Fab>
+                </StyledTooltip>
+
+                <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+                   
+                   
+                        <div className="basic_container">
+                            <div className="container">
+
+                                <IconContext.Provider value={{ size: "2.5em ", className: 'left_arrow' }}>
+                                    <FaAngleLeft onClick={this.handleBack} />
+                                </IconContext.Provider>
+
+                                <IconContext.Provider value={{ size: "2.5em ", className: 'right_arrow' }}>
+                                    <FaAngleRight onClick={this.handleNext} />
+                                </IconContext.Provider>
+
+                               
+                                <ReactSwipe
+                                    className="carousel"
+                                    swipeOptions={{ continuous: false }}
+                                    ref={el => (this.assistantSwipe = el)}>
+
+                                    <div className="container_content">
+
+                                        <h1>Crear Actividad</h1>
+                                        <h3>Paso 1: Información básica</h3>
+
+                                        <p>Define un nombre para tu actividad:</p>
+                                        < this.StyledTextField
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="nombre"
+                                            label="Nombre de la actividad"
+                                            name="nombre"
+                                            autoComplete=""
+                                            onChange={this.handleTextInputChange}
+                                        />
+                                        <p>Define un banner o frase para tu actividad:</p>
+                                        < this.StyledTextField
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="banner"
+                                            label="Banner de la Actividad"
+                                            name="banner"
+                                            autoComplete=""
+                                            onChange={this.handleTextInputChange}
+                                        />
+                                        <p>Escribe una descripción de tu actividad:</p>
+                                        < this.StyledTextField
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="descripcion"
+                                            label="Descripcion de la Actividad"
+                                            name="descripcion"
+                                            autoComplete=""
+                                            multiline
+                                            rows="4"
+                                            rowsMax="4"
+                                            onChange={this.handleTextInputChange}
+                                        />
+
+                                    </div>
+
+                                    <div className="container_content">
+
+                                        <h1>Crear Actividad</h1>
+                                        <h3>Paso 2: Lugar, fecha, hora</h3>
+
+                                        <p>Define un lugar para tu actividad:</p>
+                                        < this.StyledTextField
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="lugar"
+                                            label="Donde ocurrira esta actividad?"
+                                            name="lugar"
+                                            autoComplete=""
+                                            onChange={this.handleTextInputChange}
+                                        />
+                                        <p>Define la fecha de tu actividad:</p>
+                                        < this.StyledTextField
+                                            variant="outlined"
+                                            margin="normal"
+                                            type="date"
+                                            id="fecha"
+                                            label="Fecha"
+                                            name="fecha"
+                                            onChange={this.handleTextInputChange}
+                                        />
+                                        <p>Define la hora de tu actividad:</p>
+                                        < this.StyledTextField
+                                            variant="outlined"
+                                            margin="normal"
+                                            type="time"
+                                            id="hora"
+                                            label="Hora"
+                                            name="hora"
+                                            onChange={this.handleTextInputChange}
+                                        />
+                                        <p>Escribe alguna nota adicional si lo deseas:</p>
+                                        < this.StyledTextField
+                                            variant="outlined"
+                                            margin="normal"
+                                            fullWidth
+                                            id="notas"
+                                            label="Notas adicionales"
+                                            name="notas_adicionales"
+                                            autoComplete=""
+                                            multiline
+                                            rows="3"
+                                            rowsMax="3"
+                                            onChange={this.handleTextInputChange}
+                                        />
+                                        < FormControlLabel
+                                            control={<Checkbox checked="false" onChange={this.handleRecChange} name="recurrent" color="primary" />}
+                                            label="Este evento se realiza de forma periodica?"
+                                        />
+                                    </div>
+
+                                    <div className="container_content">
+
+                                        <h1>Crear Actividad</h1>
+                                        <h3>Paso 3: Escoge las categorías</h3>
+
+                                        <div className="categories_container">
+                                            <Grid
+                                                container
+                                                spacing={6}
+                                                direction="row"
+                                                justify="center"
+                                                alignItems="center">
+
+                                                <Grid item xs={4}>
+                                                    <div className="categories" id="1" onClick={this.handleCategorySelected}>
+                                                        <div className={this.state.checked1 ? "categories_overlay_selected" : "categories_overlay"}>
+                                                            <h6 className="categories_txt">ACADEMICO</h6>
+                                                        </div>
+                                                        <img></img>
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <div className="categories" id="2" onClick={this.handleCategorySelected}>
+                                                        <div className={this.state.checked2 ? "categories_overlay_selected" : "categories_overlay"}>
+                                                            <h6 className="categories_txt">DEPORTE</h6>
+                                                        </div>
+                                                        <img></img>
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <div className="categories" id="3" onClick={this.handleCategorySelected}>
+                                                        <div className={this.state.checked3 ? "categories_overlay_selected" : "categories_overlay"}>
+                                                            <h6 className="categories_txt">JUEGOS</h6>
+                                                        </div>
+                                                        <img></img>
+                                                    </div>
+                                                </Grid>
+                                            </Grid>
+                                        </div>
+
+                                        <div className="categories_container_2">
+                                            <Grid
+                                                container
+                                                spacing={6}
+                                                direction="row"
+                                                justify="center"
+                                                alignItems="center">
+
+                                                <Grid item xs={2}>
+                                                    <div className="categories" id="4" onClick={this.handleCategorySelected}>
+                                                        <div className={this.state.checked4 ? "clothes_categories_img_overlay_selected" : "clothes_categories_img_overlay"}>
+                                                            <h6 className="categories_txt">CULTURAL</h6>
+                                                        </div>
+                                                        <img></img>
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={2}>
+                                                    <div className="categories" id="5" onClick={this.handleCategorySelected}>
+                                                        <div className={this.state.checked5 ? "clothes_categories_img_overlay_selected" : "clothes_categories_img_overlay"}>
+                                                            <h6 className="categories_txt">COMIDAS</h6>
+                                                        </div>
+                                                        <img></img>
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={2}>
+                                                    <div className="categories" id="6" onClick={this.handleCategorySelected}>
+                                                        <div className={this.state.checked6 ? "clothes_categories_img_overlay_selected" : "clothes_categories_img_overlay"}>
+                                                            <h6 className="categories_txt">FIESTA</h6>
+                                                        </div>
+                                                        <img></img>
+                                                    </div>
+                                                </Grid>
+                                                <Grid item xs={2}>
+                                                    <div className="categories" id="7" onClick={this.handleCategorySelected}>
+                                                        <div className={this.state.checked7 ? "clothes_categories_img_overlay_selected" : "clothes_categories_img_overlay"}>
+                                                            <h6 className="categories_txt">OTROS</h6>
+                                                        </div>
+                                                        <img></img>
+                                                    </div>
+                                                </Grid>
+                                            </Grid>
+                                        </div>
+                                    </div>
+
+                                    <div className="container_content">
+
+                                        <h1>Crear Actividad</h1>
+                                        <h3>Paso 4: Elige los tags</h3>
+                                        <p className="p_fullwidth">Define los tags o palabras clave que se relacionen con la Actividad.</p>
+
+                                        <div className="tags_container">
+                                            {/* <TagInput
+                                    tags={this.state.tags}
+                                    onTagsChanged={this.onTagsChanged}
+                                    wrapperStyle = {`
+                                        background: transparent;
+                                        box-shadow: none;
+                                        padding: 0px 10px 18.5px 14px;
+                                        color: rgba(255, 255, 255, 0.75);
+                                    `}
+                                    inputStyle = { `
+                                        background: transparent;
+                                        &::-webkit-input-placeholder {
+                                            font-size: 0.9em !important;
+                                            font-style: normal !important;
+                                            font-weight: 200 !important;
+                                            color: rgba(255, 255, 255, 0.75);
+                                            margin: 0;
+                                        }
+                                        &: hover {
+                                            border: solid 1 px white;
+                                        } &
+                                        : focus {
+                                            border: solid 2 px white;
+                                        }
+                                    `}
+                                    tagStyle={`
+                                        font-family: 'Product Sans' !important;
+                                        background: white;
+                                        color: #08979D;
+                                        font-weight: normal;
+                                        font-size: 0.97em;
+                                        border-radius: 25px;
+                                        white-space: nowrap;
+                                        margin: 3px 0px;
+                                        transition: all .2s;
+                                        padding: 8px 12px 8px 16px !important;
+                                        margin-right: 8px;
+                                        cursor: normal;
+                                    `}
+                                    tagDeleteStyle={`
+                                        font-family: 'Consolas' !important;
+                                        font-size: 16px;
+                                        color: rgba(0, 0, 0, 0.45);
+                                        font-weight: bold;
+                                        padding-bottom: 6px !important;
+                                        text-decoration: none;
+                                        vertical-align: top !important;
+                                        line-height: 1.1;
+                                    `}
+                                /> */}
+                                        </div>
+
+                                        <div>
+                                            <div className="submit_button" onClick={this.handleSubmit}>
+                                                <p>Finalizar</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </ReactSwipe>
+                               
+                            </div>
+                            <div className="footer">
+                                <Dots className="dots_indicator" length={4} active={this.state.step} visible={4} margin={5} size={12} />
+                            </div>
+                        </div>
+
+                  
+                </Dialog>
+            </div>
+        );
+    }
+}
+
+export default ActivityAssistant;
