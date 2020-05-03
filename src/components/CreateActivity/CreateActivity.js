@@ -9,7 +9,6 @@ import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
 import TagsInput from 'react-tagsinput'
 import axios from 'axios';
 
@@ -18,10 +17,11 @@ import './CreateActivity.css';
 class CreateActivity extends Component {
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             step: 0,
             token: this.props.token,
             userData: this.props.userData,
+            informacion: "",
             nombre: "",
             descripcion: "",
             lugar: "",
@@ -48,6 +48,7 @@ class CreateActivity extends Component {
         this.handleCategorySelected = this.handleCategorySelected.bind(this);
         this.onTagsChanged = this.onTagsChanged.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleRecChange = this.handleRecChange.bind(this);
         let assistantSwipe;
 
         this.StyledTextField = withStyles({
@@ -134,96 +135,99 @@ class CreateActivity extends Component {
         this.setState({ 
             recurrent: !this.state.recurrent 
         });
-      };
+    }
 
     handleCategorySelected(event) {
-        let categoriesIds = ["checked1", "checked2", "checked3", "checked4", "checked5", "checked6", "checked7"];
         var prop = "checked" + event.currentTarget.id.toString();
-        let index = categoriesIds.indexOf(prop);
-
         this.setState({
             [prop]: !this.state[prop]
         });
-
-    }
-
-
-    onImageChange1 = (event) => {
-
-        if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                this.setState({ clothe_img_1: e.target.result });
-                this.setState({flag_img_1 : true});
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-    }
-    onImageChange2 = (event) => {
-
-        if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                this.setState({ clothe_img_2: e.target.result });
-                this.setState({flag_img_2 : true});
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-    }
-    onImageChange3 = (event) => {
-
-        if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                this.setState({ clothe_img_3: e.target.result });
-                this.setState({flag_img_3 : true});
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-    }
-    onImageChange4 = (event) => {
-
-        if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                this.setState({ clothe_img_4: e.target.result });
-                this.setState({flag_img_4 : true});
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-    }
-    onImageChange5 = (event) => {
-
-        if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                this.setState({ clothe_img_5: e.target.result });
-                this.setState({flag_img_5 : true});
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
     }
 
     onTagsChanged(tags) {
-        this.setState({
-            tags
-        })
+        this.setState({ tags })
     }
 
-    handleSubmit(event){
+    handleSubmit(event) {
+
+        this.setState({ 
+            informacion: `[Nombre:${this.state.nombre},Banner:${this.state.banner},Descripcion:${this.state.descripcion}] ` 
+        });
+
+        let strCategories = "[";
+        let i = 1;
+        if (this.state.selectedCategories.length == 0) {
+            strCategories += "]"
+        }
+        this.state.selectedCategories.forEach(element => {
+          if (i < this.state.selectedCategories.length) {
+            strCategories += '"' + element + '",';
+          } else {
+            strCategories += '"' + element + '"]';
+          }
+          i += 1;
+        })
+
+        let strTags = "[";
+        let j = 1;
+        if (this.state.tags.length == 0) {
+            strTags += "]"
+        }
+        this.state.tags.forEach(element => {
+          if (i < this.state.tags.length) {
+            strTags += '"' + element + '",';
+          } else {
+            strTags += '"' + element + '"]';
+          }
+          j += 1;
+        })
+        
+        axios.post({
+            url: "http://localhost:9001/graphql",
+            method: 'post',
+            data: {
+                query: `
+                    mutation{
+                        createActivity(
+                            activity:{
+                                informacion:"${this.state.informacion}"
+                                nombre: "${this.state.nombre}"
+                                descripcion:"${this.state.descripcion}"
+                                lista_miembros: ["${this.state.userData.username}"]
+                                tags_especificos: ${strTags}
+                                notas_adicionales: ${this.state.notas}
+                                categoria: ${strCategories}
+                                recurrente: ${this.state.recurrent.toString()}
+                                lugar: "${this.state.lugar}"
+                                hora: "${this.state.hora}"
+                                fecha:"${this.state.fecha}"
+                                banner: "${this.state.banner}"
+                                administrador: "${this.state.userData.username}"
+                                }, 
+                            token:
+                                ${this.state.token}
+                            }){
+                        id
+                        }
+                    }
+                `
+            }
+
+        }).then((response) => {
+                console.log(response.data);
+            },(error) => {
+                console.log(error);
+            });
+
         //Esto cierra el popup
         this.props.parentCallback([true]);
     }
 
+
     render(){
 
         return(
-            <div className="basic_container">
+            <div className="activity_basic_container">
                 <div className="container">
                     
                     <IconContext.Provider value={{ size: "2.5em ", className: 'left_arrow'}}>
@@ -299,26 +303,31 @@ class CreateActivity extends Component {
                                 autoComplete = ""
                                 onChange = { this.handleTextInputChange }
                             />
-                            <p>Define la fecha de tu actividad:</p>
-                            < this.StyledTextField
-                                variant = "outlined"
-                                margin = "normal"
-                                type = "date"
-                                id = "fecha"
-                                label = "Fecha"
-                                name = "fecha"
-                                onChange = { this.handleTextInputChange }
-                            />
-                            <p>Define la hora de tu actividad:</p>
-                            < this.StyledTextField
-                                variant = "outlined"
-                                margin = "normal"
-                                type = "time"
-                                id = "hora"
-                                label = "Hora"
-                                name = "hora"
-                                onChange = { this.handleTextInputChange }
-                            />
+                            <Grid container spacing={3}>
+                                <Grid item xs={6}> 
+                                    <p>Define la fecha:</p>
+                                    < this.StyledTextField
+                                        variant = "outlined"
+                                        margin = "normal"
+                                        type = "date"
+                                        id = "fecha"
+                                        name = "fecha"
+                                        onChange = { this.handleTextInputChange }
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <p>Define la hora:</p>
+                                    < this.StyledTextField
+                                        variant = "outlined"
+                                        margin = "normal"
+                                        type = "time"
+                                        id = "hora"
+                                        label = "Hora"
+                                        name = "hora"
+                                        onChange = { this.handleTextInputChange }
+                                    />
+                                </Grid>
+                            </Grid>
                             <p>Escribe alguna nota adicional si lo deseas:</p>
                             < this.StyledTextField
                                 variant = "outlined"
@@ -334,7 +343,7 @@ class CreateActivity extends Component {
                                 onChange = { this.handleTextInputChange }
                             />
                             < FormControlLabel 
-                                control={<Checkbox checked="false" onChange={this.handleRecChange} name="recurrent" color="primary"/>}
+                                control={<Checkbox checked="false" onChange={ this.handleRecChange } name="recurrent" color="primary"/>}
                                 label="Este evento se realiza de forma periodica?"
                             />
                         </div>
@@ -430,7 +439,7 @@ class CreateActivity extends Component {
                             <p className="p_fullwidth">Define los tags o palabras clave que se relacionen con la Actividad.</p>
                             
                             <div className="tags_container">
-                                {/* <TagInput
+                            {/* <TagInput
                                     tags={this.state.tags}
                                     onTagsChanged={this.onTagsChanged}
                                     wrapperStyle = {`
