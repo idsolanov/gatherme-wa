@@ -113,3 +113,21 @@
   .tooltip:hover .tooltiptext {
     visibility: visible;
   }
+
+  .containerPopUp{
+    width: 100%;
+  }
+  .MuiDialogContent-root:first-child {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0.5vw !important;
+}
+
+.MuiDialog-paperFullWidth {
+    width: 72vw !important;
+    max-width: 72vw !important;
+    min-width: 72vw !important;
+    margin: 0 !important;
+    border-radius: 0.5vw !important;
+}
