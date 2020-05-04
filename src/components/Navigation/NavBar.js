@@ -114,7 +114,7 @@ class Navbar extends Component {
 		this.handleMenu = this.handleMenu.bind(this);
 		this.handleClose = this.handleClose.bind(this);
 		this.logout = this.logout.bind(this);
-
+		this.handleToProfile = this.handleToProfile.bind(this);
 
 
 	}
@@ -153,6 +153,10 @@ class Navbar extends Component {
 		}, (error) => {
 			console.log(error);
 		});
+	}
+
+	handleToProfile(){
+		this.LinkProfile.click();
 	}
 
 
@@ -270,7 +274,7 @@ class Navbar extends Component {
 											open={open}
 											onClose={this.handleClose}
 										>
-											<StyledMenuItem >
+											<StyledMenuItem onClick={this.handleToProfile}>
 												<ListItemIcon>
 													<PersonIcon fontSize="medium" />
 												</ListItemIcon>
@@ -295,6 +299,19 @@ class Navbar extends Component {
 										}}
 											ref={
 												Link => this.LinkLogOut = Link
+											}>
+										</Link>
+										<Link to={{
+											pathname: '/Profile',
+											state: {
+												userData: {
+													username: this.state.username,
+													token: this.state.token,
+												}
+											}
+										}}
+											ref={
+												Link => this.LinkProfile = Link
 											}>
 										</Link>
 									</div>
