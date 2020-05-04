@@ -19,10 +19,10 @@ import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-
-
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
-
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import CreateActivity from '../CreateActivity/CreateActivity'
 
 
 
@@ -52,9 +52,14 @@ class SignIn extends Component {
 			username: this.props.location.state.userData.nickName,
 			token: this.props.location.state.userData.token,
 			activitiesToRender: [],
-			activityList: []
+			activityList: [],
+			createActivityDialogOpen: false,
+			createActivity: false
 		}
 		this.renderActivities = this.renderActivities.bind(this);
+		this.handleDialogOpen = this.handleDialogOpen.bind(this);
+		this.handleDialogClose = this.handleDialogClose.bind(this);
+		this.callbackFunction = this.callbackFunction.bind(this);
 	}
 
 	componentDidMount() {
@@ -158,7 +163,30 @@ class SignIn extends Component {
 		this.setState({
 			activityList: activityObjects
 		})
+
 	}
+
+	handleDialogOpen() {
+		this.setState({ createActivityDialogOpen: true });
+	}
+
+	handleDialogClose() {
+		this.setState({ createActivityDialogOpen: false });
+	}
+
+	callbackFunction(childData) {
+		this.setState({
+			createActivity: childData[0],
+		});
+	}
+	componentDidUpdate() {
+		if (this.state.createActivity) {
+			this.setState({ createActivity: false });
+			this.handleDialogClose();
+			this.componentDidMount();
+		}
+	}
+
 
 	render() {
 		console.log(this.state.userData);
@@ -249,16 +277,33 @@ class SignIn extends Component {
 						</Grid>
 						<div className=" add_container">
 							< Grid item xs={1}>
-								<StyledTooltip title="Crear Actividad" placement="left">
-									<Fab color="primary" aria-label="add" >
+								<StyledTooltip title="Crear Actividad" placement="left" >
+									<Fab color="primary" aria-label="add" onClick={this.handleDialogOpen} >
 										<MdAdd style={{ fontSize: 25 }} />
 									</Fab>
-
 								</StyledTooltip>
+
+
+								{/* <div className="new_cat_bottom">
+										<div className="open-dialog">
+											<ActivityAssistant parentCallback={this.callbackFunction} />
+										</div>
+
+									</div> */}
+
+
 
 							</Grid>
 						</div>
 					</Grid>
+					<Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.createActivityDialogOpen} fullWidth={true}>
+						<DialogContent dividers>
+							<div className="containerPopUp">
+								<CreateActivity parentCallback={this.callbackFunction} />
+							</div>
+
+						</DialogContent>
+					</Dialog>
 				</div>
 			</div>
 		);
