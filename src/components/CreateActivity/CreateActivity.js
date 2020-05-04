@@ -7,10 +7,18 @@ import {FaAngleRight} from "react-icons/fa";
 import Dots from 'react-carousel-dots';
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
 import Checkbox from '@material-ui/core/Checkbox';
+import Tooltip from '@material-ui/core/Tooltip'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-
 import TagsInput from 'react-tagsinput'
+
+import SchoolIcon from '@material-ui/icons/School';
+import SportsFootballIcon from '@material-ui/icons/SportsFootball';
+import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
+import SportsHandballIcon from '@material-ui/icons/SportsHandball';
+import FastfoodIcon from '@material-ui/icons/Fastfood';
+
 import axios from 'axios';
 
 import './CreateActivity.css';
@@ -18,10 +26,11 @@ import './CreateActivity.css';
 class CreateActivity extends Component {
     constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             step: 0,
             token: this.props.token,
             userData: this.props.userData,
+            informacion: "",
             nombre: "",
             descripcion: "",
             lugar: "",
@@ -47,13 +56,15 @@ class CreateActivity extends Component {
         this.handleTextInputChange = this.handleTextInputChange.bind(this);
         this.handleCategorySelected = this.handleCategorySelected.bind(this);
         this.onTagsChanged = this.onTagsChanged.bind(this);
+        this.onTagsDeleted = this.onTagsDeleted.bind(this);        
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleRecChange = this.handleRecChange.bind(this);
         let assistantSwipe;
 
         this.StyledTextField = withStyles({
             root: {
                 width: '60% !important',
-                marginTop: '48px',
+                marginTop: '18px',
                 fontFamily: 'Product Sans !important',
                 '& label.Mui-focused': {
                     color: 'white',
@@ -134,96 +145,103 @@ class CreateActivity extends Component {
         this.setState({ 
             recurrent: !this.state.recurrent 
         });
-      };
+    }
 
     handleCategorySelected(event) {
-        let categoriesIds = ["checked1", "checked2", "checked3", "checked4", "checked5", "checked6", "checked7"];
         var prop = "checked" + event.currentTarget.id.toString();
-        let index = categoriesIds.indexOf(prop);
-
         this.setState({
             [prop]: !this.state[prop]
         });
-
-    }
-
-
-    onImageChange1 = (event) => {
-
-        if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                this.setState({ clothe_img_1: e.target.result });
-                this.setState({flag_img_1 : true});
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-    }
-    onImageChange2 = (event) => {
-
-        if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                this.setState({ clothe_img_2: e.target.result });
-                this.setState({flag_img_2 : true});
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-    }
-    onImageChange3 = (event) => {
-
-        if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                this.setState({ clothe_img_3: e.target.result });
-                this.setState({flag_img_3 : true});
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-    }
-    onImageChange4 = (event) => {
-
-        if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                this.setState({ clothe_img_4: e.target.result });
-                this.setState({flag_img_4 : true});
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
-    }
-    onImageChange5 = (event) => {
-
-        if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
-            reader.onload = (e) => {
-                this.setState({ clothe_img_5: e.target.result });
-                this.setState({flag_img_5 : true});
-            };
-            reader.readAsDataURL(event.target.files[0]);
-        }
-
     }
 
     onTagsChanged(tags) {
-        this.setState({
-            tags
-        })
+        this.setState({ tags: this.state.tags.concat(tags) })
     }
+    
+    onTagsDeleted(tag) {  
+	  this.setState({ tags: tag })
+	}
 
-    handleSubmit(event){
+    handleSubmit(event) {
+
+        this.setState({ 
+            informacion: `[Nombre:${this.state.nombre},Banner:${this.state.banner},Descripcion:${this.state.descripcion}] ` 
+        });
+
+        let strCategories = "[";
+        let i = 1;
+        if (this.state.selectedCategories.length == 0) {
+            strCategories += "]"
+        }
+        this.state.selectedCategories.forEach(element => {
+          if (i < this.state.selectedCategories.length) {
+            strCategories += '"' + element + '",';
+          } else {
+            strCategories += '"' + element + '"]';
+          }
+          i += 1;
+        })
+
+        let strTags = "[";
+        let j = 1;
+        if (this.state.tags.length == 0) {
+            strTags += "]"
+        }
+        this.state.tags.forEach(element => {
+          if (i < this.state.tags.length) {
+            strTags += '"' + element + '",';
+          } else {
+            strTags += '"' + element + '"]';
+          }
+          j += 1;
+        })
+        
+        axios.post({
+            url: "http://127.0.0.1:9001/graphql",
+            method: 'post',
+            data: {
+                query: `
+                    mutation{
+                        createActivity(
+                            activity:{
+                                informacion:"${this.state.informacion}"
+                                nombre: "${this.state.nombre}"
+                                descripcion:"${this.state.descripcion}"
+                                lista_miembros: ["${this.state.userData.username}"]
+                                tags_especificos: ${strTags}
+                                notas_adicionales: ${this.state.notas}
+                                categoria: ${strCategories}
+                                recurrente: ${this.state.recurrent.toString()}
+                                lugar: "${this.state.lugar}"
+                                hora: "${this.state.hora}"
+                                fecha:"${this.state.fecha}"
+                                banner: "${this.state.banner}"
+                                administrador: "${this.state.userData.username}"
+                                }, 
+                            token:
+                                ${this.state.token}
+                            }){
+                        id
+                        }
+                    }
+                `
+            }
+
+        }).then((response) => {
+                console.log(response.data);
+            },(error) => {
+                console.log(error);
+            });
+
         //Esto cierra el popup
         this.props.parentCallback([true]);
     }
 
+
     render(){
 
         return(
-            <div className="basic_container">
+            <div className="activity_basic_container">
                 <div className="container">
                     
                     <IconContext.Provider value={{ size: "2.5em ", className: 'left_arrow'}}>
@@ -241,7 +259,6 @@ class CreateActivity extends Component {
                         
                         <div className="container_content">
                             
-                            <h1>Crear Actividad</h1>
                             <h3>Paso 1: Información básica</h3>
 
                             <p>Define un nombre para tu actividad:</p>
@@ -285,7 +302,6 @@ class CreateActivity extends Component {
 
                         <div className="container_content">
                             
-                            <h1>Crear Actividad</h1>
                             <h3>Paso 2: Lugar, fecha, hora</h3>
 
                             <p>Define un lugar para tu actividad:</p>
@@ -299,26 +315,30 @@ class CreateActivity extends Component {
                                 autoComplete = ""
                                 onChange = { this.handleTextInputChange }
                             />
-                            <p>Define la fecha de tu actividad:</p>
-                            < this.StyledTextField
-                                variant = "outlined"
-                                margin = "normal"
-                                type = "date"
-                                id = "fecha"
-                                label = "Fecha"
-                                name = "fecha"
-                                onChange = { this.handleTextInputChange }
-                            />
-                            <p>Define la hora de tu actividad:</p>
-                            < this.StyledTextField
-                                variant = "outlined"
-                                margin = "normal"
-                                type = "time"
-                                id = "hora"
-                                label = "Hora"
-                                name = "hora"
-                                onChange = { this.handleTextInputChange }
-                            />
+                            <Grid container spacing={1}>
+                                <Grid item xs={5}> 
+                                    <p>Define la fecha:</p>
+                                    < this.StyledTextField
+                                        variant = "outlined"
+                                        margin = "normal"
+                                        type = "date"
+                                        id = "fecha"
+                                        name = "fecha"
+                                        onChange = { this.handleTextInputChange }
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <p>Define la hora:</p>
+                                    < this.StyledTextField
+                                        variant = "outlined"
+                                        margin = "normal"
+                                        type = "time"
+                                        id = "hora"
+                                        name = "hora"
+                                        onChange = { this.handleTextInputChange }
+                                    />
+                                </Grid>
+                            </Grid>
                             <p>Escribe alguna nota adicional si lo deseas:</p>
                             < this.StyledTextField
                                 variant = "outlined"
@@ -334,90 +354,126 @@ class CreateActivity extends Component {
                                 onChange = { this.handleTextInputChange }
                             />
                             < FormControlLabel 
-                                control={<Checkbox checked="false" onChange={this.handleRecChange} name="recurrent" color="primary"/>}
-                                label="Este evento se realiza de forma periodica?"
+                                control={<Checkbox checked={this.state.recurrent} onChange={ this.handleRecChange } name="recurrent" color="primary"/>}
+                                label="Este evento se realiza de forma periódica?"
                             />
                         </div>
 
                         <div className="container_content">
 
-                            <h1>Crear Actividad</h1>
                             <h3>Paso 3: Escoge las categorías</h3>                         
 
                             <div className="categories_container">
-                                <Grid
-                                    container
-                                    spacing={6}
-                                    direction = "row"
-                                    justify = "center"
-                                    alignItems = "center">
-
-                                    <Grid item xs={4}>
-                                        <div className="categories" id="1" onClick={this.handleCategorySelected}>
-                                            <div className={this.state.checked1 ? "categories_overlay_selected" : "categories_overlay"}>
-                                                <h6 className="categories_txt">ACADEMICO</h6>
-                                            </div>
-                                            <img></img>
-                                        </div>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <div className="categories" id="2" onClick={this.handleCategorySelected}>
-                                            <div className={this.state.checked2 ? "categories_overlay_selected" : "categories_overlay"}>
-                                                <h6 className="categories_txt">DEPORTE</h6>
-                                            </div>
-                                            <img></img>
-                                        </div>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <div className="categories" id="3" onClick={this.handleCategorySelected}>
-                                            <div className={this.state.checked3 ? "categories_overlay_selected" : "categories_overlay"}>
-                                                <h6 className="categories_txt">JUEGOS</h6>
-                                            </div>
-                                            <img></img>
-                                        </div>
-                                    </Grid>
-                                </Grid>
-                            </div>
-
-                            <div className="categories_container_2">
-                                <Grid
-                                    container
-                                    spacing={6}
-                                    direction = "row"
-                                    justify = "center"
-                                    alignItems = "center">
+                                <Grid container
+                                    spacing={5}
+                                    direction="row"
+                                    justify="center"
+                                    alignItems="flex-start"
+                                    wrap="nowrap" >
 
                                     <Grid item xs={2}>
-                                        <div className="categories" id="4" onClick={this.handleCategorySelected}>
-                                            <div className={this.state.checked4 ? "clothes_categories_img_overlay_selected" : "clothes_categories_img_overlay"}>
-                                                <h6 className="categories_txt">CULTURAL</h6>
-                                            </div>
-                                            <img></img>
-                                        </div>
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <div className="categories" id="5" onClick={this.handleCategorySelected}>
-                                            <div className={this.state.checked5 ? "clothes_categories_img_overlay_selected" : "clothes_categories_img_overlay"}>
-                                                <h6 className="categories_txt">COMIDAS</h6>
-                                            </div>
-                                            <img></img>
-                                        </div>
-                                    </Grid>
-                                   <Grid item xs={2}>
-                                        <div className="categories" id="6" onClick={this.handleCategorySelected}>
-                                            <div className={this.state.checked6 ? "clothes_categories_img_overlay_selected" : "clothes_categories_img_overlay"}>
-                                                <h6 className="categories_txt">FIESTA</h6>
-                                            </div>
-                                            <img></img>
-                                        </div>
-                                    </Grid>
-                                    <Grid item xs={2}>
-                                        <div className="categories" id="7" onClick={this.handleCategorySelected}>
-                                            <div className={this.state.checked7 ? "clothes_categories_img_overlay_selected" : "clothes_categories_img_overlay"}>
-                                                <h6 className="categories_txt">OTROS</h6>
-                                            </div>
-                                            <img></img>
-                                        </div>
+                                    
+                                        <Tooltip title="Academico">
+                                            <IconButton 
+                                                id='1'
+                                                backgroundColor="white"
+                                                background="blue"
+                                                size={40}
+                                                onClick={ this.handleCategorySelected } />
+                                                <SchoolIcon style={{ fontSize: 25 }} nativeColor="white" />                                               
+                                            />
+                                        </Tooltip>
+
+                                        <Tooltip title="Deporte">
+                                            <IconButton 
+                                                id='2'
+                                                backgroundColor="white"
+                                                background="green"
+                                                size={40}
+                                                onClick={ this.handleCategorySelected } />
+                                                <SportsFootballIcon style={{ fontSize: 25 }} nativeColor="black" />                                               
+                                            />
+                                        </Tooltip>
+
+                                        <Tooltip title="Juegos">
+                                            <IconButton 
+                                                id='3'
+                                                backgroundColor="white"
+                                                background="yellow"
+                                                size={40}
+                                                onClick={ this.handleCategorySelected } />
+                                                <SportsEsportsIcon style={{ fontSize: 25 }} nativeColor="black" />                                               
+                                            />
+                                        </Tooltip>
+
+                                        <Tooltip title="Cultural">
+                                            <IconButton 
+                                                id='4'
+                                                backgroundColor="white"
+                                                background="purple"
+                                                size={40}
+                                                onClick={ this.handleCategorySelected } />
+                                                <SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" />                                              
+                                            />
+                                        </Tooltip>
+
+                                        <Tooltip title="Comidas">
+                                            <IconButton 
+                                                id='5'
+                                                backgroundColor="white"
+                                                background="red"
+                                                size={40}
+                                                onClick={ this.handleCategorySelected } />
+                                                <FastfoodIcon style={{ fontSize: 25 }} nativeColor="black" />                                               
+                                            />
+                                        </Tooltip>
+
+                                        <Tooltip title="Fiesta">
+                                            <IconButton 
+                                                id='6'
+                                                backgroundColor="white"
+                                                background="orange"
+                                                size={40}
+                                                onClick={ this.handleCategorySelected } />
+                                                <SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" />                                               
+                                            />
+                                        </Tooltip>
+
+                                        <Tooltip title="Otros">
+                                            <IconButton 
+                                                id='7'
+                                                backgroundColor="white"
+                                                background="turquoise"
+                                                size={40}
+                                                onClick={ this.handleCategorySelected } />
+                                                <SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" />                                               
+                                            />
+                                        </Tooltip>
+
+                                        { /*
+
+                                        />
+                                        <ChildButton
+                                            icon={<StyledTooltip title="Cultural" placement="right"><SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
+                                            backgroundColor="white"
+                                            size={40}
+                                        />
+                                        <ChildButton
+                                            icon={<StyledTooltip title="Comidas" placement="right"><FastfoodIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
+                                            backgroundColor="white"
+                                            size={40}
+                                        />
+                                        <ChildButton
+                                            icon={<StyledTooltip title="Fiesta" placement="right"><SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
+                                            backgroundColor="white"
+                                            size={40}
+                                        />
+                                        <ChildButton
+                                            icon={<StyledTooltip title="Otros" placement="right"><SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
+                                            backgroundColor="white"
+                                            size={40}
+                                        />
+                                        */ }
                                     </Grid>
                                 </Grid>
                             </div>
@@ -425,61 +481,38 @@ class CreateActivity extends Component {
                                                 
                         <div className="container_content">
                             
-                            <h1>Crear Actividad</h1>
                             <h3>Paso 4: Elige los tags</h3>
-                            <p className="p_fullwidth">Define los tags o palabras clave que se relacionen con la Actividad.</p>
+                            <p className="p_fullwidth">Define los tags o palabras clave que se relacionen con la Actividad. Escribe en el primer recuadro los tags que quieras, y aparecerán en el segundo. Puedes eliminar un tag haciendo clic en la x.</p>
                             
                             <div className="tags_container">
-                                {/* <TagInput
-                                    tags={this.state.tags}
-                                    onTagsChanged={this.onTagsChanged}
-                                    wrapperStyle = {`
-                                        background: transparent;
-                                        box-shadow: none;
-                                        padding: 0px 10px 18.5px 14px;
-                                        color: rgba(255, 255, 255, 0.75);
-                                    `}
-                                    inputStyle = { `
-                                        background: transparent;
-                                        &::-webkit-input-placeholder {
-                                            font-size: 0.9em !important;
-                                            font-style: normal !important;
-                                            font-weight: 200 !important;
-                                            color: rgba(255, 255, 255, 0.75);
-                                            margin: 0;
-                                        }
-                                        &: hover {
-                                            border: solid 1 px white;
-                                        } &
-                                        : focus {
-                                            border: solid 2 px white;
-                                        }
-                                    `}
-                                    tagStyle={`
-                                        font-family: 'Product Sans' !important;
-                                        background: white;
-                                        color: #08979D;
-                                        font-weight: normal;
-                                        font-size: 0.97em;
-                                        border-radius: 25px;
-                                        white-space: nowrap;
-                                        margin: 3px 0px;
-                                        transition: all .2s;
-                                        padding: 8px 12px 8px 16px !important;
-                                        margin-right: 8px;
-                                        cursor: normal;
-                                    `}
-                                    tagDeleteStyle={`
-                                        font-family: 'Consolas' !important;
-                                        font-size: 16px;
-                                        color: rgba(0, 0, 0, 0.45);
-                                        font-weight: bold;
-                                        padding-bottom: 6px !important;
-                                        text-decoration: none;
-                                        vertical-align: top !important;
-                                        line-height: 1.1;
-                                    `}
-                                /> */}
+		                        <Grid
+									container
+									direction="column"
+									justify="center"
+									alignContent="stretch"
+									spacing={2}
+								> 
+									<Grid item xs={12}>
+										<div className="tags_search_bar_container">
+										   <Grid item xs={12}>
+											  <div className="tags_search_bar">
+											  	<TagsInput
+												  value={[]} onChange={this.onTagsChanged} 
+												/>
+											  </div>
+										   </Grid>
+										</div>
+									</Grid>
+
+									<Grid item xs={12}>
+										<div className="tags_list">
+										  <TagsInput
+										  value={this.state.tags} onChange={this.onTagsDeleted}
+										  />
+										</div>
+									</Grid>
+									  
+								</Grid>
                             </div>
                             
                             <div>
@@ -492,7 +525,7 @@ class CreateActivity extends Component {
                     </ReactSwipe>
                 </div>
                 <div className="footer">
-                    <Dots className="dots_indicator" length={4} active={this.state.step} visible={4} margin={5} size={12}/>
+                    <Dots className="dots_indicator" length={4} active={this.state.step} visible={5} margin={5} size={12}/>
                 </div>
             </div>
         );
