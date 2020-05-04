@@ -236,6 +236,33 @@
     justify-content: center;
 }
 
+.activity_basic_container .tags_search_bar_container{
+    height: 100%;
+    width: 100%;
+}
+
+.activity_basic_container .tags_search_bar{
+    align-content: center;
+    height: 3em;
+    padding: 0;
+    font-family: Product Sans !important;
+}
+
+.activity_basic_container .tags-list{
+    height: 20vh;
+    width: 100%;
+    border: 1px solid;
+    border-color: var(--primary);
+    border-radius: 5px;
+    align-content: center;
+    padding-right: 1vw;
+    padding-left: 1vw;
+    padding-bottom: 1vh;  
+    padding-top: 1vh;
+    min-height: 3em;
+    font-family: Product Sans !important;   
+}
+
 .activity_basic_container .submit_button{
     width: auto;
     height: auto;
