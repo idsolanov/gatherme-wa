@@ -1,3 +1,10 @@
+:root{
+  --primary: #40989d;
+  --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --transition-duration: 0.4s;
+  --gradient:linear-gradient(136deg, #055B5C 0%, #40989d 50%);
+  --step_size: 55px;
+}
 .sign_in{
     width: auto;
     height: 100vh;
@@ -73,6 +80,12 @@
     position: fixed;
     bottom: 5vh;
     right: 6vh;
+    background-image:linear-gradient(136deg, #055B5C 0%, #40989d 50%)!important;
+
+  }
+
+  .add_container .MuiFab-primary:hover{
+    opacity: 85%;
 
   }
 

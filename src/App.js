@@ -5,6 +5,8 @@ import SignIn from './components/SignIn/SignIn';
 import SignUp from './components/SignUp/SignUp';
 import Register from './components/Register/Register';
 import Home from './components/Home/Home';
+import Profile from './components/Profile/Profile';
+
 import CreateActivity from './components/CreateActivity/CreateActivity';
 
 import {  BrowserRouter,Route, Switch} from 'react-router-dom'; 
@@ -22,6 +24,8 @@ function App() {
           <Route exact path="/Register" component={Register}/>
           <Route exact path="/Home" component={Home}/>
           <Route exact path="/createActivity" component={CreateActivity}/>
+          <Route exact path="/Profile" component={Profile}/>
+
 
         </Switch>
       )}>

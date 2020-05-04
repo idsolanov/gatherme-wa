@@ -25,6 +25,19 @@
 
 }
 
+.MuiListItemIcon-root{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 44px!important;
+
+} 
+
+.MuiListItem-gutters {
+    padding-left: 8px!important;
+    padding-right: 12px!important;
+}
+
 /* .search_bar:focus-within{
     border: 3px solid #E94057;
     transition: 0.35s ease;
@@ -68,8 +81,8 @@
 
 .MuiToolbar-regular {
     
-    min-height: 9vh!important;
-    max-height: 9vh!important;
+    min-height: 7vh!important;
+    max-height: 7vh!important;
     
     padding: 0;
     padding-left: 7vh!important;

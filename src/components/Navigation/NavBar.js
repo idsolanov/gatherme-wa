@@ -15,6 +15,15 @@ import AcUnitIcon from '@material-ui/icons/AcUnit';
 import AccountBoxIcon from '@material-ui/icons/AccountBox';
 import MenuIcon from '@material-ui/icons/Menu';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import SettingsIcon from '@material-ui/icons/Settings';
+import PersonIcon from '@material-ui/icons/Person';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Link } from 'react-router-dom';
+
 
 import './NavBar.css';
 
@@ -48,6 +57,41 @@ const styles = theme => ({
 	}
 })
 
+const StyledMenu = withStyles({
+	paper: {
+		border: '1px solid #d3d4d5',
+	},
+})((props) => (
+	<Menu
+		elevation={0}
+		getContentAnchorEl={null}
+		anchorOrigin={{
+			vertical: 'bottom',
+			horizontal: 'center',
+		}}
+		transformOrigin={{
+			vertical: 'top',
+			horizontal: 'center',
+		}}
+		{...props}
+	/>
+));
+
+
+const StyledMenuItem = withStyles((theme) => ({
+	root: {
+		'&:focus': {
+			backgroundColor: '#40989d',
+			'& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+				color: theme.palette.common.white,
+			},
+		},
+	},
+}))(MenuItem);
+
+
+
+
 
 class Navbar extends Component {
 
@@ -57,11 +101,70 @@ class Navbar extends Component {
 		this.state = {
 			searchType: 'Buscar por',
 			query: '',
+			token: this.props.token,
+			username: this.props.username,
+			anchorEl: null,
+			anchorOriginVertical: 'bottom',
+			anchorOriginHorizontal: 'right',
+			transformOriginVertical: 'top',
+			transformOriginHorizontal: 'right',
+			anchorReference: 'anchorEl',
 		};
 
+		this.handleMenu = this.handleMenu.bind(this);
+		this.handleClose = this.handleClose.bind(this);
+		this.logout = this.logout.bind(this);
+		this.handleToProfile = this.handleToProfile.bind(this);
+
+
+	}
+	handleMenu = event => {
+		this.setState({ anchorEl: event.currentTarget });
+	};
+
+	handleClose = () => {
+		this.setState({ anchorEl: null });
+	};
+
+	logout() {
+		console.log("Se cerro sesion")
+		axios({
+			url: 'http://127.0.0.1:9001/graphql',
+			method: 'post',
+			data: {
+				query: `
+				mutation{
+					singOut(
+						token:{
+							token: "${this.state.token}"
+						}
+					){
+						message 
+						
+					}
+				}
+				`
+			}
+		}).then((result) => {
+
+			console.log(result.data.data.singOut)
+			this.LinkLogOut.click();
+
+		}, (error) => {
+			console.log(error);
+		});
 	}
 
+	handleToProfile(){
+		this.LinkProfile.click();
+	}
+
+
+
+
 	render() {
+		const { auth, anchorEl } = this.state;
+		const open = Boolean(anchorEl);
 		const { classes } = this.props;
 
 		const handleChangeType = (event) => {
@@ -92,6 +195,10 @@ class Navbar extends Component {
 				console.log(result.data)
 			});
 		};
+
+
+
+
 
 		return (
 			<div className="nav_container">
@@ -152,7 +259,61 @@ class Navbar extends Component {
 										<IconButton color="contrast" onClick={this.props.toggleDrawer}><PeopleAltIcon fontsize="large" /></IconButton>
 										<IconButton color="contrast" onClick={this.props.toggleDrawer}><AcUnitIcon fontsize="large" /></IconButton>
 										<IconButton color="contrast" onClick={this.props.toggleDrawer}><AccountBoxIcon fontsize="large" /></IconButton>
-										<IconButton color="contrast" onClick={this.props.toggleDrawer}><MenuIcon fontsize="large" /></IconButton>
+										<IconButton
+											aria-owns={open ? 'menu-appbar' : null}
+											aria-haspopup="true"
+											onClick={this.handleMenu}
+											color="contrast">
+											<MenuIcon fontsize="large" />
+										</IconButton>
+
+										<StyledMenu
+											disableAutoFocusItem
+											id="menu-appbar"
+											anchorEl={anchorEl}
+											open={open}
+											onClose={this.handleClose}
+										>
+											<StyledMenuItem onClick={this.handleToProfile}>
+												<ListItemIcon>
+													<PersonIcon fontSize="medium" />
+												</ListItemIcon>
+												<ListItemText primary="Mi Perfil" />
+											</StyledMenuItem>
+											<StyledMenuItem>
+												<ListItemIcon>
+													<SettingsIcon fontSize="medium" />
+												</ListItemIcon>
+												<ListItemText primary="Preferencias" />
+											</StyledMenuItem>
+											<StyledMenuItem onClick={this.logout}>
+												<ListItemIcon>
+													<ExitToAppIcon fontSize="medium" />
+												</ListItemIcon>
+												<ListItemText primary="Cerrar Sesión" />
+											</StyledMenuItem>
+										</StyledMenu>
+
+										<Link to={{
+											pathname: '/SignIn',
+										}}
+											ref={
+												Link => this.LinkLogOut = Link
+											}>
+										</Link>
+										<Link to={{
+											pathname: '/Profile',
+											state: {
+												userData: {
+													username: this.state.username,
+													token: this.state.token,
+												}
+											}
+										}}
+											ref={
+												Link => this.LinkProfile = Link
+											}>
+										</Link>
 									</div>
 
 

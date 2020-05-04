@@ -40,7 +40,7 @@ const StyledTooltip = withStyles((theme) => ({
 	},
 }))(Tooltip);
 
-class SignIn extends Component {
+class Home extends Component {
 
 	constructor(props) {
 		super(props);
@@ -53,6 +53,9 @@ class SignIn extends Component {
 			createActivityDialogOpen: false,
 			createActivity: false
 		}
+		this.handleDialogOpen = this.handleDialogOpen.bind(this);
+	  this.handleDialogClose = this.handleDialogClose.bind(this);
+	  this.callbackFunction = this.callbackFunction.bind(this);
 	}
 
 	componentDidMount() {
@@ -81,9 +84,7 @@ class SignIn extends Component {
 		}, (error) => {
 			console.log(error);
 		});
-		this.handleDialogOpen = this.handleDialogOpen.bind(this);
-	  this.handleDialogClose = this.handleDialogClose.bind(this);
-	  this.callbackFunction = this.callbackFunction.bind(this);
+		
 	}
 
 	handleDialogOpen(){
@@ -112,7 +113,7 @@ class SignIn extends Component {
 		console.log(this.state.userData);
 		return (
 			<div className="Home">
-				<NavBar />
+				<NavBar token={this.state.token} username={this.state.username} />
 				<div className="content_home">
 
 					<Grid container
@@ -231,4 +232,4 @@ class SignIn extends Component {
 	}
 }
 
-export default SignIn; 
+export default Home; 
