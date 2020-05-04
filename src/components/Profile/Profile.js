@@ -131,25 +131,28 @@ class Profile extends Component {
 							<div className="Profile_swipe">
 								<div className="tabs_container">
 									<Tabs value={this.state.index} fullWidth onChange={this.handleChange} >
-										<Tab label="Guardarropa" />
-										<Tab label="Mis Catalogos" />
-										<Tab label="Mis Intercambios" />
+										<Tab label="Actividades" />
+										<Tab label="Gustos" />
+										<Tab label="Gathers" />
 									</Tabs>
 									<SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
 										<div className="tab_garment">
-											
+
 											<div className="wardrobe_container">
-												<p>Tab 1</p>
+												
 											</div>
 										</div>
-										<div className="tab_garment">Acá estarán los catálogos del usuario</div>
 										<div className="tab_garment">
-											<h1 className="exchanges_heading">Intercambios activos</h1>
+											<h1 className="exchanges_heading">Lista de Gustos</h1>
 											<div className="exchanges_heading_divider"> <span></span></div>
-										
+										</div>
+										<div className="tab_garment">
+											<h1 className="exchanges_heading">Lista de Gathers</h1>
+											<div className="exchanges_heading_divider"> <span></span></div>
+
 										</div>
 									</SwipeableViews>
-									
+
 								</div>
 							</div>
 						</ Grid>

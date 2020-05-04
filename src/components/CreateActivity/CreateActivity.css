@@ -101,6 +101,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     color: white;
     font-family: 'Product Sans' !important;
 }
@@ -128,9 +129,66 @@
     font-size: 1em;
     margin: 0;
     padding: 0;
-    margin-top: 28px;
+   
+}
+.activity_note{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.activity_place{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.container_fecha{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-height: 100%;
+    width: 100%;
 }
 
+.date_time_container{
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.date_container{
+width: 50%;
+display: flex;
+    flex-direction: column;
+    align-items:  flex-start;
+}
+.time_container{
+width: 50%;
+display: flex;
+    flex-direction: column;
+    align-items:  flex-end;
+}
+
+.date_time_container .WithStyles\(ForwardRef\(TextField\)\)-root-259{
+    width: 90%!important;
+}
+
+.date_time_grid{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+
+.container_fecha .MuiGrid-spacing-xs-2 > .MuiGrid-item {
+    width: 100%!important;
+
+}
 .activity_basic_container .container_content .p_fullwidth{
     width: 80% !important;
 }

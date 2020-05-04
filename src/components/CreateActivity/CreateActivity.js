@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Grid from '@material-ui/core/Grid';
 import ReactSwipe from 'react-swipe';
 import { IconContext } from "react-icons";
-import {FaAngleLeft} from "react-icons/fa";
-import {FaAngleRight} from "react-icons/fa";
+import { FaAngleLeft } from "react-icons/fa";
+import { FaAngleRight } from "react-icons/fa";
 import Dots from 'react-carousel-dots';
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -46,7 +46,7 @@ class CreateActivity extends Component {
             checked5: false,
             checked6: false,
             checked7: false,
-            categories: [ "Academico", "Deporte",  "Juegos", "Cultural", "Comidas", "Fiesta", "Otros" ],
+            categories: ["Academico", "Deporte", "Juegos", "Cultural", "Comidas", "Fiesta", "Otros"],
             selectedCategories: [],
             tags: []
         };
@@ -56,15 +56,16 @@ class CreateActivity extends Component {
         this.handleTextInputChange = this.handleTextInputChange.bind(this);
         this.handleCategorySelected = this.handleCategorySelected.bind(this);
         this.onTagsChanged = this.onTagsChanged.bind(this);
-        this.onTagsDeleted = this.onTagsDeleted.bind(this);        
+        this.onTagsDeleted = this.onTagsDeleted.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleRecChange = this.handleRecChange.bind(this);
         let assistantSwipe;
 
         this.StyledTextField = withStyles({
             root: {
-                width: '60% !important',
+                width: '70% !important',
                 marginTop: '18px',
+                color:'white',  
                 fontFamily: 'Product Sans !important',
                 '& label.Mui-focused': {
                     color: 'white',
@@ -105,15 +106,15 @@ class CreateActivity extends Component {
         });
     }
 
-    handleNext(){
+    handleNext() {
         this.assistantSwipe.next();
-        if(this.state.step != 3){
+        if (this.state.step != 3) {
             this.setState({
                 step: this.state.step + 1
             });
         }
 
-        if(this.state.step == 2){
+        if (this.state.step == 2) {
 
             if (this.state.checked1) { this.state.selectedCategories.push(this.state.categories[0]); }
             if (this.state.checked2) { this.state.selectedCategories.push(this.state.categories[1]); }
@@ -125,9 +126,9 @@ class CreateActivity extends Component {
         }
     }
 
-    handleBack(){
+    handleBack() {
         this.assistantSwipe.prev();
-        if (this.state.step != 0){
+        if (this.state.step != 0) {
             this.setState({
                 step: this.state.step - 1
             });
@@ -142,8 +143,8 @@ class CreateActivity extends Component {
     }
 
     handleRecChange(event) {
-        this.setState({ 
-            recurrent: !this.state.recurrent 
+        this.setState({
+            recurrent: !this.state.recurrent
         });
     }
 
@@ -157,15 +158,15 @@ class CreateActivity extends Component {
     onTagsChanged(tags) {
         this.setState({ tags: this.state.tags.concat(tags) })
     }
-    
-    onTagsDeleted(tag) {  
-	  this.setState({ tags: tag })
-	}
+
+    onTagsDeleted(tag) {
+        this.setState({ tags: tag })
+    }
 
     handleSubmit(event) {
 
-        this.setState({ 
-            informacion: `[Nombre:${this.state.nombre},Banner:${this.state.banner},Descripcion:${this.state.descripcion}] ` 
+        this.setState({
+            informacion: `[Nombre:${this.state.nombre},Banner:${this.state.banner},Descripcion:${this.state.descripcion}] `
         });
 
         let strCategories = "[";
@@ -174,12 +175,12 @@ class CreateActivity extends Component {
             strCategories += "]"
         }
         this.state.selectedCategories.forEach(element => {
-          if (i < this.state.selectedCategories.length) {
-            strCategories += '"' + element + '",';
-          } else {
-            strCategories += '"' + element + '"]';
-          }
-          i += 1;
+            if (i < this.state.selectedCategories.length) {
+                strCategories += '"' + element + '",';
+            } else {
+                strCategories += '"' + element + '"]';
+            }
+            i += 1;
         })
 
         let strTags = "[";
@@ -188,14 +189,14 @@ class CreateActivity extends Component {
             strTags += "]"
         }
         this.state.tags.forEach(element => {
-          if (i < this.state.tags.length) {
-            strTags += '"' + element + '",';
-          } else {
-            strTags += '"' + element + '"]';
-          }
-          j += 1;
+            if (i < this.state.tags.length) {
+                strTags += '"' + element + '",';
+            } else {
+                strTags += '"' + element + '"]';
+            }
+            j += 1;
         })
-        
+
         axios.post({
             url: "http://127.0.0.1:9001/graphql",
             method: 'post',
@@ -228,140 +229,173 @@ class CreateActivity extends Component {
             }
 
         }).then((response) => {
-                console.log(response.data);
-            },(error) => {
-                console.log(error);
-            });
+            console.log(response.data);
+        }, (error) => {
+            console.log(error);
+        });
 
         //Esto cierra el popup
         this.props.parentCallback([true]);
     }
 
 
-    render(){
+    render() {
 
-        return(
+        return (
             <div className="activity_basic_container">
                 <div className="container">
-                    
-                    <IconContext.Provider value={{ size: "2.5em ", className: 'left_arrow'}}>
-                        <FaAngleLeft onClick={this.handleBack}/>
+
+                    <IconContext.Provider value={{ size: "2.5em ", className: 'left_arrow' }}>
+                        <FaAngleLeft onClick={this.handleBack} />
                     </IconContext.Provider>
 
-                    <IconContext.Provider value={{ size: "2.5em ", className: 'right_arrow'}}>
-                        <FaAngleRight onClick={this.handleNext}/>
+                    <IconContext.Provider value={{ size: "2.5em ", className: 'right_arrow' }}>
+                        <FaAngleRight onClick={this.handleNext} />
                     </IconContext.Provider>
 
                     <ReactSwipe
-                        className = "carousel"
+                        className="carousel"
                         swipeOptions={{ continuous: false }}
                         ref={el => (this.assistantSwipe = el)}>
-                        
+
                         <div className="container_content">
-                            
+
                             <h3>Paso 1: Información básica</h3>
 
                             <p>Define un nombre para tu actividad:</p>
                             < this.StyledTextField
-                                variant = "outlined"
-                                margin = "normal"
+                                variant="outlined"
+                                margin="normal"
                                 fullWidth
-                                id = "nombre"
-                                label = "Nombre de la actividad"
-                                name = "nombre"
-                                autoComplete = ""
-                                onChange = { this.handleTextInputChange }
+                                id="nombre"
+                                label="Nombre de la actividad"
+                                name="nombre"
+                                autoComplete=""
+                                onChange={this.handleTextInputChange}
                             />
                             <p>Define un banner o frase para tu actividad:</p>
                             < this.StyledTextField
-                                variant = "outlined"
-                                margin = "normal"
+                                variant="outlined"
+                                margin="normal"
                                 fullWidth
-                                id = "banner"
-                                label = "Banner de la Actividad"
-                                name = "banner"
-                                autoComplete = ""
-                                onChange = { this.handleTextInputChange }
+                                id="banner"
+                                label="Banner de la Actividad"
+                                name="banner"
+                                autoComplete=""
+                                onChange={this.handleTextInputChange}
                             />
                             <p>Escribe una descripción de tu actividad:</p>
                             < this.StyledTextField
-                                variant = "outlined"
-                                margin = "normal"
+                                variant="outlined"
+                                margin="normal"
                                 fullWidth
-                                id = "descripcion"
-                                label = "Descripcion de la Actividad"
-                                name = "descripcion"
-                                autoComplete = ""
+                                id="descripcion"
+                                label="Descripcion de la Actividad"
+                                name="descripcion"
+                                autoComplete=""
                                 multiline
-                                rows = "4"
-                                rowsMax = "4"
-                                onChange = { this.handleTextInputChange }
+                                rows="4"
+                                rowsMax="4"
+                                onChange={this.handleTextInputChange}
                             />
 
                         </div>
 
                         <div className="container_content">
-                            
-                            <h3>Paso 2: Lugar, fecha, hora</h3>
+                            <div className="container_fecha">
 
-                            <p>Define un lugar para tu actividad:</p>
-                            < this.StyledTextField
-                                variant = "outlined"
-                                margin = "normal"
-                                fullWidth
-                                id = "lugar"
-                                label = "Donde ocurrira esta actividad?"
-                                name = "lugar"
-                                autoComplete = ""
-                                onChange = { this.handleTextInputChange }
-                            />
-                            <Grid container spacing={1}>
-                                <Grid item xs={5}> 
-                                    <p>Define la fecha:</p>
-                                    < this.StyledTextField
-                                        variant = "outlined"
-                                        margin = "normal"
-                                        type = "date"
-                                        id = "fecha"
-                                        name = "fecha"
-                                        onChange = { this.handleTextInputChange }
-                                    />
+
+
+
+                                <h3>Paso 2: Lugar, fecha, hora</h3>
+
+
+                                <Grid
+                                    container
+                                    direction="column"
+                                    justify="center"
+                                    alignContent="center"
+                                    spacing={2}
+                                >
+                                    <Grid item >
+                                        <div className="activity_place">
+
+                                            <p>Define un lugar para tu actividad:</p>
+                                            < this.StyledTextField
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                id="lugar"
+                                                label="Donde ocurrira esta actividad?"
+                                                name="lugar"
+                                                autoComplete=""
+                                                onChange={this.handleTextInputChange}
+                                            />
+                                        </div>
+
+
+                                    </Grid>
+                                    <Grid item className="date_time_grid" >
+
+                                        <div className="date_time_container">
+
+                                            <div className="date_container">
+                                                <p>Define la fecha:</p>
+                                                < this.StyledTextField
+                                                    variant="outlined"
+                                                    margin="normal"
+                                                    type="date"
+                                                    id="fecha"
+                                                    name="fecha"
+                                                    onChange={this.handleTextInputChange}
+                                                />
+                                            </div>
+
+                                            <div className="time_container">
+
+                                                <p>Define la hora:</p>
+                                                < this.StyledTextField
+                                                    variant="outlined"
+                                                    margin="normal"
+                                                    type="time"
+                                                    id="hora"
+                                                    name="hora"
+                                                    onChange={this.handleTextInputChange}
+                                                />
+                                            </div>
+                                        </div>
+                                    </Grid>
+                                    <Grid item>
+                                        <div className="activity_note">
+                                            <p>Escribe alguna nota adicional si lo deseas:</p>
+                                            < this.StyledTextField
+                                                variant="outlined"
+                                                margin="normal"
+                                                fullWidth
+                                                id="notas"
+                                                label="Notas adicionales"
+                                                name="notas_adicionales"
+                                                autoComplete=""
+                                                multiline
+                                                rows="3"
+                                                rowsMax="3"
+                                                onChange={this.handleTextInputChange}
+                                            />
+                                            < FormControlLabel
+                                                control={<Checkbox checked={this.state.recurrent} onChange={this.handleRecChange} name="recurrent" color="primary" />}
+                                                label="Este evento se realiza de forma periódica?"
+                                            />
+                                        </div>
+
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={4}>
-                                    <p>Define la hora:</p>
-                                    < this.StyledTextField
-                                        variant = "outlined"
-                                        margin = "normal"
-                                        type = "time"
-                                        id = "hora"
-                                        name = "hora"
-                                        onChange = { this.handleTextInputChange }
-                                    />
-                                </Grid>
-                            </Grid>
-                            <p>Escribe alguna nota adicional si lo deseas:</p>
-                            < this.StyledTextField
-                                variant = "outlined"
-                                margin = "normal"
-                                fullWidth
-                                id = "notas"
-                                label = "Notas adicionales"
-                                name = "notas_adicionales"
-                                autoComplete = ""
-                                multiline
-                                rows = "3"
-                                rowsMax = "3"
-                                onChange = { this.handleTextInputChange }
-                            />
-                            < FormControlLabel 
-                                control={<Checkbox checked={this.state.recurrent} onChange={ this.handleRecChange } name="recurrent" color="primary"/>}
-                                label="Este evento se realiza de forma periódica?"
-                            />
+                            </div>
+
                         </div>
 
                         <div className="container_content">
 
-                            <h3>Paso 3: Escoge las categorías</h3>                         
+                            <h3>Paso 3: Escoge las categorías</h3>
 
                             <div className="categories_container">
                                 <Grid container
@@ -372,83 +406,8 @@ class CreateActivity extends Component {
                                     wrap="nowrap" >
 
                                     <Grid item xs={2}>
-                                    
-                                        <Tooltip title="Academico">
-                                            <IconButton 
-                                                id='1'
-                                                backgroundColor="white"
-                                                background="blue"
-                                                size={40}
-                                                onClick={ this.handleCategorySelected } />
-                                                <SchoolIcon style={{ fontSize: 25 }} nativeColor="white" />                                               
-                                            />
-                                        </Tooltip>
 
-                                        <Tooltip title="Deporte">
-                                            <IconButton 
-                                                id='2'
-                                                backgroundColor="white"
-                                                background="green"
-                                                size={40}
-                                                onClick={ this.handleCategorySelected } />
-                                                <SportsFootballIcon style={{ fontSize: 25 }} nativeColor="black" />                                               
-                                            />
-                                        </Tooltip>
 
-                                        <Tooltip title="Juegos">
-                                            <IconButton 
-                                                id='3'
-                                                backgroundColor="white"
-                                                background="yellow"
-                                                size={40}
-                                                onClick={ this.handleCategorySelected } />
-                                                <SportsEsportsIcon style={{ fontSize: 25 }} nativeColor="black" />                                               
-                                            />
-                                        </Tooltip>
-
-                                        <Tooltip title="Cultural">
-                                            <IconButton 
-                                                id='4'
-                                                backgroundColor="white"
-                                                background="purple"
-                                                size={40}
-                                                onClick={ this.handleCategorySelected } />
-                                                <SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" />                                              
-                                            />
-                                        </Tooltip>
-
-                                        <Tooltip title="Comidas">
-                                            <IconButton 
-                                                id='5'
-                                                backgroundColor="white"
-                                                background="red"
-                                                size={40}
-                                                onClick={ this.handleCategorySelected } />
-                                                <FastfoodIcon style={{ fontSize: 25 }} nativeColor="black" />                                               
-                                            />
-                                        </Tooltip>
-
-                                        <Tooltip title="Fiesta">
-                                            <IconButton 
-                                                id='6'
-                                                backgroundColor="white"
-                                                background="orange"
-                                                size={40}
-                                                onClick={ this.handleCategorySelected } />
-                                                <SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" />                                               
-                                            />
-                                        </Tooltip>
-
-                                        <Tooltip title="Otros">
-                                            <IconButton 
-                                                id='7'
-                                                backgroundColor="white"
-                                                background="turquoise"
-                                                size={40}
-                                                onClick={ this.handleCategorySelected } />
-                                                <SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" />                                               
-                                            />
-                                        </Tooltip>
 
                                         { /*
 
@@ -478,43 +437,43 @@ class CreateActivity extends Component {
                                 </Grid>
                             </div>
                         </div>
-                                                
+
                         <div className="container_content">
-                            
+
                             <h3>Paso 4: Elige los tags</h3>
                             <p className="p_fullwidth">Define los tags o palabras clave que se relacionen con la Actividad. Escribe en el primer recuadro los tags que quieras, y aparecerán en el segundo. Puedes eliminar un tag haciendo clic en la x.</p>
-                            
-                            <div className="tags_container">
-		                        <Grid
-									container
-									direction="column"
-									justify="center"
-									alignContent="stretch"
-									spacing={2}
-								> 
-									<Grid item xs={12}>
-										<div className="tags_search_bar_container">
-										   <Grid item xs={12}>
-											  <div className="tags_search_bar">
-											  	<TagsInput
-												  value={[]} onChange={this.onTagsChanged} 
-												/>
-											  </div>
-										   </Grid>
-										</div>
-									</Grid>
 
-									<Grid item xs={12}>
-										<div className="tags_list">
-										  <TagsInput
-										  value={this.state.tags} onChange={this.onTagsDeleted}
-										  />
-										</div>
-									</Grid>
-									  
-								</Grid>
+                            <div className="tags_container">
+                                <Grid
+                                    container
+                                    direction="column"
+                                    justify="center"
+                                    alignContent="stretch"
+                                    spacing={2}
+                                >
+                                    <Grid item xs={12}>
+                                        <div className="tags_search_bar_container">
+                                            <Grid item xs={12}>
+                                                <div className="tags_search_bar">
+                                                    <TagsInput
+                                                        value={[]} onChange={this.onTagsChanged}
+                                                    />
+                                                </div>
+                                            </Grid>
+                                        </div>
+                                    </Grid>
+
+                                    <Grid item xs={12}>
+                                        <div className="tags_list">
+                                            <TagsInput
+                                                value={this.state.tags} onChange={this.onTagsDeleted}
+                                            />
+                                        </div>
+                                    </Grid>
+
+                                </Grid>
                             </div>
-                            
+
                             <div>
                                 <div className="submit_button" onClick={this.handleSubmit}>
                                     <p>Finalizar</p>
@@ -525,7 +484,7 @@ class CreateActivity extends Component {
                     </ReactSwipe>
                 </div>
                 <div className="footer">
-                    <Dots className="dots_indicator" length={4} active={this.state.step} visible={5} margin={5} size={12}/>
+                    <Dots className="dots_indicator" length={4} active={this.state.step} visible={5} margin={5} size={12} />
                 </div>
             </div>
         );
