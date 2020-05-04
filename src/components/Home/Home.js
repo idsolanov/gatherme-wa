@@ -29,6 +29,7 @@ import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 
 
 import './Home.css';
+import ActivityCard from '../ActivityCard/ActiviyCard'
 
 const StyledTooltip = withStyles((theme) => ({
 	tooltip: {
@@ -49,8 +50,11 @@ class SignIn extends Component {
 			isOpen: true,
 			userData: "",
 			username: this.props.location.state.userData.nickName,
-			token: this.props.location.state.userData.token
+			token: this.props.location.state.userData.token,
+			activitiesToRender: [],
+			activityList: []
 		}
+		this.renderActivities = this.renderActivities.bind(this);
 	}
 
 	componentDidMount() {
@@ -79,10 +83,87 @@ class SignIn extends Component {
 		}, (error) => {
 			console.log(error);
 		});
+
+		axios({
+			url: 'http://127.0.0.1:9001/graphql',
+			method: 'post',
+			data: {
+				query: `
+				query{
+					getAllActivities{
+						informacion
+						nombre
+						descripcion
+						lista_miembros
+						likes
+						notas_adicionales
+						categoria
+						recurrente
+						lugar
+						hora
+						fecha
+						banner
+						administrador
+					  comments {
+						id
+						content
+						date
+					  }
+					}
+				  }
+				  
+				`
+			}
+		}).then((result) => {
+			console.log(result.data)
+			this.setState({
+				activitiesToRender: result.data.data.getAllActivities
+			})
+			this.renderActivities()
+			console.log(this.state.activitiesToRender)
+
+		}, (error) => {
+			console.log(error);
+		});
+
+	}
+
+	renderActivities() {
+		let maxSize = this.state.activitiesToRender.length;
+		console.log(maxSize)
+		let activityObjects = [];
+		for (var i = 0; i < maxSize; i += 3) {
+			console.log("-----a-------")
+			activityObjects.push(
+
+				<Grid
+					container
+					spacing={4}
+					direction="row"
+					justify="center">
+					<Grid item xs={4}>
+						{(i < maxSize) ? <ActivityCard activityData={this.state.activitiesToRender[i]} /> : ""}
+					</Grid>
+					<Grid item xs={4}>
+						{(i + 1 < maxSize) ? <ActivityCard activityData={this.state.activitiesToRender[i + 1]} /> : ""}
+					</Grid>
+					<Grid item xs={4}>
+						{(i + 2 < maxSize) ? <ActivityCard activityData={this.state.activitiesToRender[i + 2]} /> : ""}
+					</Grid>
+				</Grid>
+
+			);
+		}
+
+		this.setState({
+			activityList: activityObjects
+		})
 	}
 
 	render() {
 		console.log(this.state.userData);
+		console.log(this.state.token);
+		console.log(this.state.activityList)
 		return (
 			<div className="Home">
 				<NavBar />
@@ -118,19 +199,19 @@ class SignIn extends Component {
 										size={40}
 										onClick={() => console.log('First button clicked')}
 									/>
-								
 
-									
-									<ChildButton className = "test"
+
+
+									<ChildButton className="test"
 										icon={<StyledTooltip title="Deporte" placement="right"><SportsFootballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
 
 										size={40}
-										
+
 									/>
-								
-								
-									
+
+
+
 
 									<ChildButton
 										icon={<StyledTooltip title="Juegos" placement="right"><SportsEsportsIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
@@ -163,10 +244,7 @@ class SignIn extends Component {
 						</Grid>
 						< Grid item xs={9}>
 							<div className="activity_container">
-
-
-
-
+								{this.state.activityList}
 							</div>
 						</Grid>
 						<div className=" add_container">
@@ -186,5 +264,9 @@ class SignIn extends Component {
 		);
 	}
 }
-
+const testAativity = {
+	nombre: "Torneo CSGO",
+	banner: "https://www.rogowaylaw.com/wp-content/uploads/rogoway-law-los-angeles-office-1024x683.jpg",
+	descripcion: "Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota "
+}
 export default SignIn; 

@@ -77,11 +77,13 @@
   }
 
   .activity_container{
-      display: flex;
-      flex-direction: column;
+      display: block;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
       overflow: auto;
+      padding: 5vh;
+
   }
 
   .content_home{
@@ -113,3 +115,18 @@
   .tooltip:hover .tooltiptext {
     visibility: visible;
   }
+
+  .MuiDialogContent-root:first-child {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0.5vw !important;
+}
+
+.MuiDialog-paperFullWidth {
+    width: 72vw !important;
+    max-width: 72vw !important;
+    min-width: 72vw !important;
+    margin: 0 !important;
+    border-radius: 0.5vw !important;
+}
