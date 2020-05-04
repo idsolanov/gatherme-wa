@@ -90,11 +90,13 @@
   }
 
   .activity_container{
-      display: flex;
-      flex-direction: column;
+      display: block;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
       overflow: auto;
+      padding: 5vh;
+
   }
 
   .content_home{

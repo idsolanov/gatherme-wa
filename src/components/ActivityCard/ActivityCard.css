@@ -1,0 +1,164 @@
+.activity_card_container {
+    width: 100%;
+    padding: 0%;
+    margin: 0;
+    height: 35vh;
+}
+
+.activity_card_container .activity_card {
+    height: 100%;
+    position: relative;
+    background-color: transparent;
+    padding: 0;
+    border-radius: 25px;
+    -ms-transform: scale(0.93, 0.93);
+    transform: scale(0.93, 0.93);
+    transition: all 0.25s ease-out;
+    cursor: pointer;
+}
+
+.activity_card .MuiCard-root {
+    overflow: hidden;
+    height: 100%;
+    border-radius: 25px !important;
+
+}
+.activity_card_container .activity_card::after {
+    display: block;
+}
+
+.activity_card_container .activity_card:hover {
+    transform: scale(0.95, 0.95);
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30),
+    0 15px 12px rgba(0, 0, 0, 0.22);
+}
+.MuiCardMedia-media {
+    width: 100%;
+    height: 21vh;
+}
+
+.activity_card .MuiPaper-rounded {
+    border-radius: 25px !important;
+}
+.MuiCardActions-root {
+    display: flex !important;
+    padding-top: 5px !important;
+    padding-right: 20px !important;
+    padding-bottom: 5px !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+}
+
+.dialog_activities{
+    width: 85vh;
+    height: 85vh;
+}
+
+.MuiDialogContent-root:first-child {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    border-radius: 0.5vw !important;
+}
+
+.MuiDialog-paperFullWidth {
+    width: 75vw !important;
+    max-width: 75vw !important;
+    min-width: 75vw !important;
+    margin: 0 !important;
+    border-radius: 0.5vw !important;
+}
+.MuiDialog-paperWidthSm{
+    max-width: 75vw !important;
+    margin: 0 !important;
+    border-radius: 25px !important;
+}
+
+.dialog_activities .MuiGrid-root{
+    padding: 0 !important;
+}
+.general-data-activity{
+    display: flex;
+    justify-content: space-around;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+}
+
+.like-card-content-activity{
+    border: 1px solid;
+    border-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    align-content: center;
+    padding-right: 1vw;
+    padding-left: 1vw;
+    padding-bottom: 1vh;  
+    padding-top: 1vh;
+    font-family: Product Sans !important;
+    width: 80%;
+    height: 45%;
+
+}
+.card-content-activity-border {
+    border: 0px solid;
+    border-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    align-content: center;
+    padding-right: 1vw;
+    padding-left: 1vw;
+    padding-bottom: 0.5vh;  
+    padding-top: 0.5vh;
+    min-height: 3em;
+    font-family: Product Sans !important;
+    width: 80%;
+    height: 45%;
+}
+
+
+.MuiTypography-gutterBottom {
+    margin-bottom: 0.35em;
+    overflow: hidden;
+    max-height: 29px !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.card-content-activity-border .MuiFab-root.Mui-disabled {
+    margin-left: 4px;
+    margin-right: 4px;
+    color: #fff !important;
+    box-shadow: none !important;
+    background-color: #3f51b5 !important; 
+}
+
+.card-content-activity-border h3{
+    margin: 0px;
+}
+.card-like-content h1{
+    margin: 0;
+}
+
+.card-like-content h2{
+    margin: 0;
+}
+
+.like-tag{
+    background-color:#40989d;
+    border-radius: 50px;
+    border: 0px;
+    color: white;
+    display: inline-block;
+    font-family: sans-serif;
+    font-size: 1.05em;
+    font-weight: 400;
+    margin-bottom: 0;
+    margin-right: 0;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    padding: 10px;
+    height: 1.05em;
+    width: fit-content;   
+}
+
+.card-like-content {
+    padding: 1em;
+}

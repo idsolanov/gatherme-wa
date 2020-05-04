@@ -29,6 +29,7 @@ import CreateActivity from '../CreateActivity/CreateActivity'
 
 
 import './Home.css';
+import ActivityCard from '../ActivityCard/ActiviyCard'
 
 const StyledTooltip = withStyles((theme) => ({
 	tooltip: {
@@ -50,12 +51,15 @@ class Home extends Component {
 			userData: "",
 			username: this.props.location.state.userData.nickName,
 			token: this.props.location.state.userData.token,
+			activitiesToRender: [],
+			activityList: [],
 			createActivityDialogOpen: false,
 			createActivity: false
 		}
+		this.renderActivities = this.renderActivities.bind(this);
 		this.handleDialogOpen = this.handleDialogOpen.bind(this);
-	  this.handleDialogClose = this.handleDialogClose.bind(this);
-	  this.callbackFunction = this.callbackFunction.bind(this);
+		this.handleDialogClose = this.handleDialogClose.bind(this);
+		this.callbackFunction = this.callbackFunction.bind(this);
 	}
 
 	componentDidMount() {
@@ -84,33 +88,110 @@ class Home extends Component {
 		}, (error) => {
 			console.log(error);
 		});
-		
+
+		axios({
+			url: 'http://127.0.0.1:9001/graphql',
+			method: 'post',
+			data: {
+				query: `
+				query{
+					getAllActivities{
+						informacion
+						nombre
+						descripcion
+						lista_miembros
+						likes
+						notas_adicionales
+						categoria
+						recurrente
+						lugar
+						hora
+						fecha
+						banner
+						administrador
+					  comments {
+						id
+						content
+						date
+					  }
+					}
+				  }
+				  
+				`
+			}
+		}).then((result) => {
+			console.log(result.data)
+			this.setState({
+				activitiesToRender: result.data.data.getAllActivities
+			})
+			this.renderActivities()
+			console.log(this.state.activitiesToRender)
+
+		}, (error) => {
+			console.log(error);
+		});
+
 	}
 
-	handleDialogOpen(){
-        this.setState({ createActivityDialogOpen: true});
-    }
+	renderActivities() {
+		let maxSize = this.state.activitiesToRender.length;
+		console.log(maxSize)
+		let activityObjects = [];
+		for (var i = 0; i < maxSize; i += 3) {
+			console.log("-----a-------")
+			activityObjects.push(
 
-    handleDialogClose(){
-        this.setState({ createActivityDialogOpen: false});
+				<Grid
+					container
+					spacing={4}
+					direction="row"
+					justify="center">
+					<Grid item xs={4}>
+						{(i < maxSize) ? <ActivityCard activityData={this.state.activitiesToRender[i]} /> : ""}
+					</Grid>
+					<Grid item xs={4}>
+						{(i + 1 < maxSize) ? <ActivityCard activityData={this.state.activitiesToRender[i + 1]} /> : ""}
+					</Grid>
+					<Grid item xs={4}>
+						{(i + 2 < maxSize) ? <ActivityCard activityData={this.state.activitiesToRender[i + 2]} /> : ""}
+					</Grid>
+				</Grid>
+
+			);
+		}
+
+		this.setState({
+			activityList: activityObjects
+		})
+
 	}
-	
-	callbackFunction(childData){
-        this.setState({
-            createActivity: childData[0],
-        });
+
+	handleDialogOpen() {
+		this.setState({ createActivityDialogOpen: true });
 	}
-	componentDidUpdate(){
-        if (this.state.createActivity){
-            this.setState({createActivity: false});
-            this.handleDialogClose();
-            this.componentDidMount();
+
+	handleDialogClose() {
+		this.setState({ createActivityDialogOpen: false });
+	}
+
+	callbackFunction(childData) {
+		this.setState({
+			createActivity: childData[0],
+		});
+	}
+	componentDidUpdate() {
+		if (this.state.createActivity) {
+			this.setState({ createActivity: false });
+			this.handleDialogClose();
+			this.componentDidMount();
 		}
 	}
-	
+
 
 	render() {
 		console.log(this.state.userData);
+		console.log(this.state.token);
+		console.log(this.state.activityList)
 		return (
 			<div className="Home">
 				<NavBar token={this.state.token} username={this.state.username} />
@@ -191,45 +272,46 @@ class Home extends Component {
 						</Grid>
 						< Grid item xs={9}>
 							<div className="activity_container">
-
-
-
-
+								{this.state.activityList}
 							</div>
 						</Grid>
 						<div className=" add_container">
 							< Grid item xs={1}>
-							<StyledTooltip title="Crear Actividad" placement="left" >
-                    <Fab color="primary" aria-label="add" onClick={this.handleDialogOpen} >
-                        <MdAdd style={{ fontSize: 25 }}  />
-                    </Fab>
-                </StyledTooltip>
-								
+								<StyledTooltip title="Crear Actividad" placement="left" >
+									<Fab color="primary" aria-label="add" onClick={this.handleDialogOpen} >
+										<MdAdd style={{ fontSize: 25 }} />
+									</Fab>
+								</StyledTooltip>
 
-									{/* <div className="new_cat_bottom">
+
+								{/* <div className="new_cat_bottom">
 										<div className="open-dialog">
 											<ActivityAssistant parentCallback={this.callbackFunction} />
 										</div>
 
 									</div> */}
 
-								
+
 
 							</Grid>
 						</div>
 					</Grid>
 					<Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.createActivityDialogOpen} fullWidth={true}>
-                            <DialogContent dividers>
-								<div className ="containerPopUp">
-								<CreateActivity  parentCallback = {this.callbackFunction}/>
-								</div>
-                             
-                            </DialogContent>
-                    </Dialog>
+						<DialogContent dividers>
+							<div className="containerPopUp">
+								<CreateActivity parentCallback={this.callbackFunction} />
+							</div>
+
+						</DialogContent>
+					</Dialog>
 				</div>
 			</div>
 		);
 	}
 }
-
+const testAativity = {
+	nombre: "Torneo CSGO",
+	banner: "https://www.rogowaylaw.com/wp-content/uploads/rogoway-law-los-angeles-office-1024x683.jpg",
+	descripcion: "Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota Un torneo de CSGO de forma remota "
+}
 export default Home; 
