@@ -59,7 +59,7 @@
 
 .activity_basic_container .left_arrow:hover {
     background-color: white;
-    color: rgb(138, 35, 135);
+    color: #8474a1;
     border: solid 1px transparent;
 }
 
@@ -87,7 +87,7 @@
 
 .activity_basic_container .right_arrow:hover {
     background-color: white;
-    color: rgb(138, 35, 135);
+    color: #8474a1;
     border: solid 1px transparent;
 }
 
@@ -205,13 +205,65 @@ display: flex;
     color: rgba(255, 255, 255, 0.75) !important;
 }
 
-.activity_basic_container .categories_container{
-    margin-top: 7vh;
+.categories_container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
-.activity_basic_container .categories_container_2 {
-    margin-top: 3vh;
+.categories_container .MuiFab-root {
+    width: 17vh;
+    
+    height: 17vh;
 }
+
+
+
+.categories_container .MuiFab-primary:hover {
+    color:#8474a1!important;    
+    background-color: #fff!important;
+}
+
+.categories_container .MuiSvgIcon-root {
+    width: 2em;
+    height: 2em;
+}
+
+.categories_container h3{
+
+    width: 100%;
+    margin-block-start: 0;
+    margin-block-end: 3em;
+    
+}
+
+.react-carousel-dots-dot.active {
+    background-color: #8474a1;
+    border-color: #8474a1 ;
+}
+.react-carousel-dots-dot {
+
+    border: 0px solid black;
+}
+.categories_1{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 84%;
+    margin-bottom: 6vh;
+}
+
+.categories_2{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 65%;
+}
+
 
 .activity_basic_container .categories {
     width: auto;

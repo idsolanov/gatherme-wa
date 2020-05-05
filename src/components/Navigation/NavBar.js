@@ -22,6 +22,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import EventIcon from '@material-ui/icons/Event';
 import { Link } from 'react-router-dom';
 
 
@@ -115,6 +116,8 @@ class Navbar extends Component {
 		this.handleClose = this.handleClose.bind(this);
 		this.logout = this.logout.bind(this);
 		this.handleToProfile = this.handleToProfile.bind(this);
+		this.handleToHome = this.handleToHome.bind(this);
+
 
 
 	}
@@ -155,8 +158,12 @@ class Navbar extends Component {
 		});
 	}
 
-	handleToProfile(){
+	handleToProfile() {
 		this.LinkProfile.click();
+	}
+
+	handleToHome(){
+		this.LinkHome.click();
 	}
 
 
@@ -257,8 +264,7 @@ class Navbar extends Component {
 								< Grid item xs={3}>
 									<div className="icons_cont">
 										<IconButton color="contrast" onClick={this.props.toggleDrawer}><PeopleAltIcon fontsize="large" /></IconButton>
-										<IconButton color="contrast" onClick={this.props.toggleDrawer}><AcUnitIcon fontsize="large" /></IconButton>
-										<IconButton color="contrast" onClick={this.props.toggleDrawer}><AccountBoxIcon fontsize="large" /></IconButton>
+										<IconButton color="contrast" onClick={this.handleToHome}><EventIcon fontsize="large" /></IconButton>
 										<IconButton
 											aria-owns={open ? 'menu-appbar' : null}
 											aria-haspopup="true"
@@ -312,6 +318,20 @@ class Navbar extends Component {
 										}}
 											ref={
 												Link => this.LinkProfile = Link
+											}>
+										</Link>
+
+										<Link to={{
+											pathname: '/Home',
+											state: {
+												userData: {
+													nickName: this.state.username,
+													token: this.state.token
+												}
+											}
+										}}
+											ref={
+												Link => this.LinkHome = Link
 											}>
 										</Link>
 									</div>
