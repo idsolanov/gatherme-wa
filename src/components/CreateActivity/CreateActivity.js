@@ -1,25 +1,38 @@
 import React, { Component } from "react";
-import Grid from '@material-ui/core/Grid';
 import ReactSwipe from 'react-swipe';
 import { IconContext } from "react-icons";
 import { FaAngleLeft } from "react-icons/fa";
 import { FaAngleRight } from "react-icons/fa";
 import Dots from 'react-carousel-dots';
+import TagsInput from 'react-tagsinput';
+
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import IconButton from '@material-ui/core/IconButton';
 import Checkbox from '@material-ui/core/Checkbox';
-import Tooltip from '@material-ui/core/Tooltip'
+import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TagsInput from 'react-tagsinput'
 import Fab from '@material-ui/core/Fab';
 import MdAdd from '@material-ui/icons/Add';
 import MdClose from '@material-ui/icons/Clear';
+import FormControl from '@material-ui/core/FormControl';
+import Divider from '@material-ui/core/Divider';
+
 import SchoolIcon from '@material-ui/icons/School';
+import SchoolOutlinedIcon from '@material-ui/icons/SchoolOutlined';
 import SportsFootballIcon from '@material-ui/icons/SportsFootball';
+import SportsFootballOutlinedIcon from '@material-ui/icons/SportsFootballOutlined';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
-import SportsHandballIcon from '@material-ui/icons/SportsHandball';
+import SportsEsportsOutlinedIcon from '@material-ui/icons/SportsEsportsOutlined';
+import TheatersIcon from '@material-ui/icons/Theaters';
+import TheatersOutlinedIcon from '@material-ui/icons/TheatersOutlined';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
+import FastfoodOutlinedIcon from '@material-ui/icons/FastfoodOutlined';
+import DeckIcon from '@material-ui/icons/Deck';
+import DeckOutlinedIcon from '@material-ui/icons/DeckOutlined';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import ListAltOutlinedIcon from '@material-ui/icons/ListAltOutlined';
 
 import axios from 'axios';
 
@@ -161,9 +174,8 @@ class CreateActivity extends Component {
     }
 
     handleCategorySelected(event) {
-        var prop = "checked" + event.currentTarget.id.toString();
         this.setState({
-            [prop]: !this.state[prop]
+            [event.currentTarget.name]: !this.state[event.currentTarget.name]
         });
     }
 
@@ -312,13 +324,10 @@ class CreateActivity extends Component {
                         </div>
 
                         <div className="container_content">
+                            
                             <div className="container_fecha">
 
-
-
-
                                 <h3>Paso 2: Lugar, fecha, hora</h3>
-
 
                                 <Grid
                                     container
@@ -458,6 +467,7 @@ class CreateActivity extends Component {
 
                             </div>
                         </div>
+                               
 
                         <div className="container_content">
 
