@@ -12,7 +12,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TagsInput from 'react-tagsinput'
-
+import Fab from '@material-ui/core/Fab';
+import MdAdd from '@material-ui/icons/Add';
+import MdClose from '@material-ui/icons/Clear';
 import SchoolIcon from '@material-ui/icons/School';
 import SportsFootballIcon from '@material-ui/icons/SportsFootball';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
@@ -22,6 +24,16 @@ import FastfoodIcon from '@material-ui/icons/Fastfood';
 import axios from 'axios';
 
 import './CreateActivity.css';
+
+const StyledTooltip = withStyles((theme) => ({
+    tooltip: {
+        backgroundColor: theme.palette.common.white,
+        color: 'rgba(0, 0, 0, 0.87)',
+        boxShadow: theme.shadows[1],
+        borderRadius: '10px',
+        fontSize: 13,
+    },
+}))(Tooltip);
 
 class CreateActivity extends Component {
     constructor(props) {
@@ -65,7 +77,7 @@ class CreateActivity extends Component {
             root: {
                 width: '70% !important',
                 marginTop: '18px',
-                color:'white',  
+                color: 'white',
                 fontFamily: 'Product Sans !important',
                 '& label.Mui-focused': {
                     color: 'white',
@@ -165,74 +177,71 @@ class CreateActivity extends Component {
 
     handleSubmit(event) {
 
-        this.setState({
-            informacion: `[Nombre:${this.state.nombre},Banner:${this.state.banner},Descripcion:${this.state.descripcion}] `
-        });
+
+
+        var catnames = ['Academico', 'Deporte', 'Juegos', 'Cultural', 'Comidas', 'Fiesta', 'Otros'];
 
         let strCategories = "[";
-        let i = 1;
-        if (this.state.selectedCategories.length == 0) {
-            strCategories += "]"
+        for (let i = 1; i <= 7; i++) {
+            let prop = "checked" + i;
+
+            if (this.state[prop]) {
+                if (i == 7) {
+                    strCategories += '"' + catnames[i - 1] + '"'
+
+                }
+                else {
+                    strCategories += '"' + catnames[i - 1] + '",'
+
+                }
+            }
         }
-        this.state.selectedCategories.forEach(element => {
-            if (i < this.state.selectedCategories.length) {
-                strCategories += '"' + element + '",';
-            } else {
-                strCategories += '"' + element + '"]';
-            }
-            i += 1;
-        })
+        strCategories += "]";
 
-        let strTags = "[";
-        let j = 1;
-        if (this.state.tags.length == 0) {
-            strTags += "]"
-        }
-        this.state.tags.forEach(element => {
-            if (i < this.state.tags.length) {
-                strTags += '"' + element + '",';
-            } else {
-                strTags += '"' + element + '"]';
-            }
-            j += 1;
-        })
+        console.log(strCategories);
 
-        axios.post({
-            url: "http://127.0.0.1:9001/graphql",
-            method: 'post',
-            data: {
-                query: `
-                    mutation{
-                        createActivity(
-                            activity:{
-                                informacion:"${this.state.informacion}"
-                                nombre: "${this.state.nombre}"
-                                descripcion:"${this.state.descripcion}"
-                                lista_miembros: ["${this.state.userData.username}"]
-                                tags_especificos: ${strTags}
-                                notas_adicionales: ${this.state.notas}
-                                categoria: ${strCategories}
-                                recurrente: ${this.state.recurrent.toString()}
-                                lugar: "${this.state.lugar}"
-                                hora: "${this.state.hora}"
-                                fecha:"${this.state.fecha}"
-                                banner: "${this.state.banner}"
-                                administrador: "${this.state.userData.username}"
-                                }, 
-                            token:
-                                ${this.state.token}
-                            }){
-                        id
-                        }
-                    }
-                `
-            }
 
-        }).then((response) => {
-            console.log(response.data);
-        }, (error) => {
-            console.log(error);
-        });
+
+
+
+
+
+        // axios.post({
+        //     url: "http://127.0.0.1:9001/graphql",
+        //     method: 'post',
+        //     data: {
+        //         query: `
+        //             mutation{
+        //                 createActivity(
+        //                     activity:{
+        //                         informacion:""
+        //                         nombre: "${this.state.nombre}"
+        //                         descripcion:"${this.state.descripcion}"
+        //                         lista_miembros: ["${this.state.userData.username}"]
+        //                         tags_especificos: ${strTags}
+        //                         notas_adicionales: ${this.state.notas}
+        //                         categoria: ${strCategories}
+        //                         recurrente: ${this.state.recurrent.toString()}
+        //                         lugar: "${this.state.lugar}"
+        //                         hora: "${this.state.hora}"
+        //                         fecha:"${this.state.fecha}"
+        //                         banner: "${this.state.banner}"
+        //                         administrador: "${this.state.userData.username}"
+        //                         }, 
+        //                     token:
+        //                         ${this.state.token}
+        //                     }){
+        //                 id
+        //                 }
+        //             }
+        //         `
+        //     }
+
+        // }).then((response) => {
+        //     console.log(response.data);
+        // }, (error) => {
+        //     console.log(error);
+        // });
 
         //Esto cierra el popup
         this.props.parentCallback([true]);
@@ -240,6 +249,7 @@ class CreateActivity extends Component {
 
 
     render() {
+
 
         return (
             <div className="activity_basic_container">
@@ -394,47 +404,58 @@ class CreateActivity extends Component {
                         </div>
 
                         <div className="container_content">
-
-                            <h3>Paso 3: Escoge las categorías</h3>
-
                             <div className="categories_container">
-                                <Grid container
-                                    spacing={5}
-                                    direction="row"
-                                    justify="center"
-                                    alignItems="flex-start"
-                                    wrap="nowrap" >
+                                <h3>Paso 3: Escoge las categorías</h3>
+                                <div className="categories_1">
+                                    <StyledTooltip title="Crear Actividad" placement="left" >
+                                        <Fab color="primary" aria-label="add" id="1" onClick={this.handleCategorySelected}
+                                            style={this.state.checked1 ? { backgroundColor: 'white', color: '#8474a1' } : { backgroundColor: '#8474a1', color: 'white' }} >
+                                            <SchoolIcon style={{ fontSize: 25 }} />
+                                        </Fab>
+                                    </StyledTooltip>
+                                    <StyledTooltip title="Crear Actividad" placement="left" >
+                                        <Fab color="primary" aria-label="add" id="2" onClick={this.handleCategorySelected}
+                                            style={this.state.checked2 ? { backgroundColor: 'white', color: '#8474a1' } : { backgroundColor: '#8474a1', color: 'white' }}>
+                                            <SportsFootballIcon style={{ fontSize: 25 }} />
+                                        </Fab>
+                                    </StyledTooltip>
+                                    <StyledTooltip title="Crear Actividad" placement="left" >
+                                        <Fab color="primary" aria-label="add" id="3" onClick={this.handleCategorySelected}
+                                            style={this.state.checked3 ? { backgroundColor: 'white', color: '#8474a1' } : { backgroundColor: '#8474a1', color: 'white' }}>
+                                            <SportsEsportsIcon style={{ fontSize: 25 }} />
+                                        </Fab>
+                                    </StyledTooltip>
+                                    <StyledTooltip title="Crear Actividad" placement="left" >
+                                        <Fab color="primary" aria-label="add" id="4" onClick={this.handleCategorySelected}
+                                            style={this.state.checked4 ? { backgroundColor: 'white', color: '#8474a1' } : { backgroundColor: '#8474a1', color: 'white' }}>
+                                            <SportsHandballIcon style={{ fontSize: 25 }} />
+                                        </Fab>
+                                    </StyledTooltip>
 
-                                    <Grid item xs={2}>
+                                </div>
+                                <div className="categories_2">
+                                    <StyledTooltip title="Crear Actividad" placement="left" >
+                                        <Fab color="primary" aria-label="add" id="5" onClick={this.handleCategorySelected}
+                                            style={this.state.checked5 ? { backgroundColor: 'white', color: '#8474a1' } : { backgroundColor: '#8474a1', color: 'white' }}>
+                                            <FastfoodIcon style={{ fontSize: 25 }} />
+                                        </Fab>
+                                    </StyledTooltip>
+                                    <StyledTooltip title="Crear Actividad" placement="left" >
+                                        <Fab color="primary" aria-label="add" id="6" onClick={this.handleCategorySelected}
+                                            style={this.state.checked6 ? { backgroundColor: 'white', color: '#8474a1' } : { backgroundColor: '#8474a1', color: 'white' }}>
+                                            <SportsHandballIcon style={{ fontSize: 25 }} />
+                                        </Fab>
+                                    </StyledTooltip>
+                                    <StyledTooltip title="Crear Actividad" placement="left" >
+                                        <Fab color="primary" aria-label="add" id="7" onClick={this.handleCategorySelected}
+                                            style={this.state.checked7 ? { backgroundColor: 'white', color: '#8474a1' } : { backgroundColor: '#8474a1', color: 'white' }}>
+                                            <SportsHandballIcon style={{ fontSize: 25 }} />
+                                        </Fab>
+                                    </StyledTooltip>
+
+                                </div>
 
 
-
-                                        { /*
-
-                                        />
-                                        <ChildButton
-                                            icon={<StyledTooltip title="Cultural" placement="right"><SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
-                                            backgroundColor="white"
-                                            size={40}
-                                        />
-                                        <ChildButton
-                                            icon={<StyledTooltip title="Comidas" placement="right"><FastfoodIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
-                                            backgroundColor="white"
-                                            size={40}
-                                        />
-                                        <ChildButton
-                                            icon={<StyledTooltip title="Fiesta" placement="right"><SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
-                                            backgroundColor="white"
-                                            size={40}
-                                        />
-                                        <ChildButton
-                                            icon={<StyledTooltip title="Otros" placement="right"><SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
-                                            backgroundColor="white"
-                                            size={40}
-                                        />
-                                        */ }
-                                    </Grid>
-                                </Grid>
                             </div>
                         </div>
 

@@ -300,7 +300,7 @@ class Home extends Component {
 					<Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.createActivityDialogOpen} fullWidth={true}>
 						<DialogContent dividers>
 							<div className="containerPopUp">
-								<CreateActivity parentCallback={this.callbackFunction} />
+								<CreateActivity token={this.props.token} userData ={this.props.userData} parentCallback={this.callbackFunction} />
 							</div>
 
 						</DialogContent>
