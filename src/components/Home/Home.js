@@ -14,7 +14,10 @@ import MdClose from '@material-ui/icons/Clear';
 import SportsHandballIcon from '@material-ui/icons/SportsHandball';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
+import TheatersIcon from '@material-ui/icons/Theaters';
 import SportsFootballIcon from '@material-ui/icons/SportsFootball';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import DeckIcon from '@material-ui/icons/Deck';
 import Fab from '@material-ui/core/Fab';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -248,7 +251,7 @@ class Home extends Component {
 										size={40}
 									/>
 									<ChildButton
-										icon={<StyledTooltip title="Cultural" placement="right"><SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
+										icon={<StyledTooltip title="Cultural" placement="right"><TheatersIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
 										size={40}
 									/>
@@ -258,12 +261,12 @@ class Home extends Component {
 										size={40}
 									/>
 									<ChildButton
-										icon={<StyledTooltip title="Fiesta" placement="right"><SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
+										icon={<StyledTooltip title="Fiesta" placement="right"><DeckIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
 										size={40}
 									/>
 									<ChildButton
-										icon={<StyledTooltip title="Otros" placement="right"><SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
+										icon={<StyledTooltip title="Otros" placement="right"><ListAltIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
 										size={40}
 									/>
