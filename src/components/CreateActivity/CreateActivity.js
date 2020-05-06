@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Checkbox from '@material-ui/core/Checkbox';
 import Tooltip from '@material-ui/core/Tooltip'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import TagsInput from 'react-tagsinput'
 import Fab from '@material-ui/core/Fab';
 import MdAdd from '@material-ui/icons/Add';
@@ -60,13 +61,32 @@ class CreateActivity extends Component {
             checked7: false,
             categories: ["Academico", "Deporte", "Juegos", "Cultural", "Comidas", "Fiesta", "Otros"],
             selectedCategories: [],
-            tags: []
+            tags: [],
+            likesByCategory: {
+                Academico: ["Estudiar", "Tareas", "Investigacion", "Trabajar", "Traducir"],
+                Deporte: ["Correr", "bailar", "Gimnacio"],
+                Juegos: ["VideoJuegos", "Parques", "Online"],
+                Cultural: ["Teatro", "Cine", "Concierto"],
+                Comidas: ["Cocinar", "Pizza", "Asado"],
+                Fiesta: ["Fiesta", "LaBase"],
+                Otros: ["Programar", "Dormir", "Charlar"]
+
+            },
+            gustoSeleccionado: "",
+            actualLikes: [],
+            newLikeCategory: "",
+            newLikeContent: "",
+            likesSelected: [],
         };
 
         this.handleNext = this.handleNext.bind(this);
         this.handleBack = this.handleBack.bind(this);
         this.handleTextInputChange = this.handleTextInputChange.bind(this);
         this.handleCategorySelected = this.handleCategorySelected.bind(this);
+        this.handleChangeCategory = this.handleChangeCategory.bind(this);
+
+        this.addLike = this.addLike.bind(this);
+        this.handleTagsDelete = this.handleTagsDelete.bind(this);
         this.onTagsChanged = this.onTagsChanged.bind(this);
         this.onTagsDeleted = this.onTagsDeleted.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -98,6 +118,31 @@ class CreateActivity extends Component {
                 },
             },
         })(TextField);
+
+        this.StyledAutocomplete = withStyles({
+            root: {
+                width: '100%',
+
+                fontFamily: 'Product Sans',
+                '& label.Mui-focused': {
+                    color: this.primaryColor,
+                },
+                '& .MuiInput-underline:after': {
+                    borderBottomColor: this.primaryColor,
+                },
+                '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                        borderColor: 'rgba(0, 0, 0, 0.3);',
+                    },
+                    '&:hover fieldset': {
+                        borderColor: 'rgba(0, 0, 0, 0.6);',
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: this.primaryColor,
+                    },
+                },
+            },
+        })(Autocomplete);
 
         this.theme = createMuiTheme({
             palette: {
@@ -137,6 +182,30 @@ class CreateActivity extends Component {
             if (this.state.checked7) { this.state.selectedCategories.push(this.state.categories[6]); }
         }
     }
+
+    handleChangeCategory(value) {
+        console.log(value.name)
+        this.setState({
+            gustoSeleccionado: String(value.name),
+            actualLikes: this.state.likesByCategory[value.name]
+        })
+
+    }
+
+    addLike(value) {
+        this.setState({
+            likesSelected: this.state.likesSelected.concat(value)
+        })
+    }
+
+    handleTagsDelete(tag) {
+        console.log(tag)
+    
+        this.setState({
+          likesSelected: tag,
+ 
+        })
+      }
 
     handleBack() {
         this.assistantSwipe.prev();
@@ -465,42 +534,77 @@ class CreateActivity extends Component {
                             <p className="p_fullwidth">Define los tags o palabras clave que se relacionen con la Actividad. Escribe en el primer recuadro los tags que quieras, y aparecerán en el segundo. Puedes eliminar un tag haciendo clic en la x.</p>
 
                             <div className="tags_container">
-                                <Grid
-                                    container
-                                    direction="column"
-                                    justify="center"
-                                    alignContent="stretch"
-                                    spacing={2}
-                                >
-                                    <Grid item xs={12}>
-                                        <div className="tags_search_bar_container">
+
+                                <div className="content">
+                                    <div className="content_center">
+                                        <h3>Añadir gustos</h3>
+                                        <Grid
+                                            container
+                                            direction="column"
+                                            justify="center"
+                                            alignContent="stretch"
+                                            spacing={2}>
                                             <Grid item xs={12}>
-                                                <div className="tags_search_bar">
-                                                    <TagsInput
-                                                        value={[]} onChange={this.onTagsChanged}
-                                                    />
-                                                </div>
+                                                <Grid container
+                                                    direction="row"
+                                                    spacing={2}>
+                                                    <Grid item xs={4}>
+
+                                                        <this.StyledAutocomplete
+                                                            id="combo-box-demo"
+                                                            options={categories}
+                                                            onChange={(event, value) => {
+                                                                this.handleChangeCategory(value)
+                                                            }}
+                                                            getOptionLabel={(option) => option.name}
+                                                            renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
+                                                            wrapperStyle={{ border: 0 }}
+                                                        />
+
+
+                                                    </Grid>
+                                                    <Grid item xs={8}>
+
+                                                        <this.StyledAutocomplete
+                                                            id="combo-box-demo-2"
+                                                            options={this.state.actualLikes}
+                                                            onChange={(event, value) => this.addLike(value)}
+                                                            getOptionLabel={(option) => option}
+
+                                                            renderInput={(params) => <TextField {...params} label="Gustos" variant="outlined" />}
+                                                        />
+
+                                                    </Grid>
+
+                                                </Grid>
+                                                <Grid item xs={12}>
+
+                                                    <div className="sugestions">
+                                                        <TagsInput
+                                                            value={this.state.likesSelected}
+                                                            onChange={this.handleTagsDelete}
+                                                            label=""
+                                                        >
+                                                        </TagsInput>
+                                                    </div>
+
+
+                                                </Grid>
+
+
                                             </Grid>
-                                        </div>
-                                    </Grid>
+                                        </Grid>
 
-                                    <Grid item xs={12}>
-                                        <div className="tags_list">
-                                            <TagsInput
-                                                value={this.state.tags} onChange={this.onTagsDeleted}
-                                            />
-                                        </div>
-                                    </Grid>
-
-                                </Grid>
-                            </div>
-
-                            <div>
-                                <div className="submit_button" onClick={this.handleSubmit}>
-                                    <p>Finalizar</p>
+                                    </div>
                                 </div>
-                            </div>
 
+                                <div>
+                                    <div className="submit_button" onClick={this.handleSubmit}>
+                                        <p>Finalizar</p>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
                     </ReactSwipe>
                 </div>
@@ -511,4 +615,14 @@ class CreateActivity extends Component {
         );
     }
 }
+const categories = [
+    { name: "Academico" },
+    { name: "Deporte" },
+    { name: "Juegos" },
+    { name: "Cultural" },
+    { name: "Comidas" },
+    { name: "Fiesta" },
+    { name: "Otros" }
+]
+
 export default CreateActivity;

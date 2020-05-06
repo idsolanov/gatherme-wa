@@ -93,47 +93,47 @@ class Home extends Component {
 			console.log(error);
 		});
 
-		// axios({
-		// 	url: 'http://127.0.0.1:9001/graphql',
-		// 	method: 'post',
-		// 	data: {
-		// 		query: `
-		// 		query{
-		// 			getAllActivities{
-		// 				informacion
-		// 				nombre
-		// 				descripcion
-		// 				lista_miembros
-		// 				likes
-		// 				notas_adicionales
-		// 				categoria
-		// 				recurrente
-		// 				lugar
-		// 				hora
-		// 				fecha
-		// 				banner
-		// 				administrador
-		// 			  comments {
-		// 				id
-		// 				content
-		// 				date
-		// 			  }
-		// 			}
-		// 		  }
+		 axios({
+		 	url: 'http://127.0.0.1:9001/graphql',
+		 	method: 'post',
+		 	data: {
+		 		query: `
+		 		query{
+		 			getAllActivities{
+		 				informacion
+		 				nombre
+		 				descripcion
+		 				lista_miembros
+		 				tags_especificos
+		 				notas_adicionales
+		 				categoria
+		 				recurrente
+		 				lugar
+		 				hora
+		 				fecha
+		 				banner
+		 				administrador
+		 			  comments {
+		 				id
+		 				content
+		 				date
+		 			  }
+		 			}
+		 		  }
 				  
-		// 		`
-		// 	}
-		// }).then((result) => {
-		// 	console.log(result.data)
-		// 	this.setState({
-		// 		activitiesToRender: result.data.data.getAllActivities
-		// 	})
-		// 	this.renderActivities()
-		// 	console.log(this.state.activitiesToRender)
+		 		`
+		 	}
+		 }).then((result) => {
+		 	console.log(result.data)
+		 	this.setState({
+		 		activitiesToRender: result.data.data.getAllActivities
+		 	})
+		 	this.renderActivities()
+		 	console.log(this.state.activitiesToRender)
 
-		// }, (error) => {
-		// 	console.log(error);
-		// });
+		 }, (error) => {
+		 	console.log(error);
+		 });
 
 	}
 
