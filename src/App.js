@@ -7,9 +7,7 @@ import Register from './components/Register/Register';
 import Home from './components/Home/Home';
 import MyProfile from './components/MyProfile/MyProfile';
 import Profile from './components/Profile/Profile';
-
-
-import CreateActivity from './components/CreateActivity/CreateActivity';
+import EditProfile from './components/EditProfile/EditProfile';
 
 import {  BrowserRouter,Route, Switch} from 'react-router-dom'; 
 
@@ -25,9 +23,9 @@ function App() {
           <Route exact path="/SignUp" component={SignUp}/>
           <Route exact path="/Register" component={Register}/>
           <Route exact path="/Home" component={Home}/>
-          <Route exact path="/createActivity" component={CreateActivity}/>
           <Route exact path="/MyProfile" component={MyProfile}/>
           <Route exact path="/Profile/:username" component={Profile}/> 
+          <Route exact path="/editProfile" component={EditProfile}/>
 
 
         </Switch>
