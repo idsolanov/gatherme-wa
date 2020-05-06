@@ -18,8 +18,10 @@ import MdClose from '@material-ui/icons/Clear';
 import SchoolIcon from '@material-ui/icons/School';
 import SportsFootballIcon from '@material-ui/icons/SportsFootball';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
-import SportsHandballIcon from '@material-ui/icons/SportsHandball';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
+import TheatersIcon from '@material-ui/icons/Theaters';
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import DeckIcon from '@material-ui/icons/Deck';
 
 import axios from 'axios';
 
@@ -428,7 +430,7 @@ class CreateActivity extends Component {
                                     <StyledTooltip title="Crear Actividad" placement="left" >
                                         <Fab color="primary" aria-label="add" id="4" onClick={this.handleCategorySelected}
                                             style={this.state.checked4 ? { backgroundColor: 'white', color: '#8474a1' } : { backgroundColor: '#8474a1', color: 'white' }}>
-                                            <SportsHandballIcon style={{ fontSize: 25 }} />
+                                            <TheatersIcon style={{ fontSize: 25 }} />
                                         </Fab>
                                     </StyledTooltip>
 
@@ -443,13 +445,13 @@ class CreateActivity extends Component {
                                     <StyledTooltip title="Crear Actividad" placement="left" >
                                         <Fab color="primary" aria-label="add" id="6" onClick={this.handleCategorySelected}
                                             style={this.state.checked6 ? { backgroundColor: 'white', color: '#8474a1' } : { backgroundColor: '#8474a1', color: 'white' }}>
-                                            <SportsHandballIcon style={{ fontSize: 25 }} />
+                                            <DeckIcon style={{ fontSize: 25 }} />
                                         </Fab>
                                     </StyledTooltip>
                                     <StyledTooltip title="Crear Actividad" placement="left" >
                                         <Fab color="primary" aria-label="add" id="7" onClick={this.handleCategorySelected}
                                             style={this.state.checked7 ? { backgroundColor: 'white', color: '#8474a1' } : { backgroundColor: '#8474a1', color: 'white' }}>
-                                            <SportsHandballIcon style={{ fontSize: 25 }} />
+                                            <ListAltIcon style={{ fontSize: 25 }} />
                                         </Fab>
                                     </StyledTooltip>
 

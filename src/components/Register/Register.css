@@ -10,6 +10,69 @@
   height: 100vh;
 
 }
+.Grid_selector_cat{
+  max-height: 9vh;
+}
+.content_title{
+  font-size: 1.08em;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.content_title_basic{
+  font-size: 1.08em;
+    color: rgba(0, 0, 0, 0.6);
+    margin-block-end: 0em;
+}
+
+.register_card .MuiOutlinedInput-multiline {
+  height: 17vh;
+  padding: 18.5px 14px;
+}
+
+
+
+.register_card .title{
+  padding-bottom: 0vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  margin-bottom: 1vh;
+
+}
+
+.register_card .title h1{
+  font-size: 1.8em;
+  color:rgba(64, 152, 157, 0.8);
+
+}
+
+
+.register_card .title_info{
+  color: rgba(64, 152, 157, 0.8);
+  
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  margin-bottom: 1vh;
+}
+.grid_info_basic{
+  max-height: 20vh;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.register_card .title_info h1{
+  margin-block-start: 0em;
+    margin-block-end: 0em;
+    font-size: 1.8em;
+}
 .register_card{
     background-color: white;
     display: flex;
@@ -145,6 +208,9 @@ max-width: 100%!important;
 }
 
 
+.image-upload{
+  width: 100%;
+}
 .image-upload > input
 {
     display: none;
@@ -198,7 +264,7 @@ max-width: 100%!important;
 
 }
 .sugestions{
-        height: 20vh;
+        height: 29vh;
         border: 1px solid;
         border-color: var(--primary);
         border-radius: 5px;

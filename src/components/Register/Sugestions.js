@@ -21,13 +21,13 @@ import { withStyles, makeStyles } from '@material-ui/core/styles';
 
 
 const StyledTooltip = withStyles((theme) => ({
-	tooltip: {
-		backgroundColor: theme.palette.common.white,
-		color: 'rgba(0, 0, 0, 0.87)',
-		boxShadow: theme.shadows[1],
-		borderRadius: '10px',
-		fontSize: 13,
-	},
+  tooltip: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    borderRadius: '10px',
+    fontSize: 13,
+  },
 }))(Tooltip);
 
 class FormDialog extends Component {
@@ -53,6 +53,55 @@ class FormDialog extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleChangeCategory = this.handleChangeCategory.bind(this);
     this.sendData = this.sendData.bind(this);
+
+    this.StyledTextField = withStyles({
+      root: {
+        width: '100%',
+        fontFamily: 'Product Sans',
+        '& label.Mui-focused': {
+          color: this.primaryColor,
+        },
+        '& .MuiInput-underline:after': {
+          borderBottomColor: this.primaryColor,
+        },
+        '& .MuiOutlinedInput-root': {
+          '& fieldset': {
+            borderColor: 'rgba(0, 0, 0, 0.3);',
+          },
+          '&:hover fieldset': {
+            borderColor: 'rgba(0, 0, 0, 0.6);',
+          },
+          '&.Mui-focused fieldset': {
+            borderColor: this.primaryColor,
+          },
+        },
+      },
+    })(TextField);
+
+    this.StyledAutocomplete = withStyles({
+      root: {
+        width: '100%',
+
+        fontFamily: 'Product Sans',
+        '& label.Mui-focused': {
+          color: this.primaryColor,
+        },
+        '& .MuiInput-underline:after': {
+          borderBottomColor: this.primaryColor,
+        },
+        '& .MuiOutlinedInput-root': {
+          '& fieldset': {
+            borderColor: 'rgba(0, 0, 0, 0.3);',
+          },
+          '&:hover fieldset': {
+            borderColor: 'rgba(0, 0, 0, 0.6);',
+          },
+          '&.Mui-focused fieldset': {
+            borderColor: this.primaryColor,
+          },
+        },
+      },
+    })(Autocomplete);
   }
   sendData = (childData) => {
     console.log(childData);
@@ -93,12 +142,12 @@ class FormDialog extends Component {
     return (
       <div>
         <StyledTooltip title="Crear Gusto" placement="left">
-									<Fab style={{ backgroundColor: '#40989d' }} aria-label="add" onClick={this.handleClickOpen} >
-										<MdAdd style={{ fontSize: 25,color: 'white' }} />
-									</Fab>
+          <Fab style={{ backgroundColor: '#40989d' }} aria-label="add" onClick={this.handleClickOpen} >
+            <MdAdd style={{ fontSize: 25, color: 'white' }} />
+          </Fab>
 
-				</StyledTooltip>
-       
+        </StyledTooltip>
+
         <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
           <DialogTitle id="form-dialog-title">Agregar nuevo gusto</DialogTitle>
           <DialogContent>
@@ -106,15 +155,15 @@ class FormDialog extends Component {
               Seleccione la categoria e ingrese el gusto
           </DialogContentText>
 
-            <Autocomplete
+            <this.StyledAutocomplete
               id="combo-box-demo"
               options={this.state.categories}
               onChange={(event, value) => this.handleChangeCategory(value)}
               getOptionLabel={(option) => option.name}
-              style={{ width: 300 }}
+              style={{ width: 300, color: '#40989d' }}
               renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
             />
-            <TextField
+            <this.StyledTextField
               autoFocus
               margin="dense"
               id="gusto"
@@ -131,7 +180,7 @@ class FormDialog extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-              Cancel
+              Cancelar
           </Button>
             <Button onClick={() => {
               this.sendData([this.state.category.name, this.state.like])

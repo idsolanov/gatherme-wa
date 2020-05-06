@@ -7,6 +7,7 @@ import { FiEdit2 } from 'react-icons/fi';
 import SwipeableViews from 'react-swipeable-views';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import GatherCard from '../GatherCard/GatherCard'
 
 
 
@@ -83,7 +84,7 @@ class Profile extends Component {
 		console.log(this.state.userData);
 		return (
 			<div className="Profile">
-				<NavBar token={this.state.token} />
+				<NavBar token={this.state.token} username={this.state.username} />
 				<div className="Profile_content">
 					<Grid container
 						spacing={5}
@@ -91,7 +92,7 @@ class Profile extends Component {
 						justify="center"
 						alignItems="flex-start"
 						wrap="nowrap" >
-
+						
 						< Grid item xs={5}>
 							<div className="Profile_card_container">
 								<div className="Profile_card">
@@ -102,7 +103,7 @@ class Profile extends Component {
 										<div className="text_info">
 											<div className="basic_info_container">
 												<div className="name_container">
-													<p className="name_text">Nicolas Saavedra, 17</p>
+													<p className="name_text">{this.state.userData.name}, {this.state.userData.age}</p>
 												</div>
 												<div className="username_container">
 													<p className="username_text">{this.state.userData.username}</p>
@@ -119,7 +120,7 @@ class Profile extends Component {
 											</div>
 
 
-											<p className="user_bio_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+											<p className="user_bio_text">{this.state.userData.description}</p>
 										</div>
 									</div>
 								</div>
@@ -139,7 +140,7 @@ class Profile extends Component {
 										<div className="tab_garment">
 
 											<div className="wardrobe_container">
-												
+
 											</div>
 										</div>
 										<div className="tab_garment">
@@ -149,6 +150,28 @@ class Profile extends Component {
 										<div className="tab_garment">
 											<h1 className="exchanges_heading">Lista de Gathers</h1>
 											<div className="exchanges_heading_divider"> <span></span></div>
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" userData={this.state.userData} />
+
 
 										</div>
 									</SwipeableViews>
