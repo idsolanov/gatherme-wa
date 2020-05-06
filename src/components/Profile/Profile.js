@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import NavBar from '../Navigation/NavBar'
+import NavBar from '../Navigation/NavBar';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import { IconContext } from "react-icons";
@@ -113,6 +114,15 @@ class Profile extends Component {
 																<FiEdit2 />
 															</IconContext.Provider>
 															<p className="user_edit_btn_label">Editar perfil</p>
+															<Link  to={{
+															    pathname: '/editProfile',
+															    state: {
+																	userData: this.state.userData
+															    }}}
+															    ref={
+																	Link => this.LinkElement = Link
+																}>
+															</Link>
 														</div>
 
 													</div>

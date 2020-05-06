@@ -8,6 +8,7 @@ import Home from './components/Home/Home';
 import Profile from './components/Profile/Profile';
 
 import CreateActivity from './components/CreateActivity/CreateActivity';
+import EditProfile from './components/EditProfile/EditProfile';
 
 import {  BrowserRouter,Route, Switch} from 'react-router-dom'; 
 
@@ -25,6 +26,7 @@ function App() {
           <Route exact path="/Home" component={Home}/>
           <Route exact path="/createActivity" component={CreateActivity}/>
           <Route exact path="/Profile" component={Profile}/>
+          <Route exact path="/editProfile" component={EditProfile}/>
 
 
         </Switch>
