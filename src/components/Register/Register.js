@@ -571,21 +571,132 @@ class Register extends Component {
     return (
 
 
-        <div className ="register_main">
-          <CssBaseline />
-          <div className="swipe_container">
-            <ReactSwipe
-              className="carousel"
-              swipeOptions={{ continuous: false }}
-              ref={el => (reactSwipeEl = el)}
-            >
-              <div >
+      <div className="register_main">
+        <CssBaseline />
+        <div className="swipe_container">
+          <ReactSwipe
+            className="carousel"
+            swipeOptions={{ continuous: false }}
+            ref={el => (reactSwipeEl = el)}
+          >
+            <div >
 
 
-                <div className="container_card_register">
-                  <div className="assistant_container">
-                    <div className="register_card" >
-                      <div className="content">
+              <div className="container_card_register">
+                <div className="assistant_container">
+                  <div className="register_card" >
+                    <div className="content">
+                    <div className="title_info">
+                          <h1>Información Basica </h1>
+                        </div>
+
+                      <Grid
+                        container
+                        direction="column"
+                        justify="center"
+                        alignContent="stretch"
+                        spacing={0}
+                      >
+                        <Grid item xs={4} className="grid_info_basic">
+                          <div className="image-upload">
+                            < label htmlFor="file-input" >
+                              <div className="profilepic">
+                                <img id="target" className="crop" src={this.state.profilephoto} ></img>
+                              </div>
+                            </label>
+                            <input id="file-input" name="profilePhoto" type="file" onChange={this.onImageChange} />
+                          </div>
+                        </Grid>
+                        <Grid item xs={2}>
+                        <p className="content_title_basic"> Empecemos con información basica, ¿Comó quieres que el mundo te vea? 
+                        recuerda que una imagen de perfil hace la diferencia
+                             </p>
+                          <Grid
+                            container
+                            spacing={2}
+                            direction="row"
+                            justify="flex-end"
+                            alignItems="flex-end"
+                          >
+                            <Grid item xs={9}>
+                            
+                              < this.StyledTextField
+                                variant="outlined"
+                                margin="normal"
+                                fullWidth
+                                id="nombre"
+                                label="Nombre completo"
+                                name="nombre"
+                                autoComplete="nombre"
+                                onChange={this.handleChange}
+                                helperText={this.state.cityError && this.state.city == "" ? "Este campo es obligatorio" : ""}
+                              />
+                            </Grid>
+                            <Grid item xs={3}>
+                              < this.StyledTextField
+                                variant="outlined"
+                                type="number"
+                                margin="normal"
+                                fullWidth
+                                id="edad"
+                                label="Edad"
+                                name="edad"
+                                autoComplete="edad"
+                                onChange={this.handleChange}
+                              />
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                        <Grid item xs={4}>
+                        <p className="content_title_basic"> Hablanos un poco de ti, ¿No sabes que escribir? quizas algo gracioso.
+                             </p>
+                          <div class="bio_container_register">
+                            < this.StyledTextField
+                              variant="outlined"
+                              margin="normal"
+                              fullWidth
+                              id="biografia"
+                              label="Tu biografia"
+                              name="biografia"
+                              autoComplete="Biografia"
+                              multiline
+                              rows="6"
+                              rowsMax="10"
+                              onChange={this.handleChange}
+                            />
+                          </div>
+                        </Grid>
+                        <Grid item xs={2}>
+                          <div className="next_container_register">
+                            <this.StyledButton button onClick={() => reactSwipeEl.next()}
+                              fullWidth
+                              focusRipple
+                              variant="contained"
+                              size="medium"
+                              text="bold"
+                            >
+                              Siguiente
+                            </this.StyledButton>
+
+                          </div>
+                        </Grid>
+                      </Grid>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <div>
+              <div className="container_card_register">
+                <div className="assistant_container">
+                  <div className="register_card" >
+                    <div className="content">
+                      <div className="content_center">
+                        <div className="title">
+                          <h1>Añadir Gustos </h1>
+                        </div>
 
                         <Grid
                           container
@@ -594,235 +705,140 @@ class Register extends Component {
                           alignContent="stretch"
                           spacing={2}
                         >
-                          <Grid item xs={4}>
-                            <div className="image-upload">
-                              < label htmlFor="file-input" >
-                                <div className="profilepic">
-                                  <img id="target" className="crop" src={this.state.profilephoto} ></img>
-                                </div>
-                              </label>
-                              <input id="file-input" name="profilePhoto" type="file" onChange={this.onImageChange} />
-                            </div>
-                          </Grid>
-                          <Grid item xs={2}>
-                            <Grid
-                              container
-                              spacing={2}
+                          <Grid item xs={2} className ="Grid_selector_cat">
+                            <Grid container
                               direction="row"
-                              justify="flex-end"
-                              alignItems="flex-end"
+                              spacing={2}
                             >
-                              <Grid item xs={9}>
-                                < this.StyledTextField
-                                  variant="outlined"
-                                  margin="normal"
-                                  fullWidth
-                                  id="nombre"
-                                  label="Nombre completo"
-                                  name="nombre"
-                                  autoComplete="nombre"
-                                  onChange={this.handleChange}
-                                  helperText={this.state.cityError && this.state.city == "" ? "Este campo es obligatorio" : ""}
+                              <Grid item xs={4}>
+
+                                <this.StyledAutocomplete
+                                  id="combo-box-demo"
+                                  options={categories}
+                                  onChange={(event, value) => {
+                                    this.handleChangeCategory(value)
+                                  }}
+                                  getOptionLabel={(option) => option.name}
+                                  renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
+                                  wrapperStyle={{ border: 0 }}
                                 />
+
+
                               </Grid>
-                              <Grid item xs={3}>
-                                < this.StyledTextField
-                                  variant="outlined"
-                                  type="number"
-                                  margin="normal"
-                                  fullWidth
-                                  id="edad"
-                                  label="Edad"
-                                  name="edad"
-                                  autoComplete="edad"
-                                  onChange={this.handleChange}
+                              <Grid item xs={8}>
+
+                                <this.StyledAutocomplete
+                                  id="combo-box-demo-2"
+                                  options={this.state.actualLikes}
+                                  onChange={(event, value) => this.addLike(value)}
+                                  getOptionLabel={(option) => option}
+
+                                  renderInput={(params) => <TextField {...params} label="Gustos" variant="outlined" />}
                                 />
+
                               </Grid>
                             </Grid>
+                                 
                           </Grid>
-                          <Grid item xs={4}>
-                            <div class="bio_container_register">
-                              < this.StyledTextField
-                                variant="outlined"
-                                margin="normal"
-                                fullWidth
-                                id="biografia"
-                                label="Tu biografia"
-                                name="biografia"
-                                autoComplete="Biografia"
-                                multiline
-                                rows="6"
-                                rowsMax="10"
-                                onChange={this.handleChange}
-                              />
-                            </div>
-                          </Grid>
-                          <Grid item xs={2}>
-                            <div className="next_container_register">
-                              <this.StyledButton button onClick={() => reactSwipeEl.next()}
-                                fullWidth
-                                focusRipple
-                                variant="contained"
-                                size="medium"
-                                text="bold"
+
+                          <Grid item xs={6}>
+                          <p className="content_title"> Los gustos son nuestra forma de conocerte y darte a conocer al mundo,
+                             busca entre gustos ya creados por otros usuarios o crea uno tu mismo,
+                             los gustos que selecciones apareceran a continuacion.
+                             </p>
+                            <div className="sugestions">
+                            
+                              <TagsInput
+                                value={this.state.likesSelected}
+                                onChange={this.handleTagsDelete}
+                                label=""
                               >
-                                Siguiente
-                            </this.StyledButton>
+                              </TagsInput>
+                            </div>
+
+
+                          </Grid>
+
+                          <Grid item xs={2}>
+                            <div className="new_cat_bottom">
+                              <div className="open-dialog">
+                                <FormDialog parentCallback={this.callbackFunction} />
+                              </div>
 
                             </div>
+
+
+
+
+
+
                           </Grid>
+
+                          <Grid item xs={2}>
+                            <div className="finish_container_register">
+                              <div className="prev_container_register">
+                                <this.StyledButtonFinish button onClick={() => reactSwipeEl.prev()}
+                                  fullWidth
+                                  focusRipple
+                                  variant="contained"
+                                  size="medium"
+                                  text="bold"
+                                >
+                                  Anterior
+                            </this.StyledButtonFinish>
+                              </div>
+                              <div className="finish_next_container_register">
+                                <this.StyledButtonFinish button onClick={() => this.sendData()}
+                                  fullWidth
+                                  focusRipple
+                                  variant="contained"
+                                  size="medium"
+                                  text="bold"
+                                >
+                                  Finalizar
+                                </this.StyledButtonFinish>
+
+                              </div>
+
+
+                              <Link to={{
+                                pathname: '/Home',
+                                state: {
+                                  userData: {
+                                    nickName: this.state.user.username,
+                                    token: this.state.token
+                                  }
+                                }
+                              }}
+                                ref={
+                                  Link => this.LinkElement = Link
+                                }>
+                              </Link>
+
+
+                            </div>
+
+
+
+                          </Grid>
+
                         </Grid>
                       </div>
                     </div>
                   </div>
                 </div>
-
               </div>
-
-              <div>
-                <div className="container_card_register">
-                  <div className="assistant_container">
-                    <div className="register_card" >
-                      <div className="content">
-                        <div className="content_center">
-                          <p>Añadir gustos</p>
-                          <Grid
-                            container
-                            direction="column"
-                            justify="center"
-                            alignContent="stretch"
-                            spacing={2}
-                          >
-                            <Grid item xs={2}>
-                              <Grid container
-                                direction="row"
-                                spacing={2}
-                              >
-                                <Grid item xs={4}>
-
-                                  <this.StyledAutocomplete
-                                    id="combo-box-demo"
-                                    options={categories}
-                                    onChange={(event, value) => {
-                                      this.handleChangeCategory(value)
-                                    }}
-                                    getOptionLabel={(option) => option.name}
-                                    renderInput={(params) => <TextField {...params} label="Categoria" variant="outlined" />}
-                                    wrapperStyle={{ border: 0 }}
-                                  />
-
-
-                                </Grid>
-                                <Grid item xs={8}>
-
-                                  <this.StyledAutocomplete
-                                    id="combo-box-demo-2"
-                                    options={this.state.actualLikes}
-                                    onChange={(event, value) => this.addLike(value)}
-                                    getOptionLabel={(option) => option}
-
-                                    renderInput={(params) => <TextField {...params} label="Gustos" variant="outlined" />}
-                                  />
-
-                                </Grid>
-                              </Grid>
-
-                            </Grid>
-
-                            <Grid item xs={6}>
-
-                              <div className="sugestions">
-                                <TagsInput
-                                  value={this.state.likesSelected}
-                                  onChange={this.handleTagsDelete}
-                                  label=""
-                                >
-                                </TagsInput>
-                              </div>
-
-
-                            </Grid>
-
-                            <Grid item xs={2}>
-                              <div className="new_cat_bottom">
-                                <div className="open-dialog">
-                                  <FormDialog parentCallback={this.callbackFunction} />
-                                </div>
-
-                              </div>
-
-
-
-
-
-
-                            </Grid>
-
-                            <Grid item xs={2}>
-                              <div className="finish_container_register">
-                                <div className="prev_container_register">
-                                  <this.StyledButtonFinish button onClick={() => reactSwipeEl.prev()}
-                                    fullWidth
-                                    focusRipple
-                                    variant="contained"
-                                    size="medium"
-                                    text="bold"
-                                  >
-                                    Anterior
-                            </this.StyledButtonFinish>
-                                </div>
-                                <div className="finish_next_container_register">
-                                  <this.StyledButtonFinish button onClick={() => this.sendData()}
-                                    fullWidth
-                                    focusRipple
-                                    variant="contained"
-                                    size="medium"
-                                    text="bold"
-                                  >
-                                    Finalizar
-                                </this.StyledButtonFinish>
-
-                                </div>
-
-
-                                <Link to={{
-                                  pathname: '/Home',
-                                  state: {
-                                    userData: {
-                                      nickName: this.state.user.username,
-                                      token: this.state.token
-                                    }
-                                  }
-                                }}
-                                  ref={
-                                    Link => this.LinkElement = Link
-                                  }>
-                                </Link>
-
-
-                              </div>
-
-
-
-                            </Grid>
-
-                          </Grid>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </ReactSwipe>
-          </div>
-          <div className="background_overlay_reg">
-          </div>
-          <img
-            className="image_background_reg"
-            src=' https://raw.githubusercontent.com/nsaavedraa/imgs/master/background.jpg' />
-          
+            </div>
+          </ReactSwipe>
         </div>
-       
+        <div className="background_overlay_reg">
+        </div>
+        <img
+          className="image_background_reg"
+          src=' https://raw.githubusercontent.com/nsaavedraa/imgs/master/background.jpg' />
+
+      </div>
+
 
 
 

@@ -17,6 +17,10 @@
     justify-content: center;
 }
 
+.activity_basic_container .MuiCheckbox-colorPrimary.Mui-checked {
+    color: #8474a1!important;
+}
+
 .activity_basic_container .container{
     width: 100%;
     height: 90%;

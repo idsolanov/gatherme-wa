@@ -1,0 +1,132 @@
+:root{
+  --primary: #40989d;
+  --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --transition-duration: 0.4s;
+  --gradient:linear-gradient(136deg, #055B5C 0%, #40989d 50%);
+  --step_size: 55px;
+}
+.gather_card{
+    width: 80%;
+    background-color: white;
+    height: auto !important;
+    display: flex;
+    flex-wrap: wrap;  
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5vw;
+    box-shadow: var(--shadow);
+    margin-bottom: 2vh;
+}
+
+.gather_card .MuiGrid-spacing-xs-5 > .MuiGrid-item {
+  padding: 0px;
+
+}
+
+.gather_card_content{
+    width: 100%;
+    padding: 1vh;
+}
+
+.gather_profilephoto{
+    width: 10vh;
+    height: 10vh;
+    border-radius: 50%;
+    max-width: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+    padding: 0;
+    position: relative;
+   
+  }
+  .gather_profilephoto > .gather_adjust_photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top right;
+  }
+
+  .gather_info{
+    width: 100%;
+    display: -ms-flexbox;
+    display: flex;
+    
+    flex-direction: column;
+    padding-left: 3vh;
+ 
+    justify-content: center;
+ 
+    align-items: flex-start;
+  }
+
+  .gather_name{
+    color: black;
+    font-weight: bold;
+    font-size: 2em;
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
+
+  .gather_username{
+    color: black;
+    font-weight: bold;
+    font-size: 1em;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+  }
+
+  .gather_buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gather_buttons .accept_button_gather .MuiFab-root {
+    width: 7vh;
+    height: 7vh;
+    
+    border: solid 1px var(--primary);
+    box-shadow: 0px 0px 0px 0px !important;
+   
+    background-color: var(--primary);
+    color: white;
+}
+
+.gather_buttons .decline_button_gather .MuiFab-root {
+  width: 7vh;
+  height: 7vh;
+  
+  border: solid 1px #e95a5a;
+  box-shadow: 0px 0px 0px 0px !important;
+ 
+  background-color: #e95a5a;
+  color: white;
+}
+
+.gather_buttons .decline_button_gather .MuiFab-root:hover {
+  width: 7vh;
+  height: 7vh;
+  background-color:  #e95a5a;
+  color: white;
+ opacity: 60%;
+  border: solid 1px #e95a5a;
+}
+ 
+
+
+.gather_buttons .accept_button_gather .MuiFab-root:hover {
+  width: 7vh;
+  height: 7vh;
+  background-color: var(--primary);
+  color: white;
+ opacity: 60%;
+  border: solid 1px var(--primary);
+ 
+
+}
+
+.decline_button_gather{
+  padding-left: 2vh;
+}
