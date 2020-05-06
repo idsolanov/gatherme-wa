@@ -95,6 +95,11 @@ class CreateActivity extends Component {
         this.handleRecChange = this.handleRecChange.bind(this);
         let assistantSwipe;
 
+
+
+
+
+
         this.StyledTextField = withStyles({
             root: {
                 width: '70% !important',
@@ -202,12 +207,12 @@ class CreateActivity extends Component {
 
     handleTagsDelete(tag) {
         console.log(tag)
-    
+
         this.setState({
-          likesSelected: tag,
- 
+            likesSelected: tag,
+
         })
-      }
+    }
 
     handleBack() {
         this.assistantSwipe.prev();
@@ -244,6 +249,174 @@ class CreateActivity extends Component {
 
     onTagsDeleted(tag) {
         this.setState({ tags: tag })
+    }
+
+    componentDidMount() {
+
+        console.log("Esta weada se esta ejecutando");
+
+        let all = {
+            Academico: [],
+            Deporte: [],
+            Juegos: [],
+            Cultural: [],
+            Comidas: [],
+            Fiesta: [],
+            Otros: []
+
+        }
+        axios({
+            url: "http://localhost:9001/graphql",
+            method: 'POST',
+            data: {
+                query: `
+              query{
+                likeByCategory(name:"Deporte"){
+                  name
+                }
+              }
+              `
+            }
+        }).then((result) => {
+            console.log(result.data)
+            let likesList = []
+            let arr = result.data.likesByCategory
+            let list = result.data.data.likeByCategory.forEach(element => {
+                likesList.push(element.name)
+            });
+            console.log(likesList)
+            all["Deporte"] = likesList
+        });
+        axios({
+            url: "http://localhost:9001/graphql",
+            method: 'POST',
+            data: {
+                query: `
+              query{
+                likeByCategory(name:"Academico"){
+                  name
+                }
+              }
+              `
+            }
+        }).then((result) => {
+            console.log(result.data)
+            let likesList = []
+            let list = result.data.data.likeByCategory.forEach(element => {
+                likesList.push(element.name)
+            });
+            console.log(likesList)
+            all["Academico"] = likesList
+        });
+        axios({
+            url: "http://localhost:9001/graphql",
+            method: 'POST',
+            data: {
+                query: `
+              query{
+                likeByCategory(name:"Juegos"){
+                  name
+                }
+              }
+              `
+            }
+        }).then((result) => {
+            console.log(result.data)
+            let likesList = []
+            let list = result.data.data.likeByCategory.forEach(element => {
+                likesList.push(element.name)
+            });
+            console.log(likesList)
+            all["Juegos"] = likesList
+        });
+        axios({
+            url: "http://localhost:9001/graphql",
+            method: 'POST',
+            data: {
+                query: `
+              query{
+                likeByCategory(name:"Cultural"){
+                  name
+                }
+              }
+              `
+            }
+        }).then((result) => {
+            console.log(result.data)
+            let likesList = []
+            let list = result.data.data.likeByCategory.forEach(element => {
+                likesList.push(element.name)
+            });
+            console.log(likesList)
+            all["Cultural"] = likesList
+        });
+        axios({
+            url: "http://localhost:9001/graphql",
+            method: 'POST',
+            data: {
+                query: `
+              query{
+                likeByCategory(name:"Comidas"){
+                  name
+                }
+              }
+              `
+            }
+        }).then((result) => {
+            console.log(result.data)
+            let likesList = []
+            let list = result.data.data.likeByCategory.forEach(element => {
+                likesList.push(element.name)
+            });
+            console.log(likesList)
+            all["Comidas"] = likesList
+        });
+        axios({
+            url: "http://localhost:9001/graphql",
+            method: 'POST',
+            data: {
+                query: `
+              query{
+                likeByCategory(name:"Fiesta"){
+                  name
+                }
+              }
+              `
+            }
+        }).then((result) => {
+            console.log(result.data)
+            let likesList = []
+            let list = result.data.data.likeByCategory.forEach(element => {
+                likesList.push(element.name)
+            });
+            console.log(likesList)
+            all["Fiesta"] = likesList
+        });
+        axios({
+            url: "http://localhost:9001/graphql",
+            method: 'POST',
+            data: {
+                query: `
+              query{
+                likeByCategory(name:"Otros"){
+                  name
+                }
+              }
+              `
+            }
+        }).then((result) => {
+            console.log(result.data)
+            let likesList = []
+            let list = result.data.data.likeByCategory.forEach(element => {
+                likesList.push(element.name)
+            });
+            console.log(likesList)
+            all["Otros"] = likesList
+        });
+        console.log(all)
+        this.setState({
+            likesByCategory: all
+        })
     }
 
     handleSubmit(event) {
