@@ -108,7 +108,7 @@ class ActivityCard extends Component {
     }
     renderLikes() {
         let arre = []
-        this.state.activity.likes.forEach(element => {
+        this.state.activity.tags_especificos.forEach(element => {
             arre.push(
                 <span className="like-tag">
                     {element}
