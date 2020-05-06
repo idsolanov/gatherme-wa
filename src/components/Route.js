@@ -1,6 +1,5 @@
-var localhost = 'http://localhost:3005';
-var heroku = 'https://nysqua-integration.herokuapp.com';
+var api_gateway = 'http://localhost:9001/graphql';
 
 export default {
-    url: localhost
+    url: api_gateway
 }

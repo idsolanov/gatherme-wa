@@ -128,7 +128,7 @@ class Home extends Component {
 		 	this.setState({
 		 		activitiesToRender: result.data.data.getAllActivities
 		 	})
-		 	this.renderActivities()
+		 	//this.renderActivities()
 		 	console.log(this.state.activitiesToRender)
 
 		 }, (error) => {

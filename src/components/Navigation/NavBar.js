@@ -308,7 +308,7 @@ class Navbar extends Component {
 											}>
 										</Link>
 										<Link to={{
-											pathname: '/Profile',
+											pathname: '/MyProfile',
 											state: {
 												userData: {
 													username: this.state.username,

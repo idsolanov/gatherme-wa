@@ -47,7 +47,8 @@ class Register extends Component {
       data: [],
       newLikesList: [],
       token: "",
-      id: ""
+      id: "",
+      file: "",
 
     }
     this.gradient = 'linear-gradient(136deg, #055B5C 0%, #40989d 50%)';
@@ -60,6 +61,7 @@ class Register extends Component {
     this.handleTagsDelete = this.handleTagsDelete.bind(this);
     this.sendData = this.sendData.bind(this);
     this.sendNewLike = this.sendNewLike.bind(this);
+    this.onImageChange = this.onImageChange.bind(this);
 
 
     this.StyledTextField = withStyles({
