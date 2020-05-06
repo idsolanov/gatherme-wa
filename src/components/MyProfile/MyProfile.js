@@ -13,21 +13,21 @@ import { Link } from 'react-router-dom';
 
 
 
+import './MyProfile.css';
 
-import './Profile.css';
 
-
-class Profile extends Component {
+class MyProfile extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			
-            token: this.props.location.state.userData.token,
-            otherUser:this.props.match.params.username,
-            nickName: this.props.location.state.userData.nickName,
-			otherUserData: "",
+
+			username: this.props.location.state.userData.username,
+			token: this.props.location.state.userData.token,
+			userData: "",
+			profilePhoto: "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
 			index: 0,
+			
 
 		}
 		this.handleChange = this.handleChange.bind(this);
@@ -41,7 +41,7 @@ class Profile extends Component {
 			data: {
 				query: `
 			  query {
-				userByUsername(username: "${this.state.otherUser}") {
+				userByUsername(username: "${this.state.username}") {
 				  id
 				  username
 				  description
@@ -59,7 +59,7 @@ class Profile extends Component {
 			}
 		}).then((result) => {
 			this.setState({
-				otherUserData: result.data.data.userByUsername,
+				userData: result.data.data.userByUsername,
 
 			});
 		}, (error) => {
@@ -82,13 +82,11 @@ class Profile extends Component {
 	}
 
 	render() {
-        console.log(this.state.nickName);
-        console.log(this.state.token);
-        
+		console.log(this.state.userData);
 		return (
-			<div className="other_profile">
-				<NavBar token={this.state.token} username={this.state.nickName} />
-				<div className="other_profile_content">
+			<div className="Profile">
+				<NavBar token={this.state.token} username={this.state.username} />
+				<div className="Profile_content">
 					<Grid container
 						spacing={5}
 						direction="row"
@@ -97,25 +95,33 @@ class Profile extends Component {
 						wrap="nowrap" >
 						
 						< Grid item xs={5}>
-							<div className="other_profile_card_container">
-								<div className="other_profile_card">
+							<div className="Profile_card_container">
+								<div className="Profile_card">
 									<div className="info_container">
-										<div className="other_profilephoto">
-											<img className="adjust_photo" src={this.state.otherUserData.picture} ></img>
+										<div className="profilephoto">
+											<img className="adjust_photo" src={this.state.userData.picture} ></img>
 										</div>
 										<div className="text_info">
 											<div className="basic_info_container">
 												<div className="name_container">
-													<p className="name_text">{this.state.otherUserData.name}, {this.state.otherUserData.age}</p>
+													<p className="name_text">{this.state.userData.name}, {this.state.userData.age}</p>
 												</div>
 												<div className="username_container">
-													<p className="username_text">{this.state.otherUserData.username}</p>
-													
+													<p className="username_text">{this.state.userData.username}</p>
+													<div className="user_edit_btn_container">
+														<div className="user_edit_btn">
+															<IconContext.Provider value={{ size: "1em", className: 'user_edit_icon' }}>
+																<FiEdit2 />
+															</IconContext.Provider>
+															<p className="user_edit_btn_label">Editar perfil</p>
+														</div>
+
+													</div>
 												</div>
 											</div>
 
 
-											<p className="user_bio_text">{this.state.otherUserData.description}</p>
+											<p className="user_bio_text">{this.state.userData.description}</p>
 										</div>
 									</div>
 								</div>
@@ -124,7 +130,7 @@ class Profile extends Component {
 
 						</ Grid>
 						< Grid item xs={7}>
-							<div className="other_profile_swipe">
+							<div className="Profile_swipe">
 								<div className="tabs_container">
 									<Tabs value={this.state.index} fullWidth onChange={this.handleChange} >
 										<Tab label="Actividades" />
@@ -134,15 +140,31 @@ class Profile extends Component {
 									<SwipeableViews index={this.state.index} onChangeIndex={this.handleChangeIndex}>
 										<div className="tab_garment">
 
-                                        <h1 className="exchanges_heading">Lista de Actividades</h1>
-											<div className="exchanges_heading_divider"> <span></span></div>
+											<div className="wardrobe_container">
+
+											</div>
 										</div>
 										<div className="tab_garment">
 											<h1 className="exchanges_heading">Lista de Gustos</h1>
 											<div className="exchanges_heading_divider"> <span></span></div>
 										</div>
-										
+										<div className="tab_garment">
+											<h1 className="exchanges_heading">Lista de Gathers</h1>
+											<div className="exchanges_heading_divider"> <span></span></div>
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" username={this.state.username} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" username={this.state.username} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" username={this.state.username} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" username={this.state.username} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" username={this.state.username} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" username={this.state.username} />
+											<	GatherCard token={this.state.token} gatherUser="hnsaavedraa" username={this.state.username} />
+											
+			
+
+
+										</div>
 									</SwipeableViews>
+									
 
 								</div>
 							</div>
@@ -154,4 +176,4 @@ class Profile extends Component {
 	}
 }
 
-export default Profile; 
+export default MyProfile; 
