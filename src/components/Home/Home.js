@@ -225,7 +225,7 @@ class Home extends Component {
 						alignItems="flex-start"
 						wrap="nowrap" >
 
-						< Grid item xs={2}>
+						< Grid item xs={1}>
 							<div className="filters">
 								<FloatingMenu
 									slideSpeed={600}
@@ -292,7 +292,7 @@ class Home extends Component {
 							</div>
 
 						</Grid>
-						< Grid item xs={9}>
+						< Grid item xs={10}>
 							<div className="activity_container">
 								{this.state.activityList}
 							</div>
@@ -311,7 +311,7 @@ class Home extends Component {
 					<Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.createActivityDialogOpen} fullWidth={true}>
 						<DialogContent dividers>
 							<div className="containerPopUp">
-								<CreateActivity token={this.props.token} userData={this.props.userData} parentCallback={this.callbackFunction} />
+								<CreateActivity token={this.state.token} username={this.state.username} parentCallback={this.callbackFunction} />
 							</div>
 
 						</DialogContent>

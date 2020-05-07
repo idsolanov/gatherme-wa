@@ -11,6 +11,7 @@ import GatherCard from '../GatherCard/GatherCard'
 import { Link } from 'react-router-dom';
 import Route from '../Route'
 
+import ActivityCard from '../ActivityCard/ActiviyCard'
 
 
 
@@ -31,6 +32,7 @@ class MyProfile extends Component {
 			gatherList:"",
 			gathersToRender: [],
 			responseGather: false,
+			activityList:[],
 			
 
 		}
@@ -39,6 +41,7 @@ class MyProfile extends Component {
 		this.renderGathers = this.renderGathers.bind(this);
 	  this.handleClickEdit = this.handleClickEdit.bind(this);
 		this.callbackFunction = this.callbackFunction.bind(this);
+		this.renderActivities = this.renderActivities.bind(this);
 	}
 
 	callbackFunction(childData) {
@@ -46,7 +49,36 @@ class MyProfile extends Component {
 			responseGather: childData[0],
 		});
 	}
+	renderActivities() {
+		let maxSize = this.state.userData.activities.length;
+		console.log(maxSize)
+		let activityObjects = [];
+		for (var i = 0; i < maxSize; i += 2) {
+			console.log(this.state.userData.activities)
+			activityObjects.push(
 
+				<Grid
+					container
+					spacing={4}
+					direction="row"
+					justify="center">
+					<Grid item xs={6}>
+						{(i < maxSize) ? <ActivityCard activityData={{id:this.state.userData.activities[i]}} user={this.state.username} token={this.state.token} /> : ""}
+					</Grid>
+					<Grid item xs={6}>
+						{(i + 1 < maxSize) ? <ActivityCard activityData={{id:this.state.userData.activities[i+1]}} user={this.state.username} token={this.state.token} /> : ""}
+					</Grid>
+					
+				</Grid>
+
+			);
+		}
+
+		this.setState({
+			activityList: activityObjects
+		})
+
+	}
 	componentDidUpdate() {
 		
 		
@@ -86,34 +118,37 @@ class MyProfile extends Component {
 			this.setState({
 				userData: result.data.data.userByUsername,
 			});
+
+			axios({
+				url: Route.url,
+				method: 'post',
+				data: {
+					query: `
+					query {
+						inboxRequests(user:{user:"${this.state.username}"}){
+						  id 
+						  user_origin 
+						  user_destination
+						  status 
+						  send_date
+						}
+					  }
+					`
+				}
+			}).then((result) => {
+				this.renderActivities()
+				this.renderGathers(result.data.data.inboxRequests)
+			}, (error) => {
+				console.log(error);
+			});
+			
 		
 		}, (error) => {
 			console.log(error);
 		});
 
 
-		axios({
-			url: Route.url,
-			method: 'post',
-			data: {
-				query: `
-				query {
-					inboxRequests(user:{user:"${this.state.username}"}){
-					  id 
-					  user_origin 
-					  user_destination
-					  status 
-					  send_date
-					}
-				  }
-				`
-			}
-		}).then((result) => {
-			
-			this.renderGathers(result.data.data.inboxRequests)
-		}, (error) => {
-			console.log(error);
-		});
+		
 
 	}
 
@@ -231,6 +266,7 @@ class MyProfile extends Component {
 										<div className="tab_garment">
 
 											<div className="wardrobe_container">
+											{this.state.activityList}
 
 											</div>
 										</div>

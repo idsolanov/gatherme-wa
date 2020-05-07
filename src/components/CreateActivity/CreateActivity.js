@@ -44,7 +44,7 @@ class CreateActivity extends Component {
         this.state = {
             step: 0,
             token: this.props.token,
-            userData: this.props.userData,
+            username: this.props.username,
             informacion: "",
             nombre: "",
             descripcion: "",
@@ -424,71 +424,119 @@ class CreateActivity extends Component {
 
 
         var catnames = ['Academico', 'Deporte', 'Juegos', 'Cultural', 'Comidas', 'Fiesta', 'Otros'];
-
+        var counter = 0;
+        var selected = []
         let strCategories = "[";
-        for (let i = 1; i <= 7; i++) {
-            let prop = "checked" + i;
 
-            if (this.state[prop]) {
-                if (i == 7) {
-                    strCategories += '"' + catnames[i - 1] + '"'
+        for (let c = 1; c <= 14; c++) {
+            if (c <= 7) {
+                let prop = "checked" + c;
 
-                }
-                else {
-                    strCategories += '"' + catnames[i - 1] + '",'
-
+                if (this.state[prop]) {
+                    counter = counter + 1
+                    selected.push(catnames[c - 1])
                 }
             }
+            else {
+                for (let x = 0; x < counter; x++) {
+
+                    if (x == (counter - 1)) {
+                        strCategories += '"' + selected[x] + '"'
+
+                    }
+                    else {
+                        strCategories += '"' + selected[x] + '",'
+
+                    }
+                }
+                break;
+            }
+
         }
+
         strCategories += "]";
 
-        console.log(strCategories);
+
+        let strlikes = "[";
+        for (let i = 0; i < this.state.likesSelected.length; i++) {
+            if (i != (this.state.likesSelected.length - 1)) {
+                strlikes += '"' + this.state.likesSelected[i] + '",'
+            }
+            else {
+                strlikes += '"' + this.state.likesSelected[i] + '"'
+            }
 
 
 
 
+        }
+        strlikes += "]";
+
+        console.log(strlikes);
 
 
 
-        // axios.post({
-        //     url: "http://127.0.0.1:9001/graphql",
-        //     method: 'post',
-        //     data: {
-        //         query: `
-        //             mutation{
-        //                 createActivity(
-        //                     activity:{
-        //                         informacion:""
-        //                         nombre: "${this.state.nombre}"
-        //                         descripcion:"${this.state.descripcion}"
-        //                         lista_miembros: ["${this.state.userData.username}"]
-        //                         tags_especificos: ${strTags}
-        //                         notas_adicionales: ${this.state.notas}
-        //                         categoria: ${strCategories}
-        //                         recurrente: ${this.state.recurrent.toString()}
-        //                         lugar: "${this.state.lugar}"
-        //                         hora: "${this.state.hora}"
-        //                         fecha:"${this.state.fecha}"
-        //                         banner: "${this.state.banner}"
-        //                         administrador: "${this.state.userData.username}"
-        //                         }, 
-        //                     token:
-        //                         ${this.state.token}
-        //                     }){
-        //                 id
-        //                 }
-        //             }
-        //         `
-        //     }
 
-        // }).then((response) => {
-        //     console.log(response.data);
-        // }, (error) => {
-        //     console.log(error);
-        // });
+        let quer = `
+        mutation{
+            createActivity(activity:{informacion:""
+        nombre: "${this.state.nombre}"
+        descripcion:"${this.state.descripcion}"
+                        lista_miembros: ["${this.state.username}"]
+                        tags_especificos: ${strlikes}
+                        notas_adicionales: ["${this.state.notas}"]
+                        categoria: ${strCategories}
+                        recurrente: ${this.state.recurrent.toString()}
+                        lugar: "${this.state.lugar}"
+                        hora: "${this.state.hora}"
+                        fecha:"${this.state.fecha}"
+                        banner: "${this.state.banner}"
+                        administrador: "${this.state.username}"
+    },token: "${this.state.token}"){
+              id
+            }
+          }
+      `
+
+        console.log(quer)
+        console.log(this.state.token)
+
+
+        axios.post({
+            url: 'http://localhost:9001/graphql',
+            method: 'post',
+            data: {
+                query: `
+                mutation{
+                createActivity(activity:{informacion:""
+                nombre: "${this.state.nombre}"
+                descripcion:"${this.state.descripcion}"
+                lista_miembros: ["${this.state.username}"]
+                tags_especificos: ${strlikes}
+                notas_adicionales: ["${this.state.notas}"]
+                categoria: ${strCategories}
+                recurrente: ${this.state.recurrent.toString()}
+                lugar: "${this.state.lugar}"
+                hora: "${this.state.hora}"
+                fecha:"${this.state.fecha}"
+                banner: "${this.state.banner}"
+                administrador: "${this.state.username}"
+            },token: "${this.state.token}"){
+                      id
+                    }
+                  }
+              `
+            }
+
+        }).then((response) => {
+            console.log(response.data);
+            this.props.parentCallback([true]);
+        }, (error) => {
+            console.log(error);
+        });
 
         //Esto cierra el popup
-        this.props.parentCallback([true]);
+        
     }
 
 
@@ -712,7 +760,7 @@ class CreateActivity extends Component {
 
                                 <div className="content">
                                     <div className="content_center">
-                                        
+
                                         <Grid
                                             container
                                             direction="column"
