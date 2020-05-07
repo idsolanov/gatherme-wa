@@ -1,0 +1,88 @@
+:root{
+  --primary: #40989d;
+  --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  --transition-duration: 0.4s;
+  --gradient:linear-gradient(136deg, #055B5C 0%, #40989d 50%);
+  --step_size: 55px;
+}
+
+.edit-profile-content{
+  width: 100%;
+  height: 100%;
+  margin-top: 8px;
+}
+
+.edit-profile-content .MuiGrid-spacing-xs-2{
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+}
+
+.edit-title h2 {
+	color: var(--primary);
+}
+
+.edit-profile-form{
+  	width: 140%;
+	height: 100%;
+	display: flex;
+	padding-top: 2vw;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding-right: 3vw;
+    padding-left: 2vw;
+    border-radius: 0.5vw;
+    box-shadow: var(--shadow);
+}
+
+.edit-submit-button{
+    width: auto;
+    height: auto;
+    padding: 12px 28px 12px 28px;
+    border-radius: 0.5vw;
+    background-color: var(--primary);
+    border: solid 2px white;
+    color: white;
+    cursor: pointer;
+    transition: all 0.2s linear;
+    margin-top: 5vh;
+}
+
+.edit-submit-button:hover{
+    background-color: #6EC6C6;
+    color: #055B5B;
+}
+
+.edit-submit-button p {
+    width: 100% !important;
+    margin: 0 !important;
+    height: auto;
+    font-family: 'Product Sans' !important;
+    font-size: 1.05rem;
+}
+
+.edit-photo-container { 
+	margin-top: 5% !important;  
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+ 
+}
+
+.edit-form-info{
+  color: black;
+  margin-top: 28px;
+
+  width: 80%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
