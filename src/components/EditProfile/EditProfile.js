@@ -7,7 +7,7 @@ import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
-
+import Route from '../Route';
 import './EditProfile.css';
 
 
@@ -44,7 +44,6 @@ class EditProfile extends Component {
 		  root: {
 		    width: '100%',
 		    fontFamily: 'Product Sans',
-		    marginRight: '8px',
 		    '& label.Mui-focused': {
 		      color: this.primaryColor,
 		    },
@@ -70,7 +69,7 @@ class EditProfile extends Component {
 	componentDidMount() {
 		
 		axios({
-			url: 'http://127.0.0.1:9001/graphql',
+			url: Route.url,
 			method: 'GET',
 			data: {
 				query: `
@@ -127,29 +126,29 @@ class EditProfile extends Component {
 	handleSubmit(event) {
 		
         axios({
-			url: 'http://127.0.0.1:9001/graphql',
+			url: Route.url,
 			method: 'PUT',
 			data: {
 				query: `
 				   mutation{
-	                   updateUser(
-	                       user:{
-							    id: ${this.state.userData.id}
-								username: ${this.state.username}
-								email: ${this.state.userData.email}
-								description: ${this.state.temp_description}
-								picture: ${this.state.temp_picture}
-								name: ${this.state.temp_name}	
-								gender: ${this.state.temp_gender}
-								age: ${this.state.temp_age}
-								city: ${this.state.temp_city}
-								likes: ${this.state.userData.likes}
-								communities: ${this.state.userData.communities}
-								activities: ${this.state.userData.activities}
-								gathers: ${this.state.userData.gathers}
-	                       }   
-	                   )
-	               }
+					   updateUser(
+					       user:{
+						        id: ${this.state.userData.id}
+							username: ${this.state.username}
+							email: ${this.state.userData.email}
+							description: ${this.state.temp_description}
+							picture: ${this.state.temp_picture}
+							name: ${this.state.temp_name}	
+							gender: ${this.state.temp_gender}
+							age: ${this.state.temp_age}
+							city: ${this.state.temp_city}
+							likes: ${this.state.userData.likes}
+							communities: ${this.state.userData.communities}
+							activities: ${this.state.userData.activities}
+							gathers: ${this.state.userData.gathers}
+	                       			}   
+	                   		)
+	               		   }
 				`
 			}
 		}).then((response) => {
@@ -167,8 +166,8 @@ class EditProfile extends Component {
 		console.log(this.state.userData);
 		
 		const genders = [
-		  { value: 'Hombre', label: 'Hombre' },
-		  { value: 'Mujer', label: 'Mujer' },
+		  { value: 'Masculino', label: 'Masculino' },
+		  { value: 'Femenino', label: 'Femenino' },
 		  { value: 'Otro', label: 'Otro' }
 		];
 		
@@ -253,17 +252,18 @@ class EditProfile extends Component {
 													direction="row"
 													alignItems="center"
 													wrap="nowrap" >
-												    <this.StyledTextField
-												    	  required
-												          variant="outlined"
-												          type="number"
-												          margin="normal"
-												          id="temp_age"
-												          label="Edad"
-												          defaultValue={this.state.temp_age}
-												          onChange={this.handleChange}
-												    									    
-												    />
+													<div style={{ marginRight: '15px' }}>
+														<this.StyledTextField
+															  required
+															  variant="outlined"
+															  type="number"
+															  margin="normal"
+															  id="temp_age"
+															  label="Edad"
+															  defaultValue={this.state.temp_age}
+															  onChange={this.handleChange}
+														/>
+													</div>
 												    <this.StyledTextField
 												    	  required select
 												          variant="outlined"
