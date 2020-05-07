@@ -24,7 +24,7 @@
     box-shadow: var(--shadow);
     position: absolute;
     z-index: 5;
-    opacity: 90%;
+    opacity: 0.9;
   }
 
   .background_overlay_si{

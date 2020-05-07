@@ -244,14 +244,14 @@ class Home extends Component {
 									<ChildButton
 										icon={<StyledTooltip title="Academico" placement="right"><SchoolIcon style={{ fontSize: 25 }} nativeColor="white" /></StyledTooltip>}
 										backgroundColor="white"
-										background="blue"
+										
 										size={40}
 										onClick={() => this.renderCategory("Academico")}
 									/>
 
 
 
-									<ChildButton className="test"
+									<ChildButton 
 										icon={<StyledTooltip title="Deporte" placement="right"><SportsFootballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
 										size={40}

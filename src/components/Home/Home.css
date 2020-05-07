@@ -49,7 +49,7 @@
   }
 
   .filters li:hover {
-    opacity: 65%;
+    opacity: 0.7;
    
   }
 
@@ -85,7 +85,7 @@
   }
 
   .add_container .MuiFab-primary:hover{
-    opacity: 85%;
+    opacity: 0.8;
 
   }
 

@@ -89,7 +89,7 @@
     width: 100% !important;
     height: 100%;
 
-    opacity: 90%;
+    opacity: 0.9;
   }
 .swipe_container{
   position: absolute!important;
