@@ -8,7 +8,7 @@ import SwipeableViews from 'react-swipeable-views';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import GatherCard from '../GatherCard/GatherCard'
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Route from '../Route'
 
 
@@ -28,19 +28,36 @@ class MyProfile extends Component {
 			userData: "",
 			profilePhoto: "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
 			index: 0,
-			test: "",
 			gatherList:"",
-			gathersToRender: "",
+			gathersToRender: [],
+			responseGather: false,
 			
 
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleChangeIndex = this.handleChangeIndex.bind(this);
 		this.renderGathers = this.renderGathers.bind(this);
+		this.callbackFunction = this.callbackFunction.bind(this);
+	}
+
+	callbackFunction(childData) {
+		this.setState({
+			responseGather: childData[0],
+		});
+	}
+
+	componentDidUpdate() {
+		
+		
+		if (this.state.responseGather) {
+			this.setState({ responseGather: false });
+			this.componentDidMount()
+			
+		}
 	}
 
 	componentDidMount() {
-		let img = window.localStorage.getItem(this.state.username);
+		
 		
 		axios({
 			url: Route.url,
@@ -68,7 +85,7 @@ class MyProfile extends Component {
 			this.setState({
 				userData: result.data.data.userByUsername,
 			});
-			this.setState({test: img});
+		
 		}, (error) => {
 			console.log(error);
 		});
@@ -91,25 +108,27 @@ class MyProfile extends Component {
 				`
 			}
 		}).then((result) => {
-			this.setState({
-				gatherList: result.data.data.inboxRequests,
-
-			});
-			this.renderGathers()
+			
+			this.renderGathers(result.data.data.inboxRequests)
 		}, (error) => {
 			console.log(error);
 		});
 
 	}
 
-	renderGathers(){
-		let count = this.state.gatherList.length;
+	renderGathers(lista){
+		let count = lista.length;
 		let gathersRender = [];
 		for (var i = 0; i < count; i ++) {
-			if(this.state.gatherList[i].status == "sent"){
+			if(lista[i].status == "sent"){
 				gathersRender.push(
 
-					<GatherCard token={this.state.token} gatherUser={this.state.gatherList[i].user_origin} username={this.state.username}/>
+					<GatherCard 
+					parentCallback={this.callbackFunction} 
+					token={this.state.token} 
+					gatherUser={lista[i].user_origin} 
+					username={this.state.username}
+					/>
 	
 				);
 			}

@@ -288,16 +288,6 @@ class Home extends Component {
 									</Fab>
 								</StyledTooltip>
 
-
-								{/* <div className="new_cat_bottom">
-										<div className="open-dialog">
-											<ActivityAssistant parentCallback={this.callbackFunction} />
-										</div>
-
-									</div> */}
-
-
-
 							</Grid>
 						</div>
 					</Grid>
