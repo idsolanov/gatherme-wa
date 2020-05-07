@@ -14,7 +14,7 @@ import FormDialog from './Sugestions'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-
+import Route from '../Route'
 import './Register.css';
 import { DialogContent } from "@material-ui/core";
 class Register extends Component {
@@ -47,7 +47,8 @@ class Register extends Component {
       data: [],
       newLikesList: [],
       token: "",
-      id: ""
+      id: "",
+      file: "",
 
     }
     this.gradient = 'linear-gradient(136deg, #055B5C 0%, #40989d 50%)';
@@ -60,6 +61,8 @@ class Register extends Component {
     this.handleTagsDelete = this.handleTagsDelete.bind(this);
     this.sendData = this.sendData.bind(this);
     this.sendNewLike = this.sendNewLike.bind(this);
+    this.onImageChange = this.onImageChange.bind(this);
+    this.writeImage = this.writeImage.bind(this);
 
 
     this.StyledTextField = withStyles({
@@ -182,7 +185,7 @@ class Register extends Component {
 
     }
     axios({
-      url: "http://localhost:9001/graphql",
+      url: Route.url,
       method: 'POST',
       data: {
         query: `
@@ -204,7 +207,7 @@ class Register extends Component {
       all["Deporte"] = likesList
     });
     axios({
-      url: "http://localhost:9001/graphql",
+      url: Route.url,
       method: 'POST',
       data: {
         query: `
@@ -225,7 +228,7 @@ class Register extends Component {
       all["Academico"] = likesList
     });
     axios({
-      url: "http://localhost:9001/graphql",
+      url: Route.url,
       method: 'POST',
       data: {
         query: `
@@ -246,7 +249,7 @@ class Register extends Component {
       all["Juegos"] = likesList
     });
     axios({
-      url: "http://localhost:9001/graphql",
+      url: Route.url,
       method: 'POST',
       data: {
         query: `
@@ -267,7 +270,7 @@ class Register extends Component {
       all["Cultural"] = likesList
     });
     axios({
-      url: "http://localhost:9001/graphql",
+      url: Route.url,
       method: 'POST',
       data: {
         query: `
@@ -288,7 +291,7 @@ class Register extends Component {
       all["Comidas"] = likesList
     });
     axios({
-      url: "http://localhost:9001/graphql",
+      url: Route.url,
       method: 'POST',
       data: {
         query: `
@@ -309,7 +312,7 @@ class Register extends Component {
       all["Fiesta"] = likesList
     });
     axios({
-      url: "http://localhost:9001/graphql",
+      url: Route.url,
       method: 'POST',
       data: {
         query: `
@@ -358,6 +361,10 @@ class Register extends Component {
     this.setState({
       [prop]: event.target.value
     });
+  }
+
+  writeImage(path, file) {
+    window.localStorage.setItem(path, file);
   }
 
 
@@ -415,6 +422,8 @@ class Register extends Component {
     console.log(String(this.state.likesSelected))
     console.log(`likes: "${this.state.likesSelected}"`)
 
+    this.writeImage(this.state.user.username,this.state.profilephoto)
+
     let li = "["
     let si = 1
     if (this.state.likesSelected.length == 0) {
@@ -458,7 +467,7 @@ class Register extends Component {
 
     console.log(kk)
     axios({
-      url: "http://localhost:9001/graphql",
+      url: Route.url,
       method: 'POST',
       data: {
         query: `
@@ -520,7 +529,7 @@ class Register extends Component {
     console.log(this.state.token)
     console.log(kk);
     axios({
-      url: "http://localhost:9001/graphql",
+      url: Route.url,
       method: 'POST',
       data: {
         query: `
@@ -586,9 +595,9 @@ class Register extends Component {
                 <div className="assistant_container">
                   <div className="register_card" >
                     <div className="content">
-                    <div className="title_info">
-                          <h1>Información Basica </h1>
-                        </div>
+                      <div className="title_info">
+                        <h1>Información Basica </h1>
+                      </div>
 
                       <Grid
                         container
@@ -608,8 +617,8 @@ class Register extends Component {
                           </div>
                         </Grid>
                         <Grid item xs={2}>
-                        <p className="content_title_basic"> Empecemos con información basica, ¿Comó quieres que el mundo te vea? 
-                        recuerda que una imagen de perfil hace la diferencia
+                          <p className="content_title_basic"> Empecemos con información basica, ¿Comó quieres que el mundo te vea?
+                          recuerda que una imagen de perfil hace la diferencia
                              </p>
                           <Grid
                             container
@@ -619,7 +628,7 @@ class Register extends Component {
                             alignItems="flex-end"
                           >
                             <Grid item xs={9}>
-                            
+
                               < this.StyledTextField
                                 variant="outlined"
                                 margin="normal"
@@ -648,7 +657,7 @@ class Register extends Component {
                           </Grid>
                         </Grid>
                         <Grid item xs={4}>
-                        <p className="content_title_basic"> Hablanos un poco de ti, ¿No sabes que escribir? quizas algo gracioso.
+                          <p className="content_title_basic"> Hablanos un poco de ti, ¿No sabes que escribir? quizas algo gracioso.
                              </p>
                           <div class="bio_container_register">
                             < this.StyledTextField
@@ -705,7 +714,7 @@ class Register extends Component {
                           alignContent="stretch"
                           spacing={2}
                         >
-                          <Grid item xs={2} className ="Grid_selector_cat">
+                          <Grid item xs={2} className="Grid_selector_cat">
                             <Grid container
                               direction="row"
                               spacing={2}
@@ -738,16 +747,16 @@ class Register extends Component {
 
                               </Grid>
                             </Grid>
-                                 
+
                           </Grid>
 
                           <Grid item xs={6}>
-                          <p className="content_title"> Los gustos son nuestra forma de conocerte y darte a conocer al mundo,
-                             busca entre gustos ya creados por otros usuarios o crea uno tu mismo,
-                             los gustos que selecciones apareceran a continuacion.
+                            <p className="content_title"> Los gustos son nuestra forma de conocerte y darte a conocer al mundo,
+                            busca entre gustos ya creados por otros usuarios o crea uno tu mismo,
+                            los gustos que selecciones apareceran a continuacion.
                              </p>
                             <div className="sugestions">
-                            
+
                               <TagsInput
                                 value={this.state.likesSelected}
                                 onChange={this.handleTagsDelete}

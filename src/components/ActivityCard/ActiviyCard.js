@@ -36,6 +36,8 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import PersonIcon from '@material-ui/icons/Person';
 import axios from 'axios';
+import Route from '../Route'
+
 
 
 import './ActivityCard.css'
@@ -255,7 +257,7 @@ class ActivityCard extends Component {
 
         console.log(kk)
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -291,7 +293,7 @@ class ActivityCard extends Component {
         `;
 
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -343,7 +345,7 @@ class ActivityCard extends Component {
     componentDidMount() {
         console.log(this.props.activityData["id"])
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `

@@ -6,17 +6,19 @@ import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import MdAdd from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
+import { Link } from 'react-router-dom';
 import CheckIcon from '@material-ui/icons/Check';
+import Route from '../Route'
 import './GatherCard.css';
 
 const StyledTooltip = withStyles((theme) => ({
-	tooltip: {
-		backgroundColor: theme.palette.common.white,
-		color: 'rgba(0, 0, 0, 0.87)',
-		boxShadow: theme.shadows[1],
-		borderRadius: '10px',
-		fontSize: 13,
-	},
+    tooltip: {
+        backgroundColor: theme.palette.common.white,
+        color: 'rgba(0, 0, 0, 0.87)',
+        boxShadow: theme.shadows[1],
+        borderRadius: '10px',
+        fontSize: 13,
+    },
 }))(Tooltip);
 
 
@@ -26,7 +28,7 @@ class GatherCard extends Component {
 
         super(props);
         this.state = {
-            userData: this.props.userData,
+            username: this.props.username,
             gatherUser: this.props.gatherUser,
             gatherData: "",
             token: this.props.token,
@@ -35,23 +37,74 @@ class GatherCard extends Component {
         }
         this.handleAccept = this.handleAccept.bind(this);
         this.handleDecline = this.handleDecline.bind(this);
+        this.handleToOtherProfile = this.handleToOtherProfile.bind(this);
 
 
     }
 
-    handleAccept(){
-    console.log("accept");
+    handleAccept() {
+        console.log("accept");
+        axios({
+            url: Route.url,
+            method: 'post',
+            data: {
+                query: `
+                mutation{
+                    acceptRequest( body: {
+                     user_origin: "${this.state.gatherUser}"
+                     user_destination: "${this.state.username}"
+                     token: "${this.state.token}"
+                    }){
+                     result
+                    error
+                    }
+                }
+				`
+            }
+        }).then((result) => {
+            console.log("Aceptado")
+            this.props.parentCallback([true]);
+        }, (error) => {
+            console.log(error);
+        });
 
     }
-    handleDecline(){
+    handleDecline() {
         console.log("decline");
+        axios({
+            url: Route.url,
+            method: 'post',
+            data: {
+                query: `
+                mutation{
+                    rejectRequest( body: {
+                     user_origin: "${this.state.gatherUser}"
+                     user_destination: "${this.state.username}"
+                     token: "${this.state.token}"
+                    }){
+                     result
+                    error
+                    }
+                }
+				`
+            }
+        }).then((result) => {
+            console.log("Aceptado")
+            this.props.parentCallback([true]);
+        }, (error) => {
+            console.log(error);
+        });
 
+    }
+
+    handleToOtherProfile(){
+        this.LinkOtherProfile.click();
     }
 
 
     componentDidMount() {
         axios({
-            url: 'http://127.0.0.1:9001/graphql',
+            url: Route.url,
             method: 'post',
             data: {
                 query: `
@@ -76,6 +129,7 @@ class GatherCard extends Component {
     }
 
     render() {
+
         return (
             <div className="gather_card">
                 <div className="gather_card_content">
@@ -87,14 +141,14 @@ class GatherCard extends Component {
                         wrap="nowrap" >
                         < Grid item xs={2}>
                             <div className="gather_profilephoto">
-                                <img className="gather_adjust_photo" src={this.state.profilePhoto} ></img>
+                                <img className="gather_adjust_photo" src={this.state.gatherData.picture} ></img>
                             </div>
 
                         </ Grid>
 
                         < Grid item xs={5}>
                             <div className="gather_info">
-                                <p className="gather_name">{this.state.gatherData.name}</p>
+                                <p className="gather_name" onClick={this.handleToOtherProfile}>{this.state.gatherData.name}</p>
                                 <p className="gather_username">{this.state.gatherData.username}</p>
 
                             </div>
@@ -105,7 +159,7 @@ class GatherCard extends Component {
                                 <div className="accept_button_gather">
                                     <StyledTooltip title="Aceptar Solicitud" placement="left" >
                                         <Fab color="primary" aria-label="add" onClick={this.handleAccept} >
-                                            <CheckIcon   style={{ fontSize: 25 }} />
+                                            <CheckIcon style={{ fontSize: 25 }} />
                                         </Fab>
                                     </StyledTooltip>
 
@@ -125,7 +179,19 @@ class GatherCard extends Component {
                     </Grid>
 
                 </div>
-
+                <Link to={{
+                    pathname: '/Profile/'+this.state.gatherUser,
+                    state: {
+                        userData: {
+                            nickName: this.state.username,
+                            token: this.state.token,
+                        }
+                    }
+                }}
+                    ref={
+                        Link => this.LinkOtherProfile = Link
+                    }>
+                </Link>
             </div>
 
         );

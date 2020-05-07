@@ -23,7 +23,7 @@ import FastfoodIcon from '@material-ui/icons/Fastfood';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import DeckIcon from '@material-ui/icons/Deck';
-
+import Route from '../Route'
 import axios from 'axios';
 
 import './CreateActivity.css';
@@ -80,7 +80,7 @@ class CreateActivity extends Component {
             newLikeContent: "",
             likesSelected: [],
         };
-
+        this.primaryColor = '#40989d';
         this.handleNext = this.handleNext.bind(this);
         this.handleBack = this.handleBack.bind(this);
         this.handleTextInputChange = this.handleTextInputChange.bind(this);
@@ -132,20 +132,20 @@ class CreateActivity extends Component {
 
                 fontFamily: 'Product Sans',
                 '& label.Mui-focused': {
-                    color: this.primaryColor,
+                    color: 'white',
                 },
                 '& .MuiInput-underline:after': {
-                    borderBottomColor: this.primaryColor,
+                    borderBottomColor: 'white',
                 },
                 '& .MuiOutlinedInput-root': {
                     '& fieldset': {
-                        borderColor: 'rgba(0, 0, 0, 0.3);',
+                        borderColor: 'rgba(255, 255, 255, 0.75);',
                     },
                     '&:hover fieldset': {
-                        borderColor: 'rgba(0, 0, 0, 0.6);',
+                        borderColor: 'rgba(255, 255, 255, 0.75);',
                     },
                     '&.Mui-focused fieldset': {
-                        borderColor: this.primaryColor,
+                        borderColor: 'white',
                     },
                 },
             },
@@ -266,7 +266,7 @@ class CreateActivity extends Component {
 
         }
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -288,7 +288,7 @@ class CreateActivity extends Component {
             all["Deporte"] = likesList
         });
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -309,7 +309,7 @@ class CreateActivity extends Component {
             all["Academico"] = likesList
         });
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -330,7 +330,7 @@ class CreateActivity extends Component {
             all["Juegos"] = likesList
         });
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -351,7 +351,7 @@ class CreateActivity extends Component {
             all["Cultural"] = likesList
         });
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -372,7 +372,7 @@ class CreateActivity extends Component {
             all["Comidas"] = likesList
         });
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -393,7 +393,7 @@ class CreateActivity extends Component {
             all["Fiesta"] = likesList
         });
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -712,7 +712,7 @@ class CreateActivity extends Component {
 
                                 <div className="content">
                                     <div className="content_center">
-                                        <h3>Añadir gustos</h3>
+                                        
                                         <Grid
                                             container
                                             direction="column"
@@ -722,7 +722,8 @@ class CreateActivity extends Component {
                                             <Grid item xs={12}>
                                                 <Grid container
                                                     direction="row"
-                                                    spacing={2}>
+                                                    spacing={2}
+                                                    className="container_selector_tags">
                                                     <Grid item xs={4}>
 
                                                         <this.StyledAutocomplete
