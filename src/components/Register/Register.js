@@ -27,7 +27,7 @@ class Register extends Component {
       test: "Hola",
       profilephoto: "https://www.rogowaylaw.com/wp-content/uploads/Blank-Employee.jpg",
       nombre: "",
-      biografia: "",
+      biografia: "Aca hay contenido",
       edad: "",
       likesByCategory: {
         Academico: ["Estudiar", "Tareas", "Investigacion", "Trabajar", "Traducir"],
