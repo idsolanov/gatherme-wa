@@ -57,12 +57,15 @@ class Home extends Component {
 			activitiesToRender: [],
 			activityList: [],
 			createActivityDialogOpen: false,
-			createActivity: false
+			createActivity: false,
+			render: false
 		}
 		this.renderActivities = this.renderActivities.bind(this);
 		this.handleDialogOpen = this.handleDialogOpen.bind(this);
 		this.handleDialogClose = this.handleDialogClose.bind(this);
 		this.callbackFunction = this.callbackFunction.bind(this);
+		this.renderCategory = this.renderCategory.bind(this);
+
 	}
 
 	componentDidMount() {
@@ -93,47 +96,30 @@ class Home extends Component {
 			console.log(error);
 		});
 
-		 axios({
-		 	url: 'http://127.0.0.1:9001/graphql',
-		 	method: 'post',
-		 	data: {
-		 		query: `
+		axios({
+			url: 'http://127.0.0.1:9001/graphql',
+			method: 'post',
+			data: {
+				query: `
 		 		query{
 		 			getAllActivities{
-		 				informacion
-		 				nombre
-		 				descripcion
-		 				lista_miembros
-		 				tags_especificos
-		 				notas_adicionales
-		 				categoria
-		 				recurrente
-		 				lugar
-		 				hora
-		 				fecha
-		 				banner
-		 				administrador
-		 			  comments {
-		 				id
-		 				content
-		 				date
-		 			  }
+						id
 		 			}
 		 		  }
 				  
 		 		`
-		 	}
-		 }).then((result) => {
-		 	console.log(result.data)
-		 	this.setState({
-		 		activitiesToRender: result.data.data.getAllActivities
-		 	})
-		 	this.renderActivities()
-		 	console.log(this.state.activitiesToRender)
+			}
+		}).then((result) => {
+			console.log(result.data)
+			this.setState({
+				activitiesToRender: result.data.data.getAllActivities
+			})
+			this.renderActivities()
+			console.log(this.state.activitiesToRender)
 
-		 }, (error) => {
-		 	console.log(error);
-		 });
+		}, (error) => {
+			console.log(error);
+		});
 
 	}
 
@@ -142,7 +128,6 @@ class Home extends Component {
 		console.log(maxSize)
 		let activityObjects = [];
 		for (var i = 0; i < maxSize; i += 3) {
-			console.log("-----a-------")
 			activityObjects.push(
 
 				<Grid
@@ -151,13 +136,13 @@ class Home extends Component {
 					direction="row"
 					justify="center">
 					<Grid item xs={4}>
-						{(i < maxSize) ? <ActivityCard activityData={this.state.activitiesToRender[i]} /> : ""}
+						{(i < maxSize) ? <ActivityCard activityData={this.state.activitiesToRender[i]} user={this.state.username} token={this.state.token} /> : ""}
 					</Grid>
 					<Grid item xs={4}>
-						{(i + 1 < maxSize) ? <ActivityCard activityData={this.state.activitiesToRender[i + 1]} /> : ""}
+						{(i + 1 < maxSize) ? <ActivityCard activityData={this.state.activitiesToRender[i + 1]} user={this.state.username} token={this.state.token} /> : ""}
 					</Grid>
 					<Grid item xs={4}>
-						{(i + 2 < maxSize) ? <ActivityCard activityData={this.state.activitiesToRender[i + 2]} /> : ""}
+						{(i + 2 < maxSize) ? <ActivityCard activityData={this.state.activitiesToRender[i + 2]} user={this.state.username} token={this.state.token} /> : ""}
 					</Grid>
 				</Grid>
 
@@ -189,7 +174,38 @@ class Home extends Component {
 			this.handleDialogClose();
 			this.componentDidMount();
 		}
+		if (this.state.render) {
+			this.setState({ render: false });
+			
+			console.log(this.state.activitiesToRender)
+		}
 	}
+	renderCategory(category) {
+		axios({
+			url: "http://localhost:9001/graphql",
+			method: 'POST',
+			data: {
+				query: `
+                query{
+					getActivitiesByCategory(category:"${category}") {
+					  id
+					}
+				  }
+      `
+			}
+		}).then((result) => {
+			console.log(result.data.data.getActivitiesByCategory)
+			this.setState({
+				activitiesToRender: result.data.data.getActivitiesByCategory
+			})
+			this.setState({
+				render: true
+			})
+			this.renderActivities()
+		});
+	}
+
+
 
 
 	render() {
@@ -229,7 +245,7 @@ class Home extends Component {
 										backgroundColor="white"
 										background="blue"
 										size={40}
-										onClick={() => console.log('First button clicked')}
+										onClick={() => this.renderCategory("Academico")}
 									/>
 
 
@@ -237,38 +253,39 @@ class Home extends Component {
 									<ChildButton className="test"
 										icon={<StyledTooltip title="Deporte" placement="right"><SportsFootballIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
-
 										size={40}
+										onClick={() => this.renderCategory("Deporte")}
 
 									/>
-
-
-
-
 									<ChildButton
 										icon={<StyledTooltip title="Juegos" placement="right"><SportsEsportsIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
 										size={40}
+										onClick={() => this.renderCategory("Juegos")}
 									/>
 									<ChildButton
 										icon={<StyledTooltip title="Cultural" placement="right"><TheatersIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
 										size={40}
+										onClick={() => this.renderCategory("Cultural")}
 									/>
 									<ChildButton
 										icon={<StyledTooltip title="Comidas" placement="right"><FastfoodIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
 										size={40}
+										onClick={() => this.renderCategory("Comidas")}
 									/>
 									<ChildButton
 										icon={<StyledTooltip title="Fiesta" placement="right"><DeckIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
 										size={40}
+										onClick={() => this.renderCategory("Fiesta")}
 									/>
 									<ChildButton
 										icon={<StyledTooltip title="Otros" placement="right"><ListAltIcon style={{ fontSize: 25 }} nativeColor="black" /></StyledTooltip>}
 										backgroundColor="white"
 										size={40}
+										onClick={() => this.renderCategory("Otros")}
 									/>
 								</FloatingMenu>
 							</div>
@@ -303,7 +320,7 @@ class Home extends Component {
 					<Dialog onClose={this.handleDialogClose} aria-labelledby="customized-dialog-title" open={this.state.createActivityDialogOpen} fullWidth={true}>
 						<DialogContent dividers>
 							<div className="containerPopUp">
-								<CreateActivity token={this.props.token} userData ={this.props.userData} parentCallback={this.callbackFunction} />
+								<CreateActivity token={this.props.token} userData={this.props.userData} parentCallback={this.callbackFunction} />
 							</div>
 
 						</DialogContent>

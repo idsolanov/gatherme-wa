@@ -84,6 +84,13 @@
     padding-right: 0.5vw;
 }
 
+.like-card-center-container{
+    display: flex;
+    justify-content: center;
+    width: 95%;
+    padding-left: 1em;
+}
+
 .like-card-content-activity{
     border: 1px solid;
     border-color: rgba(0, 0, 0, 0.3);
@@ -94,7 +101,7 @@
     padding-bottom: 1vh;  
     padding-top: 1vh;
     font-family: Product Sans !important;
-    width: 80%;
+    width: 95%;
     height: 45%;
 
 }
@@ -161,4 +168,21 @@
 
 .card-like-content {
     padding: 1em;
+}
+
+.list-item-container{
+    border: 1px solid;
+    border-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    -ms-flex-line-pack: center;
+    align-content: center;
+    padding-right: 1vw;
+    padding-left: 1vw;
+    padding-bottom: 1vh;
+    padding-top: 1vh;
+    font-family: Product Sans !important;
+    width: 95%;
+    height: 15vh;
+    overflow: auto;
+    max-width: 82%;
 }

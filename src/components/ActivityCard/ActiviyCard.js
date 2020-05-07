@@ -16,14 +16,26 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
+import TextField from '@material-ui/core/TextField';
+
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import SportsHandballIcon from '@material-ui/icons/SportsHandball';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import SportsFootballIcon from '@material-ui/icons/SportsFootball';
+import ListAltIcon from '@material-ui/icons/ListAlt';
 import SchoolIcon from '@material-ui/icons/School';
+import TheatersIcon from '@material-ui/icons/Theaters';
+import DeckIcon from '@material-ui/icons/Deck';
 import Fab from '@material-ui/core/Fab';
-
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import PersonIcon from '@material-ui/icons/Person';
+import axios from 'axios';
 
 
 import './ActivityCard.css'
@@ -48,13 +60,80 @@ class ActivityCard extends Component {
             activity: {},
             open: false,
             categoriesList: [],
-            likeList: []
+            likeList: [],
+            memeberList: [],
+            noteList: [],
+            commentsList: [],
+            username: this.props.user,
+            token: this.props.token,
+            suscrito: false,
+            comment: "",
+            send: false
         }
         this.setOpen = this.setOpen.bind(this);
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.renderCategories = this.renderCategories.bind(this);
         this.renderLikes = this.renderLikes.bind(this);
+        this.renderMembers = this.renderMembers.bind(this);
+        this.renderNotas = this.renderNotas.bind(this);
+        this.rendercomments = this.rendercomments.bind(this);
+        this.suscribirse = this.suscribirse.bind(this);
+        this.addComment = this.addComment.bind(this);
+        this.gradient = 'linear-gradient(136deg, #055B5C 0%, #40989d 50%)';
+        this.StyledTextField = withStyles({
+            root: {
+                width: '100%',
+                fontFamily: 'Product Sans',
+                '& label.Mui-focused': {
+                    color: this.primaryColor,
+                },
+                '& .MuiInput-underline:after': {
+                    borderBottomColor: this.primaryColor,
+                },
+                '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                        borderColor: 'rgba(0, 0, 0, 0.3);',
+                    },
+                    '&:hover fieldset': {
+                        borderColor: 'rgba(0, 0, 0, 0.6);',
+                    },
+                    '&.Mui-focused fieldset': {
+                        borderColor: this.primaryColor,
+                    },
+                },
+            },
+        })(TextField);
+
+
+
+        this.StyledButtonFinish = withStyles({
+            root: {
+                backgroundImage: this.gradient,
+                fontFamily: 'Product Sans !important',
+                borderRadius: 3,
+                border: 0,
+                color: 'white',
+                height: 48,
+                width: '50%',
+                padding: '0 30px',
+                boxShadow: '0 3px 5px 2px rgba(255, 255, 255, .3)',
+                margin: '1vh 0vw 1vh 0vh',
+                fontSize: '1.05rem',
+                transitionProperty: 'opacity',
+                transitionDuration: '0.1s',
+                '&:hover': {
+                    opacity: 0.9,
+                },
+                '&:active': {
+                    boxShadow: '0 3px 5px 2px rgba(255, 255, 255, .3)',
+                },
+            },
+            label: {
+                textTransform: 'capitalize',
+            },
+        })(Button);
+
     }
     renderCategories() {
         var arr = []
@@ -77,10 +156,10 @@ class ActivityCard extends Component {
                     <SportsEsportsIcon style={{ fontSize: 25 }} nativeColor="black" />
                 </Fab>)
         }
-        if (this.state.activity.categoria.indexOf("Juegos") != -1) {
+        if (this.state.activity.categoria.indexOf("Cultural") != -1) {
             arr.push(
-                <Fab disabled color="primary" aria-label="Juegos" >
-                    <SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black"></SportsHandballIcon>
+                <Fab disabled color="primary" aria-label="Cultural" >
+                    <TheatersIcon style={{ fontSize: 25 }} nativeColor="black"/>
                 </Fab>
             )
         }
@@ -93,13 +172,13 @@ class ActivityCard extends Component {
         if (this.state.activity.categoria.indexOf("Fiesta") != -1) {
             arr.push(
                 <Fab disabled color="primary" aria-label="Fiesta" >
-                    <SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" />
+                    <DeckIcon style={{ fontSize: 25 }} nativeColor="black" />
                 </Fab>)
         }
         if (this.state.activity.categoria.indexOf("Otros") != -1) {
             arr.push(
                 <Fab disabled color="primary" aria-label="Otros" >
-                    <SportsHandballIcon style={{ fontSize: 25 }} nativeColor="black" />
+                    <ListAltIcon style={{ fontSize: 25 }} nativeColor="black" />
                 </Fab>)
         }
         this.setState({
@@ -119,11 +198,207 @@ class ActivityCard extends Component {
             likeList: arre
         })
     }
-    componentDidMount() {
+
+    rendercomments() {
+        let arr = []
+        this.state.activity.comments.forEach(element => {
+            arr.push(
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar>
+
+                            <PersonIcon />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={element.userId}
+                        secondary={
+                            element.content
+                        }
+                    />
+                </ListItem>
+            )
+            arr.push(
+                <Divider />
+            )
+        })
         this.setState({
-            activity: this.props.activityData
+            commentsList: arr
         })
 
+    }
+
+    renderNotas() {
+        let arr = []
+        this.state.activity.notas_adicionales.forEach(element => {
+            arr.push(
+                <ListItem>
+                    <ListItemText
+                        primary={element}
+                    />
+                </ListItem>
+            )
+        })
+        this.setState({
+            noteList: arr
+        })
+    }
+
+    suscribirse() {
+        console.log("entro")
+        let kk = `
+        mutation{
+            addMember(id:${this.state.activity.id},user:"${this.state.username}",token: "${this.state.token}"){
+              id
+            }
+          }
+  `;
+
+        console.log(kk)
+        axios({
+            url: "http://localhost:9001/graphql",
+            method: 'POST',
+            data: {
+                query: `
+        mutation{
+            addMember(id:${this.state.activity.id},user:"${this.state.username}",token: "${this.state.token}"){
+              id
+            }
+          }
+      `
+            }
+        }).then((result) => {
+            console.log(result.data)
+            this.setState({
+                suscrito: true
+            })
+        });
+
+    }
+
+    addComment() {
+        console.log(this.state.comment);
+
+        let kk = `
+        mutation{
+            commentActivity(id:${this.state.activity.id},comment: {
+              userId:  "${this.state.username}" 
+              content:  "${this.state.comment}"
+              date:  "07/05/2020"
+            }) {
+              Status
+            }
+          }
+        `;
+
+        axios({
+            url: "http://localhost:9001/graphql",
+            method: 'POST',
+            data: {
+                query: `
+                mutation{
+                    commentActivity(id:${this.state.activity.id},comment: {
+                      userId:  "${this.state.username}" 
+                      content:  "${this.state.comment}"
+                      date:  "07/05/2020"
+                    }) {
+                      Status
+                    }
+                  }
+      `
+            }
+        }).then((result) => {
+            console.log(result.data)
+            this.setState({
+                send: true
+            })
+        });
+        this.setState({
+            comment: ""
+        })
+
+    }
+
+
+    renderMembers() {
+        let arr = []
+        this.state.activity.lista_miembros.forEach(element => {
+            arr.push(
+                <ListItem>
+                    <ListItemAvatar>
+                        <Avatar>
+
+                            <PersonIcon />
+                        </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary={element} />
+                </ListItem>
+            )
+        })
+
+        this.setState({
+            memeberList: arr
+        })
+
+    }
+    componentDidMount() {
+        console.log(this.props.activityData["id"])
+        axios({
+            url: "http://localhost:9001/graphql",
+            method: 'POST',
+            data: {
+                query: `
+                query{
+                    getActivityByID(id:${this.props.activityData["id"]}){
+                        id
+                        informacion
+                        nombre
+                        descripcion
+                        lista_miembros
+                        tags_especificos
+                        notas_adicionales
+                        categoria
+                        recurrente
+                        lugar
+                        hora
+                        fecha
+                        banner
+                        administrador
+                      comments {
+                       userId
+                        id
+                        content
+                        date
+                    }
+                }
+            }
+      `
+            }
+        }).then((result) => {
+            console.log(result.data.data.getActivityByID)
+            this.setState({
+                activity: result.data.data.getActivityByID
+            })
+            this.renderCategories();
+            this.renderLikes();
+            this.renderMembers();
+            this.renderNotas();
+            this.rendercomments();
+        });
+    }
+
+    componentDidUpdate() {
+        if (this.state.suscrito) {
+            this.setState({
+                suscrito: false
+            })
+            this.componentDidMount()
+        }
+        if (this.state.send) {
+            this.setState({
+                send: false
+            })
+            this.componentDidMount()
+        }
     }
 
     setOpen = (status) => {
@@ -133,44 +408,15 @@ class ActivityCard extends Component {
 
     }
     handleClickOpen() {
-        this.renderCategories()
-        this.renderLikes()
+
         this.setOpen(true);
+        console.log(this.state.commentsList)
     };
 
     handleClose() {
         this.setOpen(false);
     };
 
-    /*
-    
-    <ActivityCard activityData = {testAativity}/>
-                                <ActivityCard activityData = {testAativity}/>
-    
-    type Activity {
-    id: Int
-    informacion:  String!
-    nombre:  String!
-    descripcion:  String!
-    lista_miembros : [String]
-    likes : [String]
-    notas_adicionales : [String]
-    categoria:  [String]
-    reccurrente: Boolean!
-    lugar:  String!
-    hora:  String!
-    fecha:  String!
-    banner:  String!
-    comments: [Comment]
-    administrador:  String!
-    }
-    
-    
-    
-    
-    
-    
-    */
     render() {
         console.log(this.state.activity)
         return (
@@ -225,7 +471,7 @@ class ActivityCard extends Component {
 
                             <Grid item xs={12}>
                                 <div className="card-like-content">
-                                <h1>{this.state.activity.nombre}</h1>
+                                    <h1>{this.state.activity.nombre}</h1>
                                 </div>
                             </Grid>
                             <Grid item xs={6}>
@@ -238,10 +484,22 @@ class ActivityCard extends Component {
                                     <h2>Fecha y hora: {this.state.activity.fecha}/{this.state.activity.hora}</h2>
                                 </div>
                             </Grid>
+                            <Grid item xs={12}>
+                                <div className="card-like-content">
+                                    <div className="like-card-center-container">
+                                        <div className="like-card-content-activity">
+                                            <h3>{this.state.activity.descripcion}</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Grid>
                             <Grid item xs={6}>
                                 <div className="card-like-content">
                                     <div className="card-content-activity-border">
-                                        <h3>Categorias</h3>
+
+                                        <Typography variant="h6" >
+                                            Categorias
+          </Typography>
                                         {this.state.categoriesList}
                                     </div>
                                 </div>
@@ -250,19 +508,102 @@ class ActivityCard extends Component {
                             <Grid item xs={6}>
                                 <div className="card-like-content">
                                     <div className="card-content-activity-border">
-                                    <h3>Gustos asociados</h3>
+                                        <Typography variant="h6" >
+                                            Gustos asociados
+          </Typography>
                                         {this.state.likeList}
                                     </div>
                                 </div>
                             </Grid>
 
-
-
                             <Grid item xs={6}>
-
+                                <div className="card-like-content">
+                                    {//<h3></h3>////
+                                    }
+                                    <Typography variant="h6" >
+                                        Notas adicionales
+          </Typography>
+                                    <div className="list-item-container">
+                                        <List>
+                                            {this.state.noteList}
+                                        </List>
+                                    </div>
+                                </div>
                             </Grid>
                             <Grid item xs={6}>
+                                <div className="card-like-content">
+                                    <Typography variant="h6" >
+                                        Lista de miembros
+          </Typography>
+                                    <div className="list-item-container">
+                                        <List >
+                                            {this.state.memeberList}
+                                        </List>
+                                    </div>
+                                </div>
+                            </Grid>
+                            <Grid item xs={9}>
 
+                            </Grid>
+                            <Grid item xs={3}>
+                                <this.StyledButtonFinish button onClick={() => {
+                                    this.suscribirse()
+                                }}
+                                    fullWidth
+                                    focusRipple
+                                    variant="contained"
+                                    size="medium"
+                                    text="bold"
+                                >
+                                    Suscribete
+                                </this.StyledButtonFinish>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <div className="card-like-content">
+                                    <Typography variant="h5" >
+                                        Comentarios
+          </Typography>
+                                    <List>
+                                        {this.state.commentsList}
+                                    </List>
+
+                                </div>
+                            </Grid>
+
+                            <Grid item xs={10}>
+                                <div className="card-like-content">
+                                    < this.StyledTextField
+                                        variant="outlined"
+                                        margin="normal"
+                                        value={this.state.comment}
+                                        fullWidth
+                                        id="comment"
+                                        label="Escribe un comentario"
+                                        name="comment"
+                                        onChange={(event) => {
+                                            this.setState({
+                                                comment: event.target.value
+                                            })
+                                        }
+                                        }
+                                    />
+                                </div>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <div className="card-like-content">
+                                    <this.StyledButtonFinish button onClick={() => {
+                                        this.addComment()
+                                    }}
+                                        fullWidth
+                                        focusRipple
+                                        variant="contained"
+                                        size="medium"
+                                        text="bold"
+                                    >
+                                        Comentar
+                                </this.StyledButtonFinish>
+                                </div>
                             </Grid>
 
                         </Grid>
