@@ -24,6 +24,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import EventIcon from '@material-ui/icons/Event';
 import { Link } from 'react-router-dom';
+import Route from '../Route'
 
 
 import './NavBar.css';
@@ -132,7 +133,7 @@ class Navbar extends Component {
 	logout() {
 		console.log("Se cerro sesion")
 		axios({
-			url: 'http://127.0.0.1:9001/graphql',
+			url: Route.url,
 			method: 'post',
 			data: {
 				query: `
@@ -182,7 +183,7 @@ class Navbar extends Component {
 			event.preventDefault();
 			this.setState({ query: event.target.value });
 			axios({
-				url: "http://localhost:9001/graphql",
+				url: Route.url,
 				method: 'get',
 				data: {
 					query: `

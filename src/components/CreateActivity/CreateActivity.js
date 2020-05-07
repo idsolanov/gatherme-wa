@@ -23,7 +23,7 @@ import FastfoodIcon from '@material-ui/icons/Fastfood';
 import TheatersIcon from '@material-ui/icons/Theaters';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import DeckIcon from '@material-ui/icons/Deck';
-
+import Route from '../Route'
 import axios from 'axios';
 
 import './CreateActivity.css';
@@ -266,7 +266,7 @@ class CreateActivity extends Component {
 
         }
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -288,7 +288,7 @@ class CreateActivity extends Component {
             all["Deporte"] = likesList
         });
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -309,7 +309,7 @@ class CreateActivity extends Component {
             all["Academico"] = likesList
         });
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -330,7 +330,7 @@ class CreateActivity extends Component {
             all["Juegos"] = likesList
         });
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -351,7 +351,7 @@ class CreateActivity extends Component {
             all["Cultural"] = likesList
         });
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -372,7 +372,7 @@ class CreateActivity extends Component {
             all["Comidas"] = likesList
         });
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `
@@ -393,7 +393,7 @@ class CreateActivity extends Component {
             all["Fiesta"] = likesList
         });
         axios({
-            url: "http://localhost:9001/graphql",
+            url: Route.url,
             method: 'POST',
             data: {
                 query: `

@@ -21,8 +21,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
-import route from '../Route';
 
+import Route from '../Route'
 import './SignInCard.css';
 
 
@@ -238,7 +238,7 @@ class SignInCard extends Component {
             <div>
               < this.StyledButton onClick={() => {
                 axios({
-                  url: 'http://127.0.0.1:9001/graphql',
+                  url: Route.url,
                   method: 'post',
                   data: {
                     query: `

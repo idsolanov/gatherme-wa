@@ -4,8 +4,7 @@ import TagsInput from 'react-tagsinput'
 import 'react-tagsinput/react-tagsinput.css'
 import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 
-const { API_KEY } = process.env
-const API_URL = 'http://api.musicgraph.com/api/v2/artist/suggest'
+
 
 class Search extends Component {
   
