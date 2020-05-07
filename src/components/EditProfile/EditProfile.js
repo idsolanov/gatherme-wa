@@ -44,7 +44,6 @@ class EditProfile extends Component {
 		  root: {
 		    width: '100%',
 		    fontFamily: 'Product Sans',
-		    marginRight: '8px',
 		    '& label.Mui-focused': {
 		      color: this.primaryColor,
 		    },
@@ -167,8 +166,8 @@ class EditProfile extends Component {
 		console.log(this.state.userData);
 		
 		const genders = [
-		  { value: 'Hombre', label: 'Hombre' },
-		  { value: 'Mujer', label: 'Mujer' },
+		  { value: 'Masculino', label: 'Masculino' },
+		  { value: 'Femenino', label: 'Femenino' },
 		  { value: 'Otro', label: 'Otro' }
 		];
 		
@@ -253,17 +252,18 @@ class EditProfile extends Component {
 													direction="row"
 													alignItems="center"
 													wrap="nowrap" >
-												    <this.StyledTextField
-												    	  required
-												          variant="outlined"
-												          type="number"
-												          margin="normal"
-												          id="temp_age"
-												          label="Edad"
-												          defaultValue={this.state.temp_age}
-												          onChange={this.handleChange}
-												    									    
-												    />
+													<div style={{ marginRight: '15px' }}>
+														<this.StyledTextField
+															  required
+															  variant="outlined"
+															  type="number"
+															  margin="normal"
+															  id="temp_age"
+															  label="Edad"
+															  defaultValue={this.state.temp_age}
+															  onChange={this.handleChange}
+														/>
+													</div>
 												    <this.StyledTextField
 												    	  required select
 												          variant="outlined"
