@@ -10,7 +10,7 @@ import Tab from '@material-ui/core/Tab';
 import GatherCard from '../GatherCard/GatherCard'
 import { Link } from 'react-router-dom';
 
-
+import Route from '../Route'
 
 
 
@@ -36,7 +36,7 @@ class Profile extends Component {
 
 	componentDidMount() {
 		axios({
-			url: 'http://127.0.0.1:9001/graphql',
+			url: Route.url,
 			method: 'post',
 			data: {
 				query: `

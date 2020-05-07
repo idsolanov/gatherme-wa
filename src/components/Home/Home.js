@@ -26,7 +26,7 @@ import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import CreateActivity from '../CreateActivity/CreateActivity'
-
+import Route from '../Route'
 
 
 
@@ -66,8 +66,9 @@ class Home extends Component {
 	}
 
 	componentDidMount() {
+		
 		axios({
-			url: 'http://127.0.0.1:9001/graphql',
+			url: Route.url,
 			method: 'post',
 			data: {
 				query: `
@@ -94,7 +95,7 @@ class Home extends Component {
 		});
 
 		 axios({
-		 	url: 'http://127.0.0.1:9001/graphql',
+		 	url: Route.url,
 		 	method: 'post',
 		 	data: {
 		 		query: `
@@ -193,9 +194,9 @@ class Home extends Component {
 
 
 	render() {
-		console.log(this.state.userData);
-		console.log(this.state.token);
-		console.log(this.state.activityList)
+		console.log(Route.url);
+		
+		
 		return (
 			<div className="Home">
 				<NavBar token={this.state.token} username={this.state.username} />

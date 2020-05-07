@@ -8,6 +8,7 @@ import MdAdd from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import { Link } from 'react-router-dom';
 import CheckIcon from '@material-ui/icons/Check';
+import Route from '../Route'
 import './GatherCard.css';
 
 const StyledTooltip = withStyles((theme) => ({
@@ -43,6 +44,28 @@ class GatherCard extends Component {
 
     handleAccept() {
         console.log("accept");
+        axios({
+            url: Route.url,
+            method: 'post',
+            data: {
+                query: `
+                mutation{
+                    acceptRequest( body: {
+                     user_origin: "${this.state.gatherUser}"
+                     user_destination: "${this.state.username}"
+                     token: "${this.state.token}"
+                    }){
+                     result
+                    error
+                    }
+                }
+				`
+            }
+        }).then((result) => {
+            console.log("Aceptado")
+        }, (error) => {
+            console.log(error);
+        });
 
     }
     handleDecline() {
@@ -57,7 +80,7 @@ class GatherCard extends Component {
 
     componentDidMount() {
         axios({
-            url: 'http://127.0.0.1:9001/graphql',
+            url: Route.url,
             method: 'post',
             data: {
                 query: `

@@ -23,7 +23,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import { FaQuestionCircle } from 'react-icons/fa';
-import route from '../Route';
+import Route from '../Route'
 
 import './SignUpCard.css';
 
@@ -406,7 +406,7 @@ class SignUpCard extends Component {
 										}
 
 										axios({
-											url: 'http://127.0.0.1:9001/graphql',
+											url: Route.url,
 											method: 'post',
 											data: {
 												query: `
@@ -426,7 +426,7 @@ class SignUpCard extends Component {
 											if (result.data.data == null) {
 												console.log(result.data)
 												axios({
-													url: 'http://127.0.0.1:9001/graphql',
+													url: Route.url,
 													method: 'post',
 													data: {
 														query: `
