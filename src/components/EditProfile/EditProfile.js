@@ -7,7 +7,7 @@ import { withStyles, createMuiTheme } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
-
+import Route from '../Route';
 import './EditProfile.css';
 
 
@@ -70,7 +70,7 @@ class EditProfile extends Component {
 	componentDidMount() {
 		
 		axios({
-			url: 'http://127.0.0.1:9001/graphql',
+			url: Route.url,
 			method: 'GET',
 			data: {
 				query: `
@@ -127,29 +127,29 @@ class EditProfile extends Component {
 	handleSubmit(event) {
 		
         axios({
-			url: 'http://127.0.0.1:9001/graphql',
+			url: Route.url,
 			method: 'PUT',
 			data: {
 				query: `
 				   mutation{
-	                   updateUser(
-	                       user:{
-							    id: ${this.state.userData.id}
-								username: ${this.state.username}
-								email: ${this.state.userData.email}
-								description: ${this.state.temp_description}
-								picture: ${this.state.temp_picture}
-								name: ${this.state.temp_name}	
-								gender: ${this.state.temp_gender}
-								age: ${this.state.temp_age}
-								city: ${this.state.temp_city}
-								likes: ${this.state.userData.likes}
-								communities: ${this.state.userData.communities}
-								activities: ${this.state.userData.activities}
-								gathers: ${this.state.userData.gathers}
-	                       }   
-	                   )
-	               }
+					   updateUser(
+					       user:{
+						        id: ${this.state.userData.id}
+							username: ${this.state.username}
+							email: ${this.state.userData.email}
+							description: ${this.state.temp_description}
+							picture: ${this.state.temp_picture}
+							name: ${this.state.temp_name}	
+							gender: ${this.state.temp_gender}
+							age: ${this.state.temp_age}
+							city: ${this.state.temp_city}
+							likes: ${this.state.userData.likes}
+							communities: ${this.state.userData.communities}
+							activities: ${this.state.userData.activities}
+							gathers: ${this.state.userData.gathers}
+	                       			}   
+	                   		)
+	               		   }
 				`
 			}
 		}).then((response) => {
