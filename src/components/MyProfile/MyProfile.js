@@ -32,6 +32,7 @@ class MyProfile extends Component {
 		}
 		this.handleChange = this.handleChange.bind(this);
 		this.handleChangeIndex = this.handleChangeIndex.bind(this);
+		this.handleClickEdit = this.handleClickEdit.bind(this);
 	}
 
 	componentDidMount() {
@@ -80,6 +81,11 @@ class MyProfile extends Component {
 			index,
 		});
 	}
+	
+	handleClickEdit(event) {
+		event.preventDefault();
+		this.LinkElement.click();
+	}
 
 	render() {
 		console.log(this.state.userData);
@@ -109,12 +115,21 @@ class MyProfile extends Component {
 												<div className="username_container">
 													<p className="username_text">{this.state.userData.username}</p>
 													<div className="user_edit_btn_container">
-														<div className="user_edit_btn">
+														<div className="user_edit_btn" onClick={this.handleClickEdit}>
 															<IconContext.Provider value={{ size: "1em", className: 'user_edit_icon' }}>
 																<FiEdit2 />
 															</IconContext.Provider>
 															<p className="user_edit_btn_label">Editar perfil</p>
 														</div>
+														<Link to={{
+														    pathname: '/editProfile',
+														    state: {
+															userData: this.state.userData
+														    }}}
+														    ref={
+															Link => this.LinkElement = Link
+															}>
+														</Link>
 
 													</div>
 												</div>
