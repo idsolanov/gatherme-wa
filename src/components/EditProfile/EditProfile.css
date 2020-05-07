@@ -36,6 +36,12 @@
     box-shadow: var(--shadow);
 }
 
+.edit-profile-form .MuiGrid-spacing-xs-1{
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+}
+
 .edit-submit-button{
     width: auto;
     height: auto;
