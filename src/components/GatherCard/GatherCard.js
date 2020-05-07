@@ -63,6 +63,7 @@ class GatherCard extends Component {
             }
         }).then((result) => {
             console.log("Aceptado")
+            this.props.parentCallback([true]);
         }, (error) => {
             console.log(error);
         });
@@ -70,6 +71,29 @@ class GatherCard extends Component {
     }
     handleDecline() {
         console.log("decline");
+        axios({
+            url: Route.url,
+            method: 'post',
+            data: {
+                query: `
+                mutation{
+                    rejectRequest( body: {
+                     user_origin: "${this.state.gatherUser}"
+                     user_destination: "${this.state.username}"
+                     token: "${this.state.token}"
+                    }){
+                     result
+                    error
+                    }
+                }
+				`
+            }
+        }).then((result) => {
+            console.log("Aceptado")
+            this.props.parentCallback([true]);
+        }, (error) => {
+            console.log(error);
+        });
 
     }
 

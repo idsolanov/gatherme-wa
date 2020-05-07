@@ -263,7 +263,7 @@ max-width: 100%!important;
     font-family: Product Sans !important;
 
 }
-.sugestions{
+.register_main .sugestions{
         height: 29vh;
         border: 1px solid;
         border-color: var(--primary);
