@@ -426,7 +426,7 @@ class ActivityCard extends Component {
             <div className="activity_card_container">
                 <div className="activity_card">
                     <Card>
-                        <CardActionArea>
+                        <CardActionArea onClick={this.handleClickOpen}>
                             <CardMedia
                                 component="img"
                                 alt="Contemplative Reptile"
@@ -443,11 +443,7 @@ class ActivityCard extends Component {
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
-                        <CardActions>
-                            <Button size="small" color="primary" onClick={this.handleClickOpen}>
-                                Ver mas
-        </Button>
-                        </CardActions>
+                        
                     </Card>
                 </div>
 
