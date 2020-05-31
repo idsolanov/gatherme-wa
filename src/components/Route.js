@@ -1,4 +1,4 @@
-var api_gateway = 'http://34.200.179.125:9001/graphql';
+var api_gateway = 'http://localhost:81/graphql';
 
 export default {
     url: api_gateway

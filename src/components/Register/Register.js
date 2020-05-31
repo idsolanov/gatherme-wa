@@ -13,10 +13,26 @@ import TagsInput from 'react-tagsinput'
 import FormDialog from './Sugestions'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import * as firebase from 'firebase'
 
 import Route from '../Route'
 import './Register.css';
 import { DialogContent } from "@material-ui/core";
+
+
+
+
+firebase.initializeApp({
+  apiKey: "",
+    authDomain: "",
+    databaseURL: "",
+    projectId: "",
+    storageBucket: "",
+    messagingSenderId: "",
+    appId: "",
+    measurementId: ""
+})
+
 class Register extends Component {
 
   constructor(props) {
@@ -49,6 +65,7 @@ class Register extends Component {
       token: "",
       id: "",
       file: "",
+      sendphoto: "",
 
     }
     this.gradient = 'linear-gradient(136deg, #055B5C 0%, #40989d 50%)';
@@ -56,13 +73,14 @@ class Register extends Component {
     this.primaryColor = '#40989d';
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeCategory = this.handleChangeCategory.bind(this);
-    this.callbackFunction - this.callbackFunction.bind(this);
+    this.callbackFunction = this.callbackFunction.bind(this);
     this.addLike = this.addLike.bind(this);
     this.handleTagsDelete = this.handleTagsDelete.bind(this);
     this.sendData = this.sendData.bind(this);
     this.sendNewLike = this.sendNewLike.bind(this);
     this.onImageChange = this.onImageChange.bind(this);
     this.writeImage = this.writeImage.bind(this);
+    
 
 
     this.StyledTextField = withStyles({
@@ -350,10 +368,13 @@ class Register extends Component {
       let reader = new FileReader();
       reader.onload = (e) => {
         this.setState({ profilephoto: e.target.result });
+        
       };
       reader.readAsDataURL(event.target.files[0]);
     }
     this.setState({ file: event.target.files[0] });
+    
+  
   }
 
   handleChange(event) {
@@ -408,6 +429,8 @@ class Register extends Component {
     })
   }
 
+
+
   sendData() {
     console.log(String(this.state.profilephoto))
     console.log(this.state.nombre)
@@ -422,93 +445,141 @@ class Register extends Component {
     console.log(String(this.state.likesSelected))
     console.log(`likes: "${this.state.likesSelected}"`)
 
-    this.writeImage(this.state.user.username,this.state.profilephoto)
+    
+
+  
 
     let li = "["
-    let si = 1
-    if (this.state.likesSelected.length == 0) {
-      li += "]"
-    }
-    this.state.likesSelected.forEach(element => {
-      if (si < this.state.likesSelected.length) {
-        li += '"' + element + '",'
-      } else {
-        li += '"' + element + '"]'
-      }
-      si += 1
-    })
-
-    console.log(li)
-    let kk = `
-  mutation {
-    register(user: {
-      username : "${this.state.user.username}"
-      name: "${this.state.nombre}"
-      email: "${this.state.user.email}"
-      password: "${this.state.user.password}"
-      picture: "${this.state.profilephoto}"
-      description: "${this.state.biografia}"
-      gender: "${this.state.user.gender}"
-      age: ${this.state.edad}
-      city: "${this.state.user.city}"
-      likes: ${li}
-      communities: []
-      activities: []
-      gathers: []
-      
-    }){
-      id
-      username
-      email
-      token
-    }
-  }
-  `;
-
-    console.log(kk)
-    axios({
-      url: Route.url,
-      method: 'POST',
-      data: {
-        query: `
-      mutation {
-        register(user: {
-          username : "${this.state.user.username}"
-          name: "${this.state.nombre}"
-          email: "${this.state.user.email}"
-          password: "${this.state.user.password}"
-          picture: "${this.state.profilephoto}"
-          description: "${this.state.biografia}"
-          gender: "${this.state.user.gender}"
-          age: ${this.state.edad}
-          city: "${this.state.user.city}"
-          likes: ${li}
-          communities: []
-          activities: []
-          gathers: []
-          
-        }){
-          id
-          username
-          email
-          token
+        let si = 1
+        if (this.state.likesSelected.length == 0) {
+          li += "]"
         }
-      }
-      `
-      }
-    }).then((result) => {
-      console.log(result.data)
-      console.log(result.data.data.register.token)
-      this.setState({
-        token: result.data.data.register.token,
-        id: result.data.data.register.id
-      })
-      console.log(this.state.token)
-      this.state.newLikesList.forEach(element => {
-        this.sendNewLike(element)
-      })
-      this.LinkElement.click();
-    });
+        this.state.likesSelected.forEach(element => {
+          if (si < this.state.likesSelected.length) {
+            li += '"' + element + '",'
+          } else {
+            li += '"' + element + '"]'
+          }
+          si += 1
+        })
+
+        if(this.state.file == ""){
+
+          axios({
+            url: Route.url,
+            method: 'POST',
+            data: {
+              query: `
+            mutation {
+              register(user: {
+                username : "${this.state.user.username}"
+                name: "${this.state.nombre}"
+                email: "${this.state.user.email}"
+                password: "${this.state.user.password}"
+                picture: "${this.state.profilephoto}"
+                description: "${this.state.biografia}"
+                gender: "${this.state.user.gender}"
+                age: ${this.state.edad}
+                city: "${this.state.user.city}"
+                likes: ${li}
+                communities: []
+                activities: []
+                gathers: []
+                
+              }){
+                id
+                username
+                email
+                token
+              }
+            }
+            `
+            }
+          }).then((result) => {
+            console.log(result.data)
+            console.log(result.data.data.register.token)
+            this.setState({
+              token: result.data.data.register.token,
+              id: result.data.data.register.id
+            })
+            console.log(this.state.token)
+            this.state.newLikesList.forEach(element => {
+              this.sendNewLike(element)
+            })
+            this.LinkElement.click();
+          });
+
+        }
+        else{
+          const storageRef = firebase.storage().ref(`Fotos/${this.state.user.username}`)
+          const task = storageRef.put(this.state.file)
+      
+          task.on('state_changed', (snapshot) => {
+          }, (error) => {
+            console.error(error.message)
+          }, () => {
+            console.log("imagen subida")
+            console.log()
+            // Upload complete
+            axios({
+              url: Route.url,
+              method: 'POST',
+              data: {
+                query: `
+              mutation {
+                register(user: {
+                  username : "${this.state.user.username}"
+                  name: "${this.state.nombre}"
+                  email: "${this.state.user.email}"
+                  password: "${this.state.user.password}"
+                  picture: "${task.snapshot.downloadURL}"
+                  description: "${this.state.biografia}"
+                  gender: "${this.state.user.gender}"
+                  age: ${this.state.edad}
+                  city: "${this.state.user.city}"
+                  likes: ${li}
+                  communities: []
+                  activities: []
+                  gathers: []
+                  
+                }){
+                  id
+                  username
+                  email
+                  token
+                }
+              }
+              `
+              }
+            }).then((result) => {
+              console.log(result.data)
+              console.log(result.data.data.register.token)
+              this.setState({
+                token: result.data.data.register.token,
+                id: result.data.data.register.id
+              })
+              console.log(this.state.token)
+              this.state.newLikesList.forEach(element => {
+                this.sendNewLike(element)
+              })
+              this.LinkElement.click();
+            });
+      
+          })
+          
+
+
+
+        }
+        
+
+
+
+
+
+  
+
+
 
   }
 
