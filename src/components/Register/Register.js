@@ -23,14 +23,7 @@ import { DialogContent } from "@material-ui/core";
 
 
 firebase.initializeApp({
-  apiKey: "AIzaSyANbePRGIUuLOCay45dasl6398XNyUhRrw",
-    authDomain: "gatherme-bc1b6.firebaseapp.com",
-    databaseURL: "https://gatherme-bc1b6.firebaseio.com",
-    projectId: "gatherme-bc1b6",
-    storageBucket: "gatherme-bc1b6.appspot.com",
-    messagingSenderId: "1070796727566",
-    appId: "1:1070796727566:web:9feebc54e3fd0d1af9235f",
-    measurementId: "G-CX75M6BGWV"
+ 
 })
 
 class Register extends Component {
