@@ -1,4 +1,4 @@
-FROM mhart/alpine-node:11 AS builder
+FROM mhart/alpine-node:8 AS builder
 WORKDIR /sap_web_app
 COPY . .
 RUN yarn install
